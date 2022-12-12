@@ -1,0 +1,11 @@
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin\bin\Debug\CodraftPlugin.addin
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin\bin\Debug\CodraftPlugin.dll
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin\bin\Debug\CodraftPlugin.pdb
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin\obj\Debug\LoadTabAndButtons.csproj.AssemblyReference.cache
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin\obj\Debug\LoadTabAndButtons.csproj.CoreCompileInputs.cache
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin\obj\Debug\CodraftPlugin.dll
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin\obj\Debug\CodraftPlugin.pdb
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin\bin\Debug\Updaters.dll
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin\bin\Debug\Updaters.pdb
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin\obj\Debug\CodraftPlugin.g.resources
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin\obj\Debug\LoadTabAndButtons.csproj.CopyComplete

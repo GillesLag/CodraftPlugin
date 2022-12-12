@@ -1,0 +1,6 @@
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\Codraft_Plugin_DAL\bin\Debug\Codraft_Plugin_DAL.dll
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\Codraft_Plugin_DAL\bin\Debug\Codraft_Plugin_DAL.pdb
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\Codraft_Plugin_DAL\obj\Debug\Codraft_Plugin_DAL.csproj.AssemblyReference.cache
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\Codraft_Plugin_DAL\obj\Debug\Codraft_Plugin_DAL.csproj.CoreCompileInputs.cache
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\Codraft_Plugin_DAL\obj\Debug\Codraft_Plugin_DAL.dll
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\Codraft_Plugin_DAL\obj\Debug\Codraft_Plugin_DAL.pdb
