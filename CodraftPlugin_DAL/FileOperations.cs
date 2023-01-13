@@ -743,5 +743,69 @@ namespace CodraftPlugin_DAL
 
             return pipeTypesList;
         }
+
+        /// <summary>
+        /// This wil give you all the insulationdata to update all the insulation in your project
+        /// </summary>
+        /// <param name="SQLstring"></param>
+        /// <param name="connectionString"></param>
+        /// <returns>a crazy dictionary that probaly should be refactored some time</returns>
+        public static Dictionary<string, Dictionary<string, Dictionary<double, List<double>>>> IsolatieData(string SQLstring, string connectionString)
+        {
+            Dictionary<string,
+                Dictionary<string,
+                Dictionary<double,
+                List<double>>>> data = new Dictionary<string,
+                                                Dictionary<string,
+                                                Dictionary<double,
+                                                List<double>>>>();
+
+            using (OleDbConnection conn = new OleDbConnection(connectionString))
+            {
+                OleDbCommand command = new OleDbCommand(SQLstring, conn);
+
+                conn.Open();
+
+                using (OleDbDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string med = (string)reader["Medium"];
+                        string isolMat = (string)reader["Isolatie_materiaal"];
+                        double isolDikte = (double)reader["Isolatie_dikte"];
+                        double nd = (double)reader["Nominale_diameter"];
+
+                        if (data.ContainsKey(med))
+                            if (data[med].ContainsKey(isolMat))
+                                if (data[med][isolMat].ContainsKey(isolDikte))
+                                    if (!data[med][isolMat][isolDikte].Contains(nd))
+                                        data[med][isolMat][isolDikte].Add(nd);
+
+                                    else
+                                        continue;
+                                else
+                                {
+                                    data[med][isolMat].Add(isolDikte, new List<double>());
+                                    data[med][isolMat][isolDikte].Add(nd);
+                                }
+                            else
+                            {
+                                data[med].Add(isolMat, new Dictionary<double, List<double>>());
+                                data[med][isolMat].Add(isolDikte, new List<double>());
+                                data[med][isolMat][isolDikte].Add(nd);
+                            }
+                        else
+                        {
+                            data.Add(med, new Dictionary<string, Dictionary<double, List<double>>>());
+                            data[med].Add(isolMat, new Dictionary<double, List<double>>());
+                            data[med][isolMat].Add(isolDikte, new List<double>());
+                            data[med][isolMat][isolDikte].Add(nd);
+                        }
+                    }
+                }
+            }
+
+            return data;
+        }
     }
 }

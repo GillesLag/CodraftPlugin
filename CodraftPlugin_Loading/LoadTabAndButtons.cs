@@ -87,6 +87,18 @@ namespace CodraftPlugin_Loading
             PushButton opstartWerkomgevingButton = Werkomgeving.AddItem(opstartWerkomgevingData) as PushButton;
             opstartWerkomgevingButton.ToolTip = "Generate all pipetypes, materials, insulation, segments and system types.";
             opstartWerkomgevingButton.LargeImage = new BitmapImage(new Uri("pack://application:,,,/CodraftPlugin_Loading;component/Resources/OpstartButton.png"));
+
+            //Create Opstart Werkomgeving button
+            PushButtonData updateAllInsulationData = new PushButtonData(
+                "UpdateAllInsulation",
+                "Update Isolatie",
+                assemblyPath,
+                "CodraftPlugin_Loading.OpenUpdateAllInsulation");
+
+            //add button to ribbon + tooltip and image
+            PushButton updateAllInsulationButton = tools.AddItem(updateAllInsulationData) as PushButton;
+            updateAllInsulationButton.ToolTip = "Updates all pipe insulation based on the database.";
+            updateAllInsulationButton.LargeImage = new BitmapImage(new Uri("pack://application:,,,/CodraftPlugin_Loading;component/Resources/updateIcon.png"));
         }
 
         public Result OnShutdown(UIControlledApplication application)

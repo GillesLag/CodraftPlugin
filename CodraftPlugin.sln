@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodraftPlugin_Library", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilterElementSelection_WPF", "FilterElementSelection_WPF\FilterElementSelection_WPF.csproj", "{26940A8C-EA2E-4037-BE8A-6881EF6A8E93}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodraftPlugin_UpdateAllInsulation", "CodraftPlugin_UpdateAllInsulation\CodraftPlugin_UpdateAllInsulation.csproj", "{EDFF2001-487E-4715-B1C1-12C5C5AA334D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{26940A8C-EA2E-4037-BE8A-6881EF6A8E93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26940A8C-EA2E-4037-BE8A-6881EF6A8E93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26940A8C-EA2E-4037-BE8A-6881EF6A8E93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDFF2001-487E-4715-B1C1-12C5C5AA334D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDFF2001-487E-4715-B1C1-12C5C5AA334D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDFF2001-487E-4715-B1C1-12C5C5AA334D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDFF2001-487E-4715-B1C1-12C5C5AA334D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

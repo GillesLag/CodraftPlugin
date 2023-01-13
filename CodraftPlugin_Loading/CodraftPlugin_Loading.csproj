@@ -56,12 +56,17 @@
     <Compile Include="EnableDisableFittingUpdater.cs" />
     <Compile Include="EnableDisableInsulationUpdater.cs" />
     <Compile Include="EnableDisablePipeUpdater.cs" />
+    <Compile Include="JtWindowHandle.cs" />
     <Compile Include="LoadTabAndButtons.cs" />
+    <Compile Include="OpenUpdateAllInsulation.cs" />
     <Compile Include="OpstartWerkomgeving.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OpenFilterElementSelection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\updateIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\OpstartButton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -94,6 +99,10 @@
     <ProjectReference Include="..\CodraftPlugin_DAL\CodraftPlugin_DAL.csproj">
       <Project>{043ed940-1cec-40e5-90ee-2f2e8d06b422}</Project>
       <Name>CodraftPlugin_DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodraftPlugin_UpdateAllInsulation\CodraftPlugin_UpdateAllInsulation.csproj">
+      <Project>{edff2001-487e-4715-b1c1-12c5c5aa334d}</Project>
+      <Name>CodraftPlugin_UpdateAllInsulation</Name>
     </ProjectReference>
     <ProjectReference Include="..\CodraftPlugin_Updaters\CodraftPlugin_Updaters.csproj">
       <Project>{1d78f398-7b45-422b-9fe4-e8681fcf3ae7}</Project>

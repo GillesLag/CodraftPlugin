@@ -13,6 +13,7 @@ C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\De
 C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\CodraftPlugin_Loading.dll
 C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\CodraftPlugin_Loading.pdb
 C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\CodraftPlugin_DAL.dll
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\CodraftPlugin_UpdateAllInsulation.exe
 C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\CodraftPlugin_Updaters.dll
 C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\FilterElementSelection_WPF.exe
 C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\CodraftPlugin_Exceptions.dll
@@ -20,6 +21,8 @@ C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\De
 C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\CodraftPlugin_UIDatabaseWPF.exe
 C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\FilterDataGrid.dll
 C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\CodraftPlugin_DAL.pdb
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\CodraftPlugin_UpdateAllInsulation.pdb
+C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\CodraftPlugin_UpdateAllInsulation.exe.config
 C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\CodraftPlugin_Updaters.pdb
 C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\FilterElementSelection_WPF.pdb
 C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Loading\bin\Debug\FilterElementSelection_WPF.exe.config
