@@ -60,6 +60,7 @@
     <Compile Include="FittingTypes\Tee.cs" />
     <Compile Include="FittingTypes\Transistion.cs" />
     <Compile Include="Insulation.cs" />
+    <Compile Include="PipeAccessories.cs" />
     <Compile Include="Pipes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UpdaterManager.cs" />

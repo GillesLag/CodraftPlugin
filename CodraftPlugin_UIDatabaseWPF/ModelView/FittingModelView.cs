@@ -21,12 +21,10 @@ namespace CodraftPlugin_UIDatabaseWPF.ModelView
         private string connectionString;
         private string query;
         private string databaseFilePath;
-        private Document doc;
         private FamilyInstance fittingModel;
         private bool _RememberChoice;
         private bool _switchNd;
         private int _excentrisch;
-        private string textFilesMapPath;
         private string rememberMeFile;
         private List<string> parameters;
         private double maxDiameter;
@@ -56,15 +54,13 @@ namespace CodraftPlugin_UIDatabaseWPF.ModelView
 
         #region Constructors
 
-        public FittingModelView(string connectionString, string databaseFilePath, string rememberMeFilePath, string strSQL, Document doc, FamilyInstance fitting, string textFilesMapPath,
+        public FittingModelView(string connectionString, string databaseFilePath, string rememberMeFilePath, string strSQL, FamilyInstance fitting,
             List<string> parameters, bool switchNd, int excentrisch, double maxDiameter = 0)
         {
             this.connectionString = connectionString;
             this.databaseFilePath = databaseFilePath;
             this.query = strSQL;
-            this.doc = doc;
             this.fittingModel = fitting;
-            this.textFilesMapPath = textFilesMapPath;
             this.rememberMeFile = rememberMeFilePath;
             this.parameters = parameters;
             this._switchNd = switchNd;

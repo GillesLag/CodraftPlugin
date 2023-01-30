@@ -146,6 +146,41 @@ namespace CodraftPlugin_Updaters
         }
 
         /// <summary>
+        /// Registers the pipeAccessory updater with all of its triggers
+        /// </summary>
+        /// <param name="addinId"></param>
+        public static void RegisterPipeAccessoryUpdater(AddInId addinId)
+        {
+            PipeAccessories pipeAccessoriesUpdater = new PipeAccessories(addinId);
+            UpdaterId id = pipeAccessoriesUpdater.GetUpdaterId();
+
+            UpdaterRegistry.RegisterUpdater(pipeAccessoriesUpdater);
+
+            UpdaterRegistry.AddTrigger(id,
+                new ElementCategoryFilter(BuiltInCategory.OST_PipeAccessory),
+                Element.GetChangeTypeElementAddition());
+
+            UpdaterRegistry.AddTrigger(id,
+                new ElementCategoryFilter(BuiltInCategory.OST_PipeAccessory),
+                Element.GetChangeTypeAny());
+
+            UpdaterRegistry.DisableUpdater(id);
+        }
+
+        /// <summary>
+        /// Unregisters the pipeAccessory updater
+        /// </summary>
+        /// <param name="addinId"></param>
+        public static void UnregisterPipeAccessoryUpdater(AddInId addinId)
+        {
+            PipeAccessories pipeAccessoriesUpdater = new PipeAccessories(addinId);
+            UpdaterId id = pipeAccessoriesUpdater.GetUpdaterId();
+
+            UpdaterRegistry.RemoveAllTriggers(id);
+            UpdaterRegistry.UnregisterUpdater(id);
+        }
+
+        /// <summary>
         /// Set the order of execution of the updaters.
         /// </summary>
         /// <param name="first">first to execute</param>

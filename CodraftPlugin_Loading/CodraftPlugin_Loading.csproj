@@ -55,6 +55,7 @@
     <Compile Include="ButtonHandler.cs" />
     <Compile Include="EnableDisableFittingUpdater.cs" />
     <Compile Include="EnableDisableInsulationUpdater.cs" />
+    <Compile Include="EnableDisablePipeAccessoryUpdater.cs" />
     <Compile Include="EnableDisablePipeUpdater.cs" />
     <Compile Include="JtWindowHandle.cs" />
     <Compile Include="LoadTabAndButtons.cs" />

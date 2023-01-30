@@ -775,32 +775,36 @@ namespace CodraftPlugin_DAL
                         double isolDikte = (double)reader["Isolatie_dikte"];
                         double nd = (double)reader["Nominale_diameter"];
 
-                        if (data.ContainsKey(med))
-                            if (data[med].ContainsKey(isolMat))
-                                if (data[med][isolMat].ContainsKey(isolDikte))
-                                    if (!data[med][isolMat][isolDikte].Contains(nd))
-                                        data[med][isolMat][isolDikte].Add(nd);
-
-                                    else
-                                        continue;
-                                else
-                                {
-                                    data[med][isolMat].Add(isolDikte, new List<double>());
-                                    data[med][isolMat][isolDikte].Add(nd);
-                                }
-                            else
-                            {
-                                data[med].Add(isolMat, new Dictionary<double, List<double>>());
-                                data[med][isolMat].Add(isolDikte, new List<double>());
-                                data[med][isolMat][isolDikte].Add(nd);
-                            }
-                        else
+                        
+                        if (!data.ContainsKey(med))
                         {
                             data.Add(med, new Dictionary<string, Dictionary<double, List<double>>>());
                             data[med].Add(isolMat, new Dictionary<double, List<double>>());
                             data[med][isolMat].Add(isolDikte, new List<double>());
                             data[med][isolMat][isolDikte].Add(nd);
+
+                            continue;
                         }
+
+                        if (!data[med].ContainsKey(isolMat))
+                        {
+                            data[med].Add(isolMat, new Dictionary<double, List<double>>());
+                            data[med][isolMat].Add(isolDikte, new List<double>());
+                            data[med][isolMat][isolDikte].Add(nd);
+
+                            continue;
+                        }
+
+                        if (!data[med][isolMat].ContainsKey(isolDikte))
+                        {
+                            data[med][isolMat].Add(isolDikte, new List<double>());
+                            data[med][isolMat][isolDikte].Add(nd);
+
+                            continue;
+                        }
+
+                        if (!data[med][isolMat][isolDikte].Contains(nd))
+                            data[med][isolMat][isolDikte].Add(nd);
                     }
                 }
             }

@@ -20,8 +20,10 @@ namespace CodraftPlugin_Loading
             MainWindow window = new MainWindow(commandData.Application.ActiveUIDocument);
 
             JtWindowHandle h = new JtWindowHandle(commandData.Application.MainWindowHandle);
-            WindowInteropHelper helper = new WindowInteropHelper(window);
-            helper.Owner = h.Handle;
+            WindowInteropHelper helper = new WindowInteropHelper(window)
+            {
+                Owner = h.Handle
+            };
 
             window.Show();
 

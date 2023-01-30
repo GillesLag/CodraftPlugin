@@ -22,8 +22,8 @@ namespace FilterElementSelection_WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        UIDocument uiDoc;
-        Document doc;
+        readonly UIDocument uiDoc;
+        readonly Document doc;
         List<string> filters = new List<string>();
         List<string> searchFilters = new List<string>();
 

@@ -141,7 +141,7 @@ namespace CodraftPlugin_Updaters
 
         public UpdaterId GetUpdaterId()
         {
-            return Id;
+            return this.Id;
         }
 
         public string GetUpdaterName()

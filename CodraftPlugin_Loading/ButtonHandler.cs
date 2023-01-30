@@ -23,20 +23,20 @@ namespace CodraftPlugin_Loading
             // Get the Updaters tab
             RibbonPanel updater = panels.Where(r => r.Name == "Updaters").First();
             // Get the desired pushbutton
-            PushButton pipeUpdater = (PushButton)updater.GetItems().Where(r => r.Name == updaterName).First();
+            PushButton pipeAccessoryUpdater = (PushButton)updater.GetItems().Where(r => r.Name == updaterName).First();
 
             if (!UpdaterRegistry.IsUpdaterEnabled(up.GetUpdaterId()))
             {
                 // Enables updater and set image.
                 UpdaterRegistry.EnableUpdater(up.GetUpdaterId());
-                pipeUpdater.LargeImage = new BitmapImage(new Uri($"pack://application:,,,/CodraftPlugin_Loading;component/Resources/{pngFile}On.png"));
+                pipeAccessoryUpdater.LargeImage = new BitmapImage(new Uri($"pack://application:,,,/CodraftPlugin_Loading;component/Resources/{pngFile}On.png"));
             }
 
             else
             {
                 // Disable updater and set image.
                 UpdaterRegistry.DisableUpdater(up.GetUpdaterId());
-                pipeUpdater.LargeImage = new BitmapImage(new Uri($"pack://application:,,,/CodraftPlugin_Loading;component/Resources/{pngFile}.png"));
+                pipeAccessoryUpdater.LargeImage = new BitmapImage(new Uri($"pack://application:,,,/CodraftPlugin_Loading;component/Resources/{pngFile}.png"));
             }
         }
     }

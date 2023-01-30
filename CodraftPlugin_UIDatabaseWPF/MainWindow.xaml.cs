@@ -16,7 +16,7 @@ namespace CodraftPlugin_UIDatabaseWPF
             List<string> parameters, bool switchNd = false, int excentrisch = 0, double maxDiameter = 0)
         {
             InitializeComponent();
-            ModelView.FittingModelView mv = new ModelView.FittingModelView(connectionString, databaseFilePath, rememberMeFilePath, strSQL, doc, fitting, textFilesMapPath, parameters,
+            ModelView.FittingModelView mv = new ModelView.FittingModelView(connectionString, databaseFilePath, rememberMeFilePath, strSQL, fitting, parameters,
                 switchNd, excentrisch, maxDiameter);
 
             DataContext = mv;

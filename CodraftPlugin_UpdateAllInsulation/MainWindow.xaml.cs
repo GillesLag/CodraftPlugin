@@ -61,103 +61,107 @@ namespace CodraftPlugin_UpdateAllInsulation
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            //Get all the data for the  mediums that are changed from the database.
-            if (!lbMediumsToUpdate.Items.IsEmpty)
+            if (lbMediumsToUpdate.Items.IsEmpty)
             {
-                SetSqlString();
+                MessageBox.Show("Select SystemTypes to update!", "Error");
+                return;
+            }
 
-                try
+            //Get all the data for the  mediums that are changed from the database.
+            SetSqlString();
+
+            try
+            {
+                //Retrieves the data from the database in a tree data structure.
+                var isolatieData = FileOperations.IsolatieData(SQLstring, connectionString);
+
+                Transaction t = new Transaction(doc, "Update Pipeinsulation");
+
+                t.Start();
+
+                foreach (var medium in isolatieData)
                 {
-                    //Retrieves the data from the database in a tree data structure.
-                    var isolatieData = FileOperations.IsolatieData(SQLstring, connectionString);
+                    IEnumerable<Pipe> pipes = new FilteredElementCollector(doc)
+                        .OfClass(typeof(Pipe))
+                        .Cast<Pipe>()
+                        .Where(x => x.MEPSystem != null && doc.GetElement(x.MEPSystem.GetTypeId()).Name == medium.Key);
 
-                    Transaction t = new Transaction(doc, "Update Pipeinsulation");
+                    if (!pipes.Any() || pipes == null)
+                        continue;
 
-                    t.Start();
-
-                    foreach (var medium in isolatieData)
+                    foreach (var isol in medium.Value)
                     {
-                        IEnumerable<Pipe> pipes = new FilteredElementCollector(doc)
-                            .OfClass(typeof(Pipe))
-                            .Cast<Pipe>()
-                            .Where(x => x.MEPSystem != null ? doc.GetElement(x.MEPSystem.GetTypeId()).Name == medium.Key : false);
-
-                        if (!pipes.Any() || pipes == null)
-                            continue;
-
-                        foreach (var isol in medium.Value)
+                        ElementId isolId;
+                        try
                         {
-                            ElementId isolId = new FilteredElementCollector(doc)
-                            .OfClass(typeof(PipeInsulationType))
-                            .Where(x => x.Name == isol.Key)
-                            .First().Id;
+                            isolId = new FilteredElementCollector(doc)
+                                            .OfClass(typeof(PipeInsulationType))
+                                            .First(x => x.Name == isol.Key).Id;
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
 
-                            foreach (var isolDikte in isol.Value)
+                        foreach (var isolDikte in isol.Value)
+                        {
+                            List<double> dn = isolDikte.Value;
+
+                            IEnumerable<Pipe> p = pipes.Where(x => dn.Contains(double.Parse(x.get_Parameter(BuiltInParameter.RBS_CALCULATED_SIZE).AsString().Split(' ').First())));
+
+                            if (!p.Any())
+                                continue;
+
+                            IEnumerable<FamilyInstance> fittings = new FilteredElementCollector(doc)
+                                .OfCategory(BuiltInCategory.OST_PipeFitting)
+                                .WhereElementIsNotElementType()
+                                .Cast<FamilyInstance>()
+                                .Where(x => x.get_Parameter(BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).AsValueString() == medium.Key)
+                                .Where(x => dn.Contains(x.get_Parameter(BuiltInParameter.RBS_CALCULATED_SIZE).AsString().Split('-')
+                                    .Select(y => double.Parse(y.Split(' ').First()))
+                                        .Max()));
+
+                            int loopPipes = p.Count();
+                            int loopFittings = fittings.Count();
+
+                            for (int i = 0; i < loopPipes; i++)
                             {
-                                List<double> dn = isolDikte.Value;
+                                Pipe pipe = p.ElementAt(i);
 
-                                IEnumerable<Pipe> p = pipes.Where(x => dn.Contains(double.Parse(x.get_Parameter(BuiltInParameter.RBS_CALCULATED_SIZE).AsString().Split(' ').First())));
+                                doc.Delete(InsulationLiningBase.GetInsulationIds(doc, pipe.Id));
 
-                                if (!p.Any())
-                                    continue;
+                                PipeInsulation.Create(doc, pipe.Id, isolId, isolDikte.Key / feetToMm);
 
-                                IEnumerable<FamilyInstance> fittings = new FilteredElementCollector(doc)
-                                    .OfCategory(BuiltInCategory.OST_PipeFitting)
-                                    .WhereElementIsNotElementType()
-                                    .Cast<FamilyInstance>()
-                                    .Where(x => x.get_Parameter(BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).AsValueString() == medium.Key)
-                                    .Where(x => dn.Contains(x.get_Parameter(BuiltInParameter.RBS_CALCULATED_SIZE).AsString().Split('-')
-                                        .Select(y => double.Parse(y.Split(' ').First()))
-                                            .Max()));
+                                pipe.LookupParameter("COD_Isolatie").Set(1);
+                                pipe.LookupParameter("Do_not_modify_COD_Isolatie").Set(1);
+                                pipe.LookupParameter("Do_not_modify_Isolatie_dikte").Set(isolDikte.Key);
+                                pipe.LookupParameter("Do_not_modify_Isolatie_type").Set(isol.Key);
+                                pipe.LookupParameter("Gebruiker_gedefinieerd").Set(0);
+                                pipe.LookupParameter("Do_not_modify_gebruiker_gedefinieerd").Set(0);
 
-                                int loopPipes = p.Count();
-                                int loopFittings = fittings.Count();
+                            }
 
-                                for (int i = 0; i < loopPipes; i++)
-                                {
-                                    Pipe pipe = p.ElementAt(i);
+                            for (int i = 0; i < loopFittings; i++)
+                            {
+                                FamilyInstance fitting = fittings.ElementAt(i);
 
-                                    doc.Delete(InsulationLiningBase.GetInsulationIds(doc, pipe.Id));
+                                doc.Delete(InsulationLiningBase.GetInsulationIds(doc, fitting.Id));
 
-                                    PipeInsulation.Create(doc, pipe.Id, isolId, isolDikte.Key / feetToMm);
-
-                                    pipe.LookupParameter("COD_Isolatie").Set(1);
-                                    pipe.LookupParameter("Do_not_modify_COD_Isolatie").Set(1);
-                                    pipe.LookupParameter("Do_not_modify_Isolatie_dikte").Set(isolDikte.Key);
-                                    pipe.LookupParameter("Do_not_modify_Isolatie_type").Set(isol.Key);
-                                    pipe.LookupParameter("Gebruiker_gedefinieerd").Set(0);
-                                    pipe.LookupParameter("Do_not_modify_gebruiker_gedefinieerd").Set(0);
-
-                                }
-
-                                for (int i = 0; i < loopFittings; i++)
-                                {
-                                    FamilyInstance fitting = fittings.ElementAt(i);
-
-                                    doc.Delete(InsulationLiningBase.GetInsulationIds(doc, fitting.Id));
-
-                                    PipeInsulation.Create(doc, fitting.Id, isolId, isolDikte.Key / feetToMm);
-                                }
+                                PipeInsulation.Create(doc, fitting.Id, isolId, isolDikte.Key / feetToMm);
                             }
                         }
                     }
-
-                    t.Commit();
                 }
 
-                catch (Exception i)
-                {
-                    MessageBox.Show(i.Message, "Error");
-                }
-
-                MessageBox.Show("All pipe insulation is updateted!", "Update Insulation");
+                t.Commit();
             }
 
-            else
-                MessageBox.Show("Select SystemTypes to update!", "Error");
+            catch (Exception i)
+            {
+                MessageBox.Show(i.Message, "Error");
+            }
 
-
-
+            MessageBox.Show("All pipe insulation is updateted!", "Update Insulation");
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -194,8 +198,8 @@ namespace CodraftPlugin_UpdateAllInsulation
                 .Cast<PipingSystemType>()
                 .ToList();
 
-            systemTypes.AddRange(sTypes);
-            searchSystemTypes.AddRange(sTypes);
+            systemTypes = new List<PipingSystemType>(sTypes);
+            searchSystemTypes = new List<PipingSystemType>(sTypes);
         }
 
         private void Transfer(ListBox listBox)
