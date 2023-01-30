@@ -61,6 +61,8 @@
     <Compile Include="FittingTypes\Transistion.cs" />
     <Compile Include="Insulation.cs" />
     <Compile Include="PipeAccessories.cs" />
+    <Compile Include="PipeAccessoriesTypes\BaseAccessory.cs" />
+    <Compile Include="PipeAccessoriesTypes\StraightValve.cs" />
     <Compile Include="Pipes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UpdaterManager.cs" />
@@ -83,5 +85,6 @@
       <Name>CodraftPlugin_UIDatabaseWPF</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
