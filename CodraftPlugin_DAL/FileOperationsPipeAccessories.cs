@@ -32,16 +32,24 @@ namespace CodraftPlugin_DAL
                 {
                     reader.Read();
 
-                    parameters.Add((double)reader["Lengte"] / feetToMm);
-                    parameters.Add((double)reader["a"] / feetToMm);
-                    parameters.Add((double)reader["b"] / feetToMm);
-                    parameters.Add((double)reader["PipeOd"] / feetToMm);
+                    parameters.Add(Math.Round((double)reader["Lengte"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["a"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["PipeOd"] / feetToMm, 4));
                     parameters.Add((double)reader["Uiteinde_1_type"]);
                     parameters.Add((double)reader["Uiteinde_2_type"]);
-                    parameters.Add((double)reader["Uiteinde_1_maat"]);
-                    parameters.Add((double)reader["Uiteinde_2_maat"]);
-                    parameters.Add((double)reader["L1"]);
-                    parameters.Add((double)reader["L2"]);
+                    parameters.Add(Math.Round((double)reader["Uiteinde_1_maat"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["Uiteinde_2_maat"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["L1"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["L2"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["c"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["d"] / feetToMm, 4));
+                    parameters.Add(reader["Manufacturer"]);
+                    parameters.Add(reader["Type"]);
+                    parameters.Add(reader["Material"]);
+                    parameters.Add(reader["Product Code"]);
+                    parameters.Add(reader["Omschrijving"]);
+                    parameters.Add(reader["Beschikbaar"]);
                 }
             }
 

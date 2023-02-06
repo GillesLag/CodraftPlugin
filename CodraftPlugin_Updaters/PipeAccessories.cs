@@ -54,14 +54,13 @@ namespace CodraftPlugin_Updaters
                         case "COD_KOGELKRAAN":
 
                             straightValve = new StraightValve(pipeAccessory, doc, databasesMapPath);
-                            List<object> parameters; 
 
-                            if (!straightValve.GetParams(out parameters))
+                            if (!straightValve.GetParams())
                             {
                                 throw new Exception("PipeAccessory bestaat niet voor deze DN maat!");
                             }
 
-                            straightValve.CreateAccessory(parameters);
+                            straightValve.CreateAccessory();
 
                             break;
                         default:
