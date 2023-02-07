@@ -147,12 +147,14 @@ namespace CodraftPlugin_Loading
 
                 // Create failure definition Ids
                 Guid guid1 = new Guid("45DFD462-806E-4B43-AA78-657851A2A38B");
-                FailureDefinitionId warning = new FailureDefinitionId(guid1);
+                Guid guid2 = new Guid("4B81D4C5-185C-4830-8ECF-67370ADB06B0");
+
+                FailureDefinitionId warningFittings = new FailureDefinitionId(guid1);
+                FailureDefinitionId warningAccesories = new FailureDefinitionId(guid2);
 
                 // Create failure definitions and add resolutions
-                FailureDefinition fittingBestaatNiet = FailureDefinition.CreateFailureDefinition(warning, FailureSeverity.Warning, "Fitting bestaat niet!");
-
-
+                FailureDefinition fittingBestaatNiet = FailureDefinition.CreateFailureDefinition(warningFittings, FailureSeverity.Warning, "Fitting bestaat niet!");
+                FailureDefinition AccessoryBestaatNiet = FailureDefinition.CreateFailureDefinition(warningAccesories, FailureSeverity.Warning, "PipeAccessory bestaat niet!");
 
                 return Result.Succeeded;
             }

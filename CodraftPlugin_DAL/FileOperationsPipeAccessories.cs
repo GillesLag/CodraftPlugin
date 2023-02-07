@@ -24,7 +24,8 @@ namespace CodraftPlugin_DAL
                 using (OleDbDataReader reader = countCommand.ExecuteReader())
                 {
                     reader.Read();
-
+                    int count = (int)reader[0];
+                    if (count == 0) return false;
                     if ((int)reader[0] > 1) return true;
                 }
 
@@ -36,8 +37,8 @@ namespace CodraftPlugin_DAL
                     parameters.Add(Math.Round((double)reader["a"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["PipeOd"] / feetToMm, 4));
-                    parameters.Add((double)reader["Uiteinde_1_type"]);
-                    parameters.Add((double)reader["Uiteinde_2_type"]);
+                    parameters.Add((int)reader["Uiteinde_1_type"]);
+                    parameters.Add((int)reader["Uiteinde_2_type"]);
                     parameters.Add(Math.Round((double)reader["Uiteinde_1_maat"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["Uiteinde_2_maat"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["L1"] / feetToMm, 4));

@@ -19,7 +19,8 @@ namespace CodraftPlugin_Updaters
         private Tee tee;
         private Transition transition;
         private Tap tap;
-        private Guid failureGuid = new Guid("45DFD462-806E-4B43-AA78-657851A2A38B");
+        private Guid failureGuidPipeFittings = new Guid("45DFD462-806E-4B43-AA78-657851A2A38B");
+
 
 
         private readonly string[] fittingTypes =
@@ -43,7 +44,7 @@ namespace CodraftPlugin_Updaters
             string databasesMapPath = projectMapPath.Substring(0, projectMapPath.LastIndexOf('\\') + 1) + @"RevitDatabases\";
             string insulationDatabasePath = databasesMapPath + @"Isolatie.accdb";
             string textFilesMapPath = projectMapPath.Substring(0, projectMapPath.LastIndexOf("\\") + 1) + @"RevitTextFiles\";
-            FailureDefinitionId warning = new FailureDefinitionId(failureGuid);
+            FailureDefinitionId warning = new FailureDefinitionId(failureGuidPipeFittings);
             FailureMessage fm = new FailureMessage(warning);
 
 

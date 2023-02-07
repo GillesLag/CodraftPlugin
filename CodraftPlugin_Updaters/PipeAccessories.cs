@@ -17,6 +17,8 @@ namespace CodraftPlugin_Updaters
         private List<ElementId> _updatedElementids = new List<ElementId>();
         private string _pipeAccessoryName;
         private StraightValve straightValve;
+        private Guid failureGuidPipeAccessories = new Guid("4B81D4C5-185C-4830-8ECF-67370ADB06B0");
+
         public UpdaterId Id { get; set; }
 
         public PipeAccessories(AddInId addinId)
@@ -30,6 +32,8 @@ namespace CodraftPlugin_Updaters
             string projectMapPath = doc.PathName;
             string databasesMapPath = projectMapPath.Substring(0, projectMapPath.LastIndexOf('\\') + 1) + @"RevitDatabases\";
             string textFilesMapPath = projectMapPath.Substring(0, projectMapPath.LastIndexOf("\\") + 1) + @"RevitTextFiles\";
+            FailureDefinitionId warning = new FailureDefinitionId(failureGuidPipeAccessories);
+            FailureMessage fm = new FailureMessage(warning);
 
             foreach (ElementId id in data.GetAddedElementIds())
             {
@@ -43,7 +47,10 @@ namespace CodraftPlugin_Updaters
                 _familySubelementIds.AddRange(subElementTypeIds);
 
                 if (_familySubelementIds.Contains(pipeAccessory.GetTypeId()))
+                {
+                    _familySubelementIds.Remove(pipeAccessory.GetTypeId());
                     continue;
+                }
 
                 _updatedElementids.Add(pipeAccessory.Id);
 
@@ -57,7 +64,9 @@ namespace CodraftPlugin_Updaters
 
                             if (!straightValve.GetParams())
                             {
-                                throw new Exception("PipeAccessory bestaat niet voor deze DN maat!");
+                                doc.PostFailure(fm);
+                                straightValve.SetWrongValues();
+                                continue;
                             }
 
                             straightValve.CreateAccessory();
@@ -76,16 +85,52 @@ namespace CodraftPlugin_Updaters
             foreach (ElementId id in data.GetModifiedElementIds())
             {
                 FamilyInstance pipeAccessory = (FamilyInstance)doc.GetElement(id);
+                _pipeAccessoryName = pipeAccessory.Symbol.FamilyName;
                 IEnumerable<ElementId> subElementTypeIds = pipeAccessory.GetSubComponentIds().Select(x => ((FamilyInstance)doc.GetElement(x)).GetTypeId());
                 _familySubelementIds.AddRange(subElementTypeIds);
 
                 if (_familySubelementIds.Contains(pipeAccessory.GetTypeId()))
+                {
+                    _familySubelementIds.Remove(pipeAccessory.GetTypeId());
                     continue;
+                }
 
                 if (_updatedElementids.Contains(pipeAccessory.Id))
+                {
+                    _updatedElementids.Remove(pipeAccessory.Id);
                     continue;
+                }
 
-                TaskDialog.Show("test", "hey");
+                try
+                {
+                    switch (_pipeAccessoryName)
+                    {
+                        case "COD_KOGELKRAAN":
+
+                            straightValve = new StraightValve(pipeAccessory, doc, databasesMapPath);
+
+                            if (!straightValve.GetParams())
+                            {
+                                doc.PostFailure(fm);
+                                straightValve.SetWrongValues();
+                                continue;
+                            }
+
+                            if (straightValve.ParametersAreTheSame())
+                                continue;
+
+                            straightValve.CreateAccessory();
+
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TaskDialog.Show("test", ex.Message);
+                }
+
             }
         }
 
