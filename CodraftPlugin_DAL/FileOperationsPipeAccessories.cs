@@ -36,6 +36,7 @@ namespace CodraftPlugin_DAL
                     parameters.Add(Math.Round((double)reader["Lengte"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["a"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["PipeOd"] / feetToMm, 4));
                     parameters.Add((int)reader["Uiteinde_1_type"]);
                     parameters.Add((int)reader["Uiteinde_2_type"]);

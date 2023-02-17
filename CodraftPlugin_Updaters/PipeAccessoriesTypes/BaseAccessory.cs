@@ -19,7 +19,7 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
         {
             this.PipeAccessory = accessory;
             this.Doc = doc;
-            this.DatabaseFile = accessory.Symbol.FamilyName + ".mdb";
+            this.DatabaseFile = accessory.Symbol.FamilyName + ".accdb";
             this.DatabaseFilePath = databaseMapPath + this.DatabaseFile;
             this.ConnectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={databaseMapPath}{this.DatabaseFile}";
         }

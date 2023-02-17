@@ -37,7 +37,9 @@ namespace CodraftPlugin_Updaters
 
             foreach (ElementId id in data.GetAddedElementIds())
             {
-                FamilyInstance pipeAccessory = (FamilyInstance)doc.GetElement(id);
+                if (!(doc.GetElement(id) is FamilyInstance pipeAccessory))
+                    return;
+
                 _pipeAccessoryName = pipeAccessory.Symbol.FamilyName;
 
                 if (!_pipeAccessoryName.Contains("COD"))
@@ -84,7 +86,9 @@ namespace CodraftPlugin_Updaters
 
             foreach (ElementId id in data.GetModifiedElementIds())
             {
-                FamilyInstance pipeAccessory = (FamilyInstance)doc.GetElement(id);
+                if (!(doc.GetElement(id) is FamilyInstance pipeAccessory))
+                    return;
+
                 _pipeAccessoryName = pipeAccessory.Symbol.FamilyName;
                 IEnumerable<ElementId> subElementTypeIds = pipeAccessory.GetSubComponentIds().Select(x => ((FamilyInstance)doc.GetElement(x)).GetTypeId());
                 _familySubelementIds.AddRange(subElementTypeIds);
