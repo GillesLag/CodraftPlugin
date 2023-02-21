@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using CodraftPlugin_DAL;
 using CodraftPlugin_Exceptions;
@@ -16,7 +17,6 @@ namespace CodraftPlugin_Updaters
         private List<ElementId> _familySubelementIds = new List<ElementId>();
         private List<ElementId> _updatedElementids = new List<ElementId>();
         private string _pipeAccessoryName;
-        private StraightValve straightValve;
         private Guid failureGuidPipeAccessories = new Guid("4B81D4C5-185C-4830-8ECF-67370ADB06B0");
 
         public UpdaterId Id { get; set; }
@@ -62,7 +62,7 @@ namespace CodraftPlugin_Updaters
                     {
                         case "COD_KOGELKRAAN":
 
-                            straightValve = new StraightValve(pipeAccessory, doc, databasesMapPath);
+                            StraightValve straightValve = new StraightValve(pipeAccessory, doc, databasesMapPath);
 
                             if (!straightValve.GetParams())
                             {
@@ -72,6 +72,21 @@ namespace CodraftPlugin_Updaters
                             }
 
                             straightValve.CreateAccessory();
+
+                            break;
+
+                        case "COD_INREGELAFSLUITER":
+
+                            BalanceValve balanceValve = new BalanceValve(pipeAccessory, doc, databasesMapPath);
+
+                            if(!balanceValve.GetParams())
+                            {
+                                doc.PostFailure(fm);
+                                balanceValve.SetWrongValues();
+                                continue;
+                            }
+
+                            balanceValve.CreateAccessory();
 
                             break;
                         default:
@@ -111,7 +126,7 @@ namespace CodraftPlugin_Updaters
                     {
                         case "COD_KOGELKRAAN":
 
-                            straightValve = new StraightValve(pipeAccessory, doc, databasesMapPath);
+                            StraightValve straightValve = new StraightValve(pipeAccessory, doc, databasesMapPath);
 
                             if (!straightValve.GetParams())
                             {
@@ -126,6 +141,25 @@ namespace CodraftPlugin_Updaters
                             straightValve.CreateAccessory();
 
                             break;
+
+                        case "COD_INREGELAFSLUITER":
+
+                            BalanceValve balanceValve = new BalanceValve(pipeAccessory, doc, databasesMapPath);
+
+                            if (!balanceValve.GetParams())
+                            {
+                                doc.PostFailure(fm);
+                                balanceValve.SetWrongValues();
+                                continue;
+                            }
+
+                            if (balanceValve.ParametersAreTheSame())
+                                continue;
+
+                            balanceValve.CreateAccessory();
+
+                            break;
+
                         default:
                             break;
                     }
