@@ -63,6 +63,7 @@
     <Compile Include="PipeAccessories.cs" />
     <Compile Include="PipeAccessoriesTypes\BaseAccessory.cs" />
     <Compile Include="PipeAccessoriesTypes\BalanceValve.cs" />
+    <Compile Include="PipeAccessoriesTypes\ButterflyValve.cs" />
     <Compile Include="PipeAccessoriesTypes\StraightValve.cs" />
     <Compile Include="Pipes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

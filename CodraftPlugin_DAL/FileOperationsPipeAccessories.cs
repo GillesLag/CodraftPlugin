@@ -55,6 +55,50 @@ namespace CodraftPlugin_DAL
             return false;
         }
 
+        public static bool LookupButterflyValve(string query, string queryCount, string connectionString, out List<object> parameters)
+        {
+            parameters = new List<object>();
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                OleDbCommand command = new OleDbCommand(query, connection);
+                OleDbCommand countCommand = new OleDbCommand(queryCount, connection);
+
+                connection.Open();
+
+                using (OleDbDataReader reader = countCommand.ExecuteReader())
+                {
+                    reader.Read();
+                    int count = (int)reader[0];
+                    if (count == 0) return false;
+                    if ((int)reader[0] > 1) return true;
+                }
+
+                using (OleDbDataReader reader = command.ExecuteReader())
+                {
+                    reader.Read();
+
+                    parameters.Add(Math.Round((double)reader["CompOD"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["CompLen"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["D1"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["a"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["c"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["d"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["Thickness"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["BladeDiameter"] / feetToMm, 4));
+                    parameters.Add(reader["Manufacturer"]);
+                    parameters.Add(reader["Type"]);
+                    parameters.Add(reader["Material"]);
+                    parameters.Add(reader["Product Code"]);
+                    parameters.Add(reader["Omschrijving"]);
+                    parameters.Add(reader["Beschikbaar"]);
+                }
+            }
+
+            return false;
+        }
+
         public static bool LookupStraightValve(string query, string queryCount, string connectionString, out List<object> parameters)
         {
             parameters = new List<object>();

@@ -369,5 +369,40 @@ namespace CodraftPlugin_Library
 
             return false;
         }
+
+        /// <summary>
+        /// Compares the paramaters form both list with eachother.The parameters that need to be compared in both list must be in the same order.
+        /// </summary>
+        /// <param name="revitParameters"></param>
+        /// <param name="databaseParameters"></param>
+        /// <returns>true if all the compared parameters are true, otherwise false.</returns>
+        public static bool CompareParameters(List<object> revitParameters, List<object> databaseParameters)
+        {
+            for (int i = 0; i < revitParameters.Count; i++)
+            {
+                object revitItem = revitParameters[i];
+                object databaseItem = databaseParameters[i];
+
+                if (revitItem is double paramDouble)
+                {
+                    if (paramDouble != (double)databaseItem)
+                        return false;
+                }
+
+                if (revitItem is int paramInt)
+                {
+                    if (paramInt != (int)databaseItem)
+                        return false;
+                }
+
+                if (revitItem is string paramString)
+                {
+                    if (paramString != (string)databaseItem)
+                        return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

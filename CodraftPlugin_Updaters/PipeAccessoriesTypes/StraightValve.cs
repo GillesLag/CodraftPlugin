@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CodraftPlugin_Library;
 
 namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
 {
@@ -88,34 +89,7 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
             this.RevitParameters.Add(this.PipeAccessory.LookupParameter("COD_Omschrijving").AsString());
             this.RevitParameters.Add(this.PipeAccessory.LookupParameter("COD_Beschikbaar").AsString());
 
-            for (int i = 0; i < 5; i++)
-            {
-                
-                if ((double)RevitParameters[i] != (double)DatabaseParameters[i])
-                    return false;
-            }
-
-            for (int i = 5; i < 7; i++)
-            {
-
-                if ((int)RevitParameters[i] != (int)DatabaseParameters[i])
-                    return false;
-            }
-
-            for (int i = 7; i < 13; i++)
-            {
-
-                if ((double)RevitParameters[i] != (double)DatabaseParameters[i])
-                    return false;
-            }
-
-            for (int i = 13; i < 18; i++)
-            {
-                if ((string)RevitParameters[i] != (string)DatabaseParameters[i])
-                    return false;
-            }
-
-            return true;
+            return ElementSettings.CompareParameters(this.RevitParameters, this.DatabaseParameters);
         }
 
         public override void SetWrongValues()

@@ -89,6 +89,21 @@ namespace CodraftPlugin_Updaters
                             balanceValve.CreateAccessory();
 
                             break;
+
+                        case "COD_VLINDERKLEP":
+
+                            ButterflyValve butterflyValve = new ButterflyValve(pipeAccessory, doc, databasesMapPath);
+
+                            if (!butterflyValve.GetParams())
+                            {
+                                doc.PostFailure(fm);
+                                butterflyValve.SetWrongValues();
+                                continue;
+                            }
+
+                            butterflyValve.CreateAccessory();
+
+                            break;
                         default:
                             break;
                     }
@@ -160,6 +175,23 @@ namespace CodraftPlugin_Updaters
 
                             break;
 
+                        case "COD_VLINDERKLEP":
+
+                            ButterflyValve butterflyValve = new ButterflyValve(pipeAccessory, doc, databasesMapPath);
+
+                            if (!butterflyValve.GetParams())
+                            {
+                                doc.PostFailure(fm);
+                                butterflyValve.SetWrongValues();
+                                continue;
+                            }
+
+                            if (butterflyValve.ParametersAreTheSame())
+                                continue;
+
+                            butterflyValve.CreateAccessory();
+
+                            break;
                         default:
                             break;
                     }
