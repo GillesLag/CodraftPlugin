@@ -387,18 +387,24 @@ namespace CodraftPlugin_Library
                 {
                     if (paramDouble != (double)databaseItem)
                         return false;
+
+                    continue;
                 }
 
                 if (revitItem is int paramInt)
                 {
                     if (paramInt != (int)databaseItem)
                         return false;
+
+                    continue;
                 }
 
                 if (revitItem is string paramString)
                 {
                     if (paramString != (string)databaseItem)
                         return false;
+
+                    continue;
                 }
             }
 

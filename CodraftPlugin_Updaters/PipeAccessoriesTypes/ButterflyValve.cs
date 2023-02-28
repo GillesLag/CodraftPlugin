@@ -71,10 +71,11 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
             this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Buitendiameter").AsDouble(), 4));
             this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Staaf_lengte").AsDouble(), 4));
             this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Hendel_lengte").AsDouble(), 4));
-            this.RevitParameters.Add(this.PipeAccessory.LookupParameter("Motor_lengte").AsInteger());
-            this.RevitParameters.Add(this.PipeAccessory.LookupParameter("Motor_hoogte").AsInteger());
+            this.RevitParameters.Add(this.PipeAccessory.LookupParameter("Motor_lengte").AsDouble());
+            this.RevitParameters.Add(this.PipeAccessory.LookupParameter("Motor_hoogte").AsDouble());
             this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Motor_breedte").AsDouble(), 4));
             this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Blade_dikte").AsDouble(), 4));
+            this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Blade_diameter").AsDouble(), 4));
             this.RevitParameters.Add(this.PipeAccessory.LookupParameter("COD_Fabrikant").AsString());
             this.RevitParameters.Add(this.PipeAccessory.LookupParameter("COD_Type").AsString());
             this.RevitParameters.Add(this.PipeAccessory.LookupParameter("COD_Materiaal").AsString());
@@ -96,6 +97,7 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
             this.PipeAccessory.LookupParameter("Motor_hoogte").Set(10 / feetToMm);
             this.PipeAccessory.LookupParameter("Motor_breedte").Set(10 / feetToMm);
             this.PipeAccessory.LookupParameter("Blade_dikte").Set(10 / feetToMm);
+            this.PipeAccessory.LookupParameter("Blade_diameter").Set(10 / feetToMm);
             this.PipeAccessory.LookupParameter("COD_Fabrikant").Set("BESTAAT NIET!");
             this.PipeAccessory.LookupParameter("COD_Type").Set("BESTAAT NIET!");
             this.PipeAccessory.LookupParameter("COD_Materiaal").Set("BESTAAT NIET!");
