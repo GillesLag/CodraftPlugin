@@ -104,6 +104,21 @@ namespace CodraftPlugin_Updaters
                             butterflyValve.CreateAccessory();
 
                             break;
+
+                        case "COD_Y-TYPEFILTER":
+
+                            Strainer strainer = new Strainer(pipeAccessory, doc, databasesMapPath);
+
+                            if (!strainer.GetParams())
+                            {
+                                doc.PostFailure(fm);
+                                strainer.SetWrongValues();
+                                continue;
+                            }
+
+                            strainer.CreateAccessory();
+
+                            break;
                         default:
                             break;
                     }
@@ -190,6 +205,24 @@ namespace CodraftPlugin_Updaters
                                 continue;
 
                             butterflyValve.CreateAccessory();
+
+                            break;
+
+                        case "COD_Y_TYPEFILTER":
+
+                            Strainer strainer = new Strainer(pipeAccessory, doc, databasesMapPath);
+
+                            if (!strainer.GetParams())
+                            {
+                                doc.PostFailure(fm);
+                                strainer.SetWrongValues();
+                                continue;
+                            }
+
+                            if (strainer.ParametersAreTheSame())
+                                continue;
+
+                            strainer.CreateAccessory();
 
                             break;
                         default:
