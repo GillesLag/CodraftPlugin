@@ -119,6 +119,21 @@ namespace CodraftPlugin_Updaters
                             strainer.CreateAccessory();
 
                             break;
+
+                        case "COD_3WEGGLOBEVALVE":
+
+                            ThreeWayGlobeValve threeWayGlobeValve = new ThreeWayGlobeValve(pipeAccessory, doc, databasesMapPath);
+
+                            if (!threeWayGlobeValve.GetParams())
+                            {
+                                doc.PostFailure(fm);
+                                threeWayGlobeValve.SetWrongValues();
+                                continue;
+                            }
+
+                            threeWayGlobeValve.CreateAccessory();
+
+                            break;
                         default:
                             break;
                     }
@@ -223,6 +238,24 @@ namespace CodraftPlugin_Updaters
                                 continue;
 
                             strainer.CreateAccessory();
+
+                            break;
+
+                        case "COD_3WEGGLOBEVALVE":
+
+                            ThreeWayGlobeValve threeWayGlobeValve = new ThreeWayGlobeValve(pipeAccessory, doc, databasesMapPath);
+
+                            if (!threeWayGlobeValve.GetParams())
+                            {
+                                doc.PostFailure(fm);
+                                threeWayGlobeValve.SetWrongValues();
+                                continue;
+                            }
+
+                            if (threeWayGlobeValve.ParametersAreTheSame())
+                                continue;
+
+                            threeWayGlobeValve.CreateAccessory();
 
                             break;
                         default:

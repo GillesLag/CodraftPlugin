@@ -191,5 +191,56 @@ namespace CodraftPlugin_DAL
 
             return false;
         }
+
+        public static bool LookupThreeWayValve(string query, string queryCount, string connectionString, out List<object> parameters)
+        {
+            parameters = new List<object>();
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                OleDbCommand command = new OleDbCommand(query, connection);
+                OleDbCommand countCommand = new OleDbCommand(queryCount, connection);
+
+                connection.Open();
+
+                using (OleDbDataReader reader = countCommand.ExecuteReader())
+                {
+                    reader.Read();
+                    int count = (int)reader[0];
+                    if (count == 0) return false;
+                    if ((int)reader[0] > 1) return true;
+                }
+
+                using (OleDbDataReader reader = command.ExecuteReader())
+                {
+                    reader.Read();
+
+                    parameters.Add(Math.Round((double)reader["PipeOD1"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["Lengte"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["Lengte_3"] / feetToMm, 4));
+                    parameters.Add((int)reader["Uiteinde_1_type"]);
+                    parameters.Add((int)reader["Uiteinde_2_type"]);
+                    parameters.Add((int)reader["Uiteinde_3_type"]);
+                    parameters.Add(Math.Round((double)reader["L1"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["L2"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["L3"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["Uiteinde_1_maat"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["Uiteinde_2_maat"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["Uiteinde_3_maat"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["a"] / feetToMm, 4)); // Lengte motor
+                    parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4)); // Breedte motor
+                    parameters.Add(Math.Round((double)reader["c"] / feetToMm, 4)); // Dikte motor
+                    parameters.Add(Math.Round((double)reader["d"] / feetToMm, 4)); // Hoogte operator
+                    parameters.Add(reader["Manufacturer"]);
+                    parameters.Add(reader["Type"]);
+                    parameters.Add(reader["Material"]);
+                    parameters.Add(reader["Product Code"]);
+                    parameters.Add(reader["Omschrijving"]);
+                    parameters.Add(reader["Beschikbaar"]);
+                    //parameters.Add(reader["Maat_annotatie"]);
+                }
+            }
+
+            return false;
+        }
     }
 }
