@@ -80,13 +80,15 @@ namespace CodraftPlugin_DAL
                     parameters.Add(Math.Round((double)reader["CompOD"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["CompLen"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["D1"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["a"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["c"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["d"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["Thickness"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["BladeDiameter"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["c"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["d"] / feetToMm, 4));
                     parameters.Add(reader["Manufacturer"]);
                     parameters.Add(reader["Type"]);
                     parameters.Add(reader["Material"]);
@@ -132,6 +134,9 @@ namespace CodraftPlugin_DAL
                     parameters.Add(Math.Round((double)reader["Uiteinde_2_maat"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["L1"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["L2"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["c"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["d"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["e"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["c"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["d"] / feetToMm, 4));
                     parameters.Add(reader["Manufacturer"]);
@@ -226,10 +231,12 @@ namespace CodraftPlugin_DAL
                     parameters.Add(Math.Round((double)reader["Uiteinde_1_maat"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["Uiteinde_2_maat"] / feetToMm, 4));
                     parameters.Add(Math.Round((double)reader["Uiteinde_3_maat"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["a"] / feetToMm, 4)); // Lengte motor
-                    parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4)); // Breedte motor
-                    parameters.Add(Math.Round((double)reader["c"] / feetToMm, 4)); // Dikte motor
-                    parameters.Add(Math.Round((double)reader["d"] / feetToMm, 4)); // Hoogte operator
+                    parameters.Add(Math.Round((double)reader["a"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["d"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["e"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["c"] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader["d"] / feetToMm, 4));
                     parameters.Add(reader["Manufacturer"]);
                     parameters.Add(reader["Type"]);
                     parameters.Add(reader["Material"]);

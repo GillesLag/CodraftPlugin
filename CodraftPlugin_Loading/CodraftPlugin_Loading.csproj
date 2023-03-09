@@ -65,6 +65,12 @@
     <Compile Include="OpenFilterElementSelection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\PipeAccessory.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\PipeAccessoryOn.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\updateIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

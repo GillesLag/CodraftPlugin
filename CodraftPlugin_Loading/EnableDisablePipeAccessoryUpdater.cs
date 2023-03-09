@@ -16,7 +16,7 @@ namespace CodraftPlugin_Loading
             try
             {
                 PipeAccessories pUpdater = new PipeAccessories(uiapp.ActiveAddInId);
-                ButtonHandler.EnableDisable(pUpdater, "pipeAccessoryUpdater", "InsulationUpdater", uiapp);
+                ButtonHandler.EnableDisable(pUpdater, "pipeAccessoryUpdater", "PipeAccessory", uiapp);
 
                 return Result.Succeeded;
             }

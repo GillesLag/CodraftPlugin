@@ -74,7 +74,7 @@ namespace CodraftPlugin_Loading
             //add button to ribbon + tooltip and image
             PushButton pipeAccessoryUpdaterButton = updaters.AddItem(pipeAccessoryUpdaterData) as PushButton;
             pipeAccessoryUpdaterButton.ToolTip = "Enables/Disables the pipeAccessoryUpdater.";
-            pipeAccessoryUpdaterButton.LargeImage = new BitmapImage(new Uri("pack://application:,,,/CodraftPlugin_Loading;component/Resources/InsulationUpdater.png"));
+            pipeAccessoryUpdaterButton.LargeImage = new BitmapImage(new Uri("pack://application:,,,/CodraftPlugin_Loading;component/Resources/PipeAccessory.png"));
 
             //Create SelectFilterElements button
             PushButtonData selectFilterElementsData = new PushButtonData(
