@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autodesk.Revit.Attributes;
+using CodraftPlugin_Updaters;
+using System.Windows.Controls;
 
 namespace CodraftPlugin_Loading
 {
@@ -17,26 +19,52 @@ namespace CodraftPlugin_Loading
     {
         private const float feetToMm = 304.8f;
 
-        private string materialQuery = "";
-        private string scheduleQuery = "";
-        private string SystemtypeQuery = "";
-        private string pipeTypeQuery = "";
-        private string joinSegmentAndSizesQuery = "";
-        private string insulMaterialQuery = "";
-        private string connection = "";
-
+        private string materialQuery = "SELECT * FROM Materiaal";
+        private string scheduleQuery = "SELECT * FROM Schedule";
+        private string SystemtypeQuery = "SELECT * FROM SystemTypes";
+        private string pipeTypeQuery = "SELECT * FROM PipeTypes";
+        private string joinSegmentAndSizesQuery = "SELECT * FROM SegmentSize";
+        private string insulMaterialQuery = "SELECT * FROM IsolatieMateriaal";
+        private string connection = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"";
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             UIApplication uiapp = commandData.Application;
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Document doc = uidoc.Document;
 
+            string pathProject = doc.PathName.Substring(0, doc.PathName.LastIndexOf("\\") + 1);
+            string pathDatabase = pathProject + @"RevitDatabases\OpstartWerkomgeving_Revit.accdb" + "\"";
+            connection += pathDatabase;
+
+
             // Add all materials
             Transaction matTrans = new Transaction(doc, "AddMaterials");
             matTrans.Start();
 
             foreach (string i in FileOperations.GetMaterials(materialQuery, connection))
-                Material.Create(doc, i);
+            {
+                try
+                {
+                    Material.Create(doc, i);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+                
+            }
+
+            foreach (string i in FileOperations.GetInsulationMaterials(insulMaterialQuery, connection))
+            {
+                try
+                {
+                    Material.Create(doc, i);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
 
             matTrans.Commit();
 
@@ -47,7 +75,16 @@ namespace CodraftPlugin_Loading
             scheduleTrans.Start();
 
             foreach (string i in FileOperations.GetSchedules(scheduleQuery, connection))
-                PipeScheduleType.Create(doc, i);
+            {
+                try
+                {
+                    PipeScheduleType.Create(doc, i);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
 
             scheduleTrans.Commit();
 
@@ -56,17 +93,23 @@ namespace CodraftPlugin_Loading
             // Get a table of al the segments with its sizes
             List<List<object>> SegmentAndSizelist = FileOperations.GetSegmentsAndSizeList(joinSegmentAndSizesQuery, connection);
 
-            int id = -1;
             string scheduleType = "";
             List<MEPSize> mepSizes = new List<MEPSize>();
             string mat = "";
 
             // Loop through the table and get for every id a list of mepsizes.
+            int indexSegmentAndSizelist = 1;
             foreach (List<object> row in SegmentAndSizelist)
             {
-                int newId = (int)row[0];
-                if (id != newId)
+                string newSchedulType = (string)row[0];
+                string newMat = (string)row[1];
+                if (scheduleType != newSchedulType || mat != newMat || indexSegmentAndSizelist == SegmentAndSizelist.Count)
                 {
+                    if (indexSegmentAndSizelist == SegmentAndSizelist.Count)
+                    {
+                        MEPSize lastMs = new MEPSize((double)row[2] / feetToMm, (double)row[3] / feetToMm, (double)row[4] / feetToMm, true, true);
+                        mepSizes.Add(lastMs);
+                    }
                     while (mepSizes.Count != 0)
                     {
                         PipeScheduleType pst = new FilteredElementCollector(doc)
@@ -81,22 +124,31 @@ namespace CodraftPlugin_Loading
 
                         // Add all the segments
                         Transaction t = new Transaction(doc, "AddPipeSegment");
-                        t.Start();
 
-                        PipeSegment.Create(doc, material.Id, pst.Id, mepSizes);
-
-                        t.Commit();
-
-                        mepSizes.Clear();
+                        try
+                        {
+                            t.Start();
+                            PipeSegment.Create(doc, material.Id, pst.Id, mepSizes);
+                            t.Commit();
+                        }
+                        catch (Exception)
+                        {
+                            t.Commit();
+                            mepSizes.Clear();
+                            continue;
+                        }
                     }
 
-                    id = newId;
-                    scheduleType = (string)row[1];
-                    mat = (string)row[5];
+                    scheduleType = (string)row[0];
+                    mat = (string)row[1];
                 }
 
-                MEPSize ms = new MEPSize((double)row[2] / feetToMm, (double)row[3] / feetToMm, (double)row[4] / feetToMm, true, true);
+                double insideDiameterDatabase = (double)row[4];
+                double insideDiameter = insideDiameterDatabase <= 0 ? 0.5 : insideDiameterDatabase;
+
+                MEPSize ms = new MEPSize((double)row[2] / feetToMm, insideDiameter / feetToMm, (double)row[4] / feetToMm, true, true);
                 mepSizes.Add(ms);
+                indexSegmentAndSizelist++;
             }
 
 
@@ -120,17 +172,30 @@ namespace CodraftPlugin_Loading
 
                 // Add the insulationType to the document.
                 Transaction insulTypeTrans = new Transaction(doc, "AddInsulationType");
-                insulTypeTrans.Start();
+                
 
-                ElementId elemId = pit.Duplicate(i).Id;
-                PipeInsulationType newType = (PipeInsulationType)doc.GetElement(elemId);
-                newType.get_Parameter(BuiltInParameter.MATERIAL_ID_PARAM).Set(insulMat.Id);
+                try
+                {
+                    insulTypeTrans.Start();
+                    ElementId elemId = pit.Duplicate(i).Id;
+                    PipeInsulationType newType = (PipeInsulationType)doc.GetElement(elemId);
+                    newType.get_Parameter(BuiltInParameter.MATERIAL_ID_PARAM).Set(insulMat.Id);
+                    insulTypeTrans.Commit();
+                }
+                catch (Exception)
+                {
+                    insulTypeTrans.Commit();
+                    continue;
+                }
 
-                // Delete orginal insulationType.
-                doc.Delete(pit.Id);
-
-                insulTypeTrans.Commit();
             }
+
+            Transaction deletePit = new Transaction(doc, "Delete orginal insulaitonType");
+            deletePit.Start();
+            // Delete orginal insulationType.
+            doc.Delete(pit.Id);
+
+            deletePit.Commit();
 
 
 
@@ -140,15 +205,25 @@ namespace CodraftPlugin_Loading
             // Loop over all the systemTypes
             foreach (List<string> i in systemTypes)
             {
-                System.Windows.Media.Color col = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(i[2]);
-                Color revitColor = new Color(col.R, col.G, col.B);
+                List<byte> col = i[2].Split(',').Select(x => byte.Parse(x)).ToList();
+                Color revitColor = new Color(col[0], col[1], col[2]);
                 string name = i[0];
-                string typeTemplate = i[3];
-                string abr = i[1];
+                string typeTemplate = i[1];
+                string abr = i[3];
                 MEPSystemClassification msc;
 
+                PipingSystemType psType = new FilteredElementCollector(doc)
+                    .OfClass(typeof(PipingSystemType))
+                    .Cast<PipingSystemType>()
+                    .FirstOrDefault(x => x.Name == name);
+
+                if (psType != null)
+                {
+                    continue;
+                }
+
                 // Set the MEPSystemClassification
-                switch (i[3])
+                switch (typeTemplate)
                 {
                     case "Domestic Cold Water":
                         msc = MEPSystemClassification.DomesticColdWater;
@@ -202,15 +277,23 @@ namespace CodraftPlugin_Loading
 
                 // Add SystemType
                 Transaction systemTypeTrans = new Transaction(doc, "AddSystemType");
-                systemTypeTrans.Start();
 
-                PipingSystemType pst = PipingSystemType.Create(doc, msc, name);
-                pst.LineColor = revitColor;
-                pst.get_Parameter(BuiltInParameter.ALL_MODEL_URL).Set("www.codraft.be");
-                pst.TwoLineDropType = RiseDropSymbol.YinYangFilled;
-                pst.TwoLineRiseType = RiseDropSymbol.YinYang;
-
-                systemTypeTrans.Commit();
+                try
+                {
+                    systemTypeTrans.Start();
+                    PipingSystemType pst = PipingSystemType.Create(doc, msc, name);
+                    pst.LineColor = revitColor;
+                    pst.get_Parameter(BuiltInParameter.ALL_MODEL_URL).Set("www.codraft.be");
+                    pst.TwoLineDropType = RiseDropSymbol.YinYangFilled;
+                    pst.TwoLineRiseType = RiseDropSymbol.YinYang;
+                    pst.Abbreviation = abr;
+                    systemTypeTrans.Commit();
+                }
+                catch (Exception)
+                {
+                    systemTypeTrans.Commit();
+                    continue;
+                }
 
             }
 
@@ -226,101 +309,130 @@ namespace CodraftPlugin_Loading
             IEnumerable<FamilySymbol> fsFittings = new FilteredElementCollector(doc)
                 .OfClass(typeof(FamilySymbol))
                 .Cast<FamilySymbol>()
-                .Where(x => x.Name == "Elbow" || x.Name == "Transition_Concntrisch" || x.Name == "Transition_Excentrisch" || x.Name == "Tee" || x.Name == "Tap" || x.Name == "Cap");
+                .Where(x => x.Name == "Elbow" || x.Name == "Transition_Concentrisch" || x.Name == "Transition_Excentrisch" || x.Name == "Tee" || x.Name == "Tap" || x.Name == "Cap");
 
 
-            List<List<string>> pipeTypeList = FileOperations.GetPipeTypes(pipeTypeQuery, connection);
+            List<List<object>> pipeTypeList = FileOperations.GetPipeTypes(pipeTypeQuery, connection);
             List<string> segmentList = new List<string>();
+            List<(double minDn, double maxDn)> minMaxDnList = new List<(double, double)> ();
             string ptName = "";
             string teeOrTap = "";
             string excenOrConcen = "";
 
             // Loop through all the pipeTypes
-            foreach (List<string> i in pipeTypeList)
+            for (int i = 0; i < pipeTypeList.Count; i++)
             {
-                string newName = i[0];
+                string newName = (string)pipeTypeList[i][1];
                 if (newName != ptName)
                 {
-                    for (int j = 0; j < segmentList.Count; j++)
+                    PipeTypesToevoegen(segmentList, ptName, pt, fsFittings, minMaxDnList, teeOrTap, excenOrConcen, doc);
+
+                    segmentList.Clear();
+                    minMaxDnList.Clear();
+                    ptName = newName;
+                    teeOrTap = ((string)pipeTypeList[i][5]).ToLower();
+                    excenOrConcen = ((string)pipeTypeList[i][6]).ToLower();
+                }
+
+                segmentList.Add((string)pipeTypeList[i][2]);
+                minMaxDnList.Add(((double)pipeTypeList[i][3], (double)pipeTypeList[i][4]));
+            }
+
+            PipeTypesToevoegen(segmentList, ptName, pt, fsFittings, minMaxDnList, teeOrTap, excenOrConcen, doc);
+
+            return Result.Succeeded;
+        }
+
+
+
+        private void PipeTypesToevoegen(List<string> segmentList, string ptName, PipeType pt, IEnumerable<FamilySymbol> fsFittings, List<(double minDn, double maxDn)> minMaxDn, string teeOrTap, string excenOrConcen, Document doc)
+        {
+            for (int j = 0; j < segmentList.Count; j++)
+            {
+                // Get pipeSegment
+                PipeSegment ps = new FilteredElementCollector(doc)
+                    .OfClass(typeof(PipeSegment))
+                    .Cast<PipeSegment>()
+                    .Single(x => x.Name == segmentList[j]);
+
+                // Create segment rule.
+                RoutingPreferenceRule rprSegment = new RoutingPreferenceRule(ps.Id, "segment");
+                rprSegment.AddCriterion(new PrimarySizeCriterion(minMaxDn[j].minDn / feetToMm, minMaxDn[j].maxDn / feetToMm));
+
+                // Create fitting rules.
+                RoutingPreferenceRule rprElbow = new RoutingPreferenceRule(fsFittings.Single(x => x.Name == "Elbow").Id, "elbow");
+                rprElbow.AddCriterion(PrimarySizeCriterion.All());
+                RoutingPreferenceRule rprCap = new RoutingPreferenceRule(fsFittings.Single(x => x.Name == "Cap").Id, "cap");
+                rprCap.AddCriterion(PrimarySizeCriterion.All());
+
+                RoutingPreferenceRule rprTee;
+                RoutingPreferenceRule rprTran;
+
+                if (teeOrTap == "tee")
+                    rprTee = new RoutingPreferenceRule(fsFittings.Single(x => x.Name == "Tee").Id, "tee");
+                else
+                    rprTee = new RoutingPreferenceRule(fsFittings.Single(x => x.Name == "Tap").Id, "tap");
+
+                if (excenOrConcen == "excentrisch")
+                    rprTran = new RoutingPreferenceRule(fsFittings.Single(x => x.Name == "Transition_Excentrisch").Id, "excentrisch");
+                else
+                    rprTran = new RoutingPreferenceRule(fsFittings.Single(x => x.Name == "Transition_Concentrisch").Id, "concentrisch");
+
+                rprTee.AddCriterion(PrimarySizeCriterion.All());
+                rprTran.AddCriterion(PrimarySizeCriterion.All());
+
+                // Start transation.
+                Transaction ptTrans = new Transaction(doc, "AddPipeType");
+                try
+                {
+                    ptTrans.Start();
+
+                    // Create new pipetype.
+                    PipeType nieuwPt;
+                    if (j == 0)
                     {
-                        // Get pipeSegment
-                        PipeSegment ps = new FilteredElementCollector(doc)
-                            .OfClass(typeof(PipeSegment))
-                            .Cast<PipeSegment>()
-                            .Single(x => x.Name == segmentList[j]);
+                        nieuwPt = (PipeType)pt.Duplicate(ptName);
+                    }
+                    else
+                    {
+                        nieuwPt = new FilteredElementCollector(doc)
+                            .OfClass(typeof(PipeType))
+                            .Cast<PipeType>()
+                            .Single(x => x.Name == ptName);
+                    }
 
-                        // Get MEPSizeCollection
-                        ICollection<MEPSize> ms = ps.GetSizes();
-                        double minDN = 0;
-                        double maxDN = 0;
+                    RoutingPreferenceManager rpm = nieuwPt.RoutingPreferenceManager;
 
-                        foreach (MEPSize e in ms)
-                        {
-                            minDN = e.NominalDiameter < minDN ? e.NominalDiameter : minDN;
-                            maxDN = e.NominalDiameter > maxDN ? e.NominalDiameter : maxDN;
-                        }
+                    // Add segment rules.
+                    rpm.AddRule(RoutingPreferenceRuleGroupType.Segments, rprSegment);
 
-                        // Create segment rule.
-                        RoutingPreferenceRule rprSegment = new RoutingPreferenceRule(ps.Id, "segment");
-                        rprSegment.AddCriterion(new PrimarySizeCriterion(minDN, maxDN));
-
-                        // Create fitting rules.
-                        RoutingPreferenceRule rprElbow = new RoutingPreferenceRule(fsFittings.Single(x => x.Name == "Elbow").Id, "elbow");
-                        RoutingPreferenceRule rprCap = new RoutingPreferenceRule(fsFittings.Single(x => x.Name == "Cap").Id, "cap");
-                        RoutingPreferenceRule rprTee;
-                        RoutingPreferenceRule rprTran;
-
-                        if (teeOrTap == "tee")
-                            rprTee = new RoutingPreferenceRule(fsFittings.Single(x => x.Name == "Tee").Id, "tee");
-                        else
-                            rprTee = new RoutingPreferenceRule(fsFittings.Single(x => x.Name == "Tap").Id, "tap");
-
-                        if (excenOrConcen == "excentrisch")
-                            rprTran = new RoutingPreferenceRule(fsFittings.Single(x => x.Name == "Transition_Excentrisch").Id, "excentrisch");
-                        else
-                            rprTran = new RoutingPreferenceRule(fsFittings.Single(x => x.Name == "Transition_Concntrisch").Id, "concntrisch");
-
-                        // Start transation.
-                        Transaction ptTrans = new Transaction(doc, "AddPipeType");
-                        ptTrans.Start();
-
-                        // Create new pipetype.
-                        PipeType nieuwPt = (PipeType)pt.Duplicate(ptName);
-                        RoutingPreferenceManager rpm = nieuwPt.RoutingPreferenceManager;
-
+                    if (j == 0)
+                    {
                         // Set junctionType.
                         if (teeOrTap == "tee")
                             rpm.PreferredJunctionType = PreferredJunctionType.Tee;
                         else
                             rpm.PreferredJunctionType = PreferredJunctionType.Tap;
 
-                        // Add rules.
-                        rpm.AddRule(RoutingPreferenceRuleGroupType.Segments, rprSegment);
+                        // Add fitting rules.
                         rpm.AddRule(RoutingPreferenceRuleGroupType.Elbows, rprElbow);
                         rpm.AddRule(RoutingPreferenceRuleGroupType.Caps, rprCap);
                         rpm.AddRule(RoutingPreferenceRuleGroupType.Junctions, rprTee);
                         rpm.AddRule(RoutingPreferenceRuleGroupType.Transitions, rprTran);
 
-                        // Delete default rules.
+                        // Delete default rule.
                         rpm.RemoveRule(RoutingPreferenceRuleGroupType.Segments, 0);
-                        rpm.RemoveRule(RoutingPreferenceRuleGroupType.Elbows, 0);
-                        rpm.RemoveRule(RoutingPreferenceRuleGroupType.Caps, 0);
-                        rpm.RemoveRule(RoutingPreferenceRuleGroupType.Junctions, 0);
-                        rpm.RemoveRule(RoutingPreferenceRuleGroupType.Transitions, 0);
-
-                        ptTrans.Commit();
                     }
 
-                    segmentList.Clear();
-                    ptName = newName;
-                    teeOrTap = i[2].ToLower();
-                    excenOrConcen = i[3].ToLower();
+                    ptTrans.Commit();
+                }
+                catch (Exception)
+                {
+                    ptTrans.Commit();
+                    continue;
                 }
 
-                segmentList.Add(i[1]);
             }
-
-            return Result.Succeeded;
         }
     }
 }

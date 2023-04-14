@@ -100,7 +100,7 @@ namespace CodraftPlugin_Loading
             opstartWerkomgevingButton.ToolTip = "Generate all pipetypes, materials, insulation, segments and system types.";
             opstartWerkomgevingButton.LargeImage = new BitmapImage(new Uri("pack://application:,,,/CodraftPlugin_Loading;component/Resources/OpstartButton.png"));
 
-            //Create Opstart Werkomgeving button
+            //Create Open Update All Insulation button
             PushButtonData updateAllInsulationData = new PushButtonData(
                 "UpdateAllInsulation",
                 "Update Isolatie",
@@ -111,6 +111,19 @@ namespace CodraftPlugin_Loading
             PushButton updateAllInsulationButton = tools.AddItem(updateAllInsulationData) as PushButton;
             updateAllInsulationButton.ToolTip = "Updates all pipe insulation based on the database.";
             updateAllInsulationButton.LargeImage = new BitmapImage(new Uri("pack://application:,,,/CodraftPlugin_Loading;component/Resources/updateIcon.png"));
+
+            //Create ChangeTagColor button
+            PushButtonData changeTagColorData = new PushButtonData(
+                "changeTagColor",
+                "Change\nTag Color",
+                assemblyPath,
+                "CodraftPlugin_Loading.ChangeTagColor");
+
+            //add button to ribbon + tooltip and image
+            PushButton changeTagColorButton = tools.AddItem(changeTagColorData) as PushButton;
+            changeTagColorButton.ToolTip = "Updates all pipe insulation based on the database.";
+            changeTagColorButton.LargeImage = new BitmapImage(new Uri("pack://application:,,,/CodraftPlugin_Loading;component/Resources/ChangeTagColor.png"));
+
         }
 
         public Result OnShutdown(UIControlledApplication application)

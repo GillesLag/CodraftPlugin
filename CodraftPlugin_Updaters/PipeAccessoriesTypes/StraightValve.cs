@@ -110,7 +110,7 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
             this.PipeAccessory.LookupParameter("Uiteinde_2_maat").Set(10 / feetToMm);
             this.PipeAccessory.LookupParameter("Uiteinde_1_lengte").Set(10 / feetToMm);
             this.PipeAccessory.LookupParameter("Uiteinde_2_lengte").Set(10 / feetToMm);
-            this.PipeAccessory.LookupParameter("Operator_diamter").Set(10 / feetToMm);
+            this.PipeAccessory.LookupParameter("Operator_diameter").Set(10 / feetToMm);
             this.PipeAccessory.LookupParameter("Motor_hoogte").Set(10 / feetToMm);
             this.PipeAccessory.LookupParameter("Motor_breedte").Set(10 / feetToMm);
             this.PipeAccessory.LookupParameter("Wormwiel_diameter").Set(15 / feetToMm);

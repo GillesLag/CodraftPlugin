@@ -483,7 +483,7 @@ namespace CodraftPlugin_DAL
             {
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
-                    OleDbCommand command = new OleDbCommand(query);
+                    OleDbCommand command = new OleDbCommand(query, connection);
 
                     connection.Open();
 
@@ -521,7 +521,7 @@ namespace CodraftPlugin_DAL
             {
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
-                    OleDbCommand command = new OleDbCommand(query);
+                    OleDbCommand command = new OleDbCommand(query, connection);
 
                     connection.Open();
 
@@ -559,7 +559,7 @@ namespace CodraftPlugin_DAL
             {
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
-                    OleDbCommand command = new OleDbCommand(query);
+                    OleDbCommand command = new OleDbCommand(query, connection);
 
                     connection.Open();
 
@@ -601,7 +601,7 @@ namespace CodraftPlugin_DAL
             {
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
-                    OleDbCommand command = new OleDbCommand(joinQuery);
+                    OleDbCommand command = new OleDbCommand(joinQuery, connection);
 
                     connection.Open();
 
@@ -612,7 +612,12 @@ namespace CodraftPlugin_DAL
                         while (reader.Read())
                         {
                             for (int i = 0; i < reader.FieldCount; i++)
+                            {
                                 segments.Add(reader[i]);
+                            }
+
+                            segmentsAndSizeList.Add(segments);
+                            segments = new List<object>();
                         }
                     }
                 }
@@ -639,7 +644,7 @@ namespace CodraftPlugin_DAL
             {
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
-                    OleDbCommand command = new OleDbCommand(query);
+                    OleDbCommand command = new OleDbCommand(query, connection);
 
                     connection.Open();
 
@@ -647,7 +652,7 @@ namespace CodraftPlugin_DAL
                     {
                         while (reader.Read())
                         {
-                            insulationMaterialsList.Add((string)reader[0]);
+                            insulationMaterialsList.Add((string)reader[1]);
                         }
                     }
                 }
@@ -674,7 +679,7 @@ namespace CodraftPlugin_DAL
             {
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
-                    OleDbCommand commmand = new OleDbCommand(query);
+                    OleDbCommand commmand = new OleDbCommand(query, connection);
 
                     connection.Open();
 
@@ -684,7 +689,7 @@ namespace CodraftPlugin_DAL
                         {
                             List<string> stringList = new List<string>();
 
-                            for (int i = 0; i < reader.FieldCount; i++)
+                            for (int i = 1; i < reader.FieldCount; i++)
                             {
                                 stringList.Add((string)reader[i]);
                             }
@@ -708,30 +713,32 @@ namespace CodraftPlugin_DAL
         /// <param name="query"></param>
         /// <param name="connectionString"></param>
         /// <returns>A list of list of strings with data</returns>
-        public static List<List<string>> GetPipeTypes(string query, string connectionString)
+        public static List<List<object>> GetPipeTypes(string query, string connectionString)
         {
-            List<List<string>> pipeTypesList = new List<List<string>>();
+            List<List<object>> ongesorteerdeList = new List<List<object>>();
+            List<List<object>> gesorteerdeList = new List<List<object>>();
 
             try
             {
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
-                    OleDbCommand command = new OleDbCommand(query);
+                    OleDbCommand command = new OleDbCommand(query, connection);
 
                     connection.Open();
 
                     using (OleDbDataReader reader = command.ExecuteReader())
                     {
+                        List<object> data = new List<object>();
                         while (reader.Read())
                         {
-                            List<string> data = new List<string>();
-
                             for (int i = 0; i < reader.FieldCount; i++)
                             {
-                                data.Add((string)reader[i]);
+                                var test = reader[i];
+                                data.Add(reader[i]);
                             }
 
-                            pipeTypesList.Add(data);
+                            ongesorteerdeList.Add(data);
+                            data = new List<object>();
                         }
                     }
                 }
@@ -741,7 +748,20 @@ namespace CodraftPlugin_DAL
                 TaskDialog.Show("LookupInsulation connection error", ex.Message);
             }
 
-            return pipeTypesList;
+            for (int i = 0; i < ongesorteerdeList.Count; i++)
+            {
+                string typeNaam = (string)ongesorteerdeList[i][1];
+
+                for (int j = 0; j < ongesorteerdeList.Count; j++)
+                {
+                    if (typeNaam == (string)ongesorteerdeList[j][1] && !gesorteerdeList.Contains(ongesorteerdeList[j]))
+                    {
+                        gesorteerdeList.Add(ongesorteerdeList[j]);
+                    }
+                }
+            }
+
+            return gesorteerdeList;
         }
 
         /// <summary>

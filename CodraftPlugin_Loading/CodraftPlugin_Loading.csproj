@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonHandler.cs" />
+    <Compile Include="ChangeTagColor.cs" />
     <Compile Include="EnableDisableFittingUpdater.cs" />
     <Compile Include="EnableDisableInsulationUpdater.cs" />
     <Compile Include="EnableDisablePipeAccessoryUpdater.cs" />
@@ -65,6 +66,9 @@
     <Compile Include="OpenFilterElementSelection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\ChangeTagColor.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\PipeAccessory.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
