@@ -12,6 +12,7 @@ using Autodesk.Revit.DB.Plumbing;
 using System.Windows.Markup.Localizer;
 using Autodesk.Revit.UI.Events;
 using System.Windows.Input;
+using Autodesk.Revit.DB.Mechanical;
 
 namespace CodraftPlugin_Loading
 {
@@ -22,11 +23,28 @@ namespace CodraftPlugin_Loading
         private UIApplication _app;
         private UIDocument _uidoc;
         private Document _doc;
+        private bool _wholeDocument;
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             _app = commandData.Application;
             _uidoc = _app.ActiveUIDocument;
             _doc = _uidoc.Document;
+
+            TaskDialogResult answer =  TaskDialog.Show("ChangeTagColor", "Change the tag color only in this view?(Yes)\nOr in the whole document?(No)", TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);
+
+            switch (answer)
+            {
+                case TaskDialogResult.Yes:
+                    _wholeDocument = false;
+                    break;
+
+                case TaskDialogResult.No:
+                    _wholeDocument = true;
+                    break;
+
+                default:
+                    return Result.Cancelled;
+            }
 
             _app.Idling += OnIdle;
 
@@ -48,58 +66,98 @@ namespace CodraftPlugin_Loading
                     IndependentTag tagElement = (IndependentTag)_doc.GetElement(refTag);
                     BuiltInCategory bic = (BuiltInCategory)tagElement.Category.Id.IntegerValue;
 
-                    IEnumerable<View> viewCollector = new FilteredElementCollector(_doc)
-                        .OfClass(typeof(View))
-                        .Cast<View>();
-
                     Transaction t = new Transaction(_doc, "change tag color");
                     t.Start();
 
-                    foreach (View view in viewCollector)
+                    if (_wholeDocument)
                     {
-                        if (view.IsTemplate)
-                        {
-                            continue;
-                        }
+                        IEnumerable<View> viewCollector = new FilteredElementCollector(_doc)
+                        .OfClass(typeof(View))
+                        .Cast<View>();
 
-                        IEnumerable<IndependentTag> allTagsInview = new FilteredElementCollector(_doc, view.Id)
-                        .WhereElementIsNotElementType()
-                        .OfCategory(bic)
-                        .Cast<IndependentTag>();
-
-                        if (!allTagsInview.Any())
+                        foreach (View view in viewCollector)
                         {
-                            continue;
-                        }
-
-                        foreach (IndependentTag tag in allTagsInview)
-                        {
-                            Element element = tag.GetTaggedLocalElement();
-                            if (element == null)
+                            if (view.IsTemplate)
                             {
                                 continue;
                             }
 
-                            ElementId pstId = element.GetParameters("System Type").First().AsElementId();
-                            MEPSystemType mst = (MEPSystemType)_doc.GetElement(pstId);
-                            Color mstColor = mst.LineColor;
-
-                            OverrideGraphicSettings overrideSettings = new OverrideGraphicSettings();
-                            overrideSettings.SetProjectionLineColor(mstColor);
-
-                            view.SetElementOverrides(tag.Id, overrideSettings);
+                            ChangeTagColorInView(view, bic);
                         }
+                    }
+
+                    else
+                    {
+                        View view = (View)_doc.GetElement(tagElement.OwnerViewId);
+                        ChangeTagColorInView(view, bic);
                     }
 
                     t.Commit();
                 }
+
                 catch (Exception)
                 {
                     _isRunning = false;
                 }
             }
         }
+        private void ChangeTagColorInView(View view, BuiltInCategory bic)
+        {
+            IEnumerable<IndependentTag> allTagsInview = new FilteredElementCollector(_doc, view.Id)
+                .WhereElementIsNotElementType()
+                .OfCategory(bic)
+                .Cast<IndependentTag>();
+
+            foreach (IndependentTag tag in allTagsInview)
+            {
+                Element element = tag.GetTaggedLocalElement();
+                if (element == null)
+                {
+                    continue;
+                }
+
+                ElementId pstId;
+
+                try
+                {
+                    pstId = element.GetParameters("System Type").FirstOrDefault().AsElementId();
+                }
+                catch (Exception)
+                {
+                    string systemName = element.get_Parameter(BuiltInParameter.RBS_SYSTEM_NAME_PARAM).AsString();
+
+                    if (string.IsNullOrWhiteSpace(systemName))
+                    {
+                        continue;
+                    }
+
+                    string systemTypeName = systemName.Substring(0, systemName.LastIndexOf(' '));
+
+                    try
+                    {
+                        pstId = new FilteredElementCollector(_doc)
+                                        .OfClass(typeof(MEPSystemType))
+                                        .Cast<MEPSystemType>()
+                                        .FirstOrDefault(m => m.Name == systemTypeName)
+                                        .Id;
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                }
+
+                MEPSystemType mst = (MEPSystemType)_doc.GetElement(pstId);
+                Color mstColor = mst.LineColor;
+
+                OverrideGraphicSettings overrideSettings = new OverrideGraphicSettings();
+                overrideSettings.SetProjectionLineColor(mstColor);
+
+                view.SetElementOverrides(tag.Id, overrideSettings);
+            }
+        }
     }
+
 
     public class SelectionFilter : ISelectionFilter
     {
@@ -111,7 +169,8 @@ namespace CodraftPlugin_Loading
             }
 
             return elem.Category.CategoryType == CategoryType.Annotation && elem.Category.Name.Contains("Tags")
-                && (elem.Category.Name.Contains("Duct") || elem.Category.Name.Contains("Pipe"));
+                && (elem.Category.Name.Contains("Duct") || elem.Category.Name.Contains("Pipe") || elem.Category.Name.Contains("Air Terminal")
+                || elem.Category.Name.Contains("Mechanical Equipment"));
         }
 
         public bool AllowReference(Reference reference, XYZ position)
