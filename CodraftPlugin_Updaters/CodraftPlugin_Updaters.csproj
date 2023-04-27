@@ -84,6 +84,10 @@
       <Project>{68e31e0b-9a82-4630-9aac-370244c7bf7d}</Project>
       <Name>CodraftPlugin_Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CodraftPlugin_PipeAccessoriesWPF\CodraftPlugin_PipeAccessoriesWPF.csproj">
+      <Project>{28e4316b-6287-4649-bbd7-5befab05a2b9}</Project>
+      <Name>CodraftPlugin_PipeAccessoriesWPF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CodraftPlugin_UIDatabaseWPF\CodraftPlugin_UIDatabaseWPF.csproj">
       <Project>{a08beb93-60f1-45f9-9547-09fe8e8696e6}</Project>
       <Name>CodraftPlugin_UIDatabaseWPF</Name>

@@ -121,9 +121,20 @@ namespace CodraftPlugin_Loading
 
             //add button to ribbon + tooltip and image
             PushButton changeTagColorButton = tools.AddItem(changeTagColorData) as PushButton;
-            changeTagColorButton.ToolTip = "Updates all pipe insulation based on the database.";
+            changeTagColorButton.ToolTip = "Gives the tags the color of the systemtypes";
             changeTagColorButton.LargeImage = new BitmapImage(new Uri("pack://application:,,,/CodraftPlugin_Loading;component/Resources/ChangeTagColor.png"));
 
+            //Create HoldCloud button
+            PushButtonData holdCloudData = new PushButtonData(
+                "holdCloud",
+                "Transform\nTo Hold Cloud",
+                assemblyPath,
+                "CodraftPlugin_Loading.HoldClouds");
+
+            //add button to ribbon + tooltip and image
+            PushButton holdCloudbutton = tools.AddItem(holdCloudData) as PushButton;
+            holdCloudbutton.ToolTip = "Changes the hold clouds";
+            holdCloudbutton.LargeImage = new BitmapImage(new Uri("pack://application:,,,/CodraftPlugin_Loading;component/Resources/holdCloud.png"));
         }
 
         public Result OnShutdown(UIControlledApplication application)

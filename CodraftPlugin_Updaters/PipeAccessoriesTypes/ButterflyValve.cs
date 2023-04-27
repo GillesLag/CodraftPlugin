@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CodraftPlugin_PipeAccessoriesWPF;
 
 namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
 {
@@ -26,38 +27,32 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
                 $"AND D1 = {this.Dn}";
         }
 
-        public override void CreateAccessory()
-        {
-            if (this.DatabaseParameters.Count == 0)
-                throw new Exception("Geen parameters voor straightvalve");
-
-            this.PipeAccessory.LookupParameter("Buitendiameter_totaal").Set((double)this.DatabaseParameters[0]);
-            this.PipeAccessory.LookupParameter("Lengte").Set((double)this.DatabaseParameters[1]);
-            this.PipeAccessory.LookupParameter("Buitendiameter").Set((double)this.DatabaseParameters[2]);
-            this.PipeAccessory.LookupParameter("Staaf_lengte").Set((double)this.DatabaseParameters[3]);
-            this.PipeAccessory.LookupParameter("Hendel_lengte").Set((double)this.DatabaseParameters[4]);
-            this.PipeAccessory.LookupParameter("Motor_lengte").Set((double)this.DatabaseParameters[5]);
-            this.PipeAccessory.LookupParameter("Motor_hoogte").Set((double)this.DatabaseParameters[6]);
-            this.PipeAccessory.LookupParameter("Motor_breedte").Set((double)this.DatabaseParameters[7]);
-            this.PipeAccessory.LookupParameter("Blade_dikte").Set((double)this.DatabaseParameters[8]);
-            this.PipeAccessory.LookupParameter("Blade_diameter").Set((double)this.DatabaseParameters[9]);
-            this.PipeAccessory.LookupParameter("Wormwiel_diameter").Set((double)this.DatabaseParameters[10]);
-            this.PipeAccessory.LookupParameter("Wormwiel_lengte").Set((double)this.DatabaseParameters[11]);
-            this.PipeAccessory.LookupParameter("COD_Fabrikant").Set((string)this.DatabaseParameters[12]);
-            this.PipeAccessory.LookupParameter("COD_Type").Set((string)this.DatabaseParameters[13]);
-            this.PipeAccessory.LookupParameter("COD_Materiaal").Set((string)this.DatabaseParameters[14]);
-            this.PipeAccessory.LookupParameter("COD_Productcode").Set((string)this.DatabaseParameters[15]);
-            this.PipeAccessory.LookupParameter("COD_Omschrijving").Set((string)this.DatabaseParameters[16]);
-            this.PipeAccessory.LookupParameter("COD_Beschikbaar").Set((string)this.DatabaseParameters[17]);
-        }
-
-        public override bool GetParams()
+        public override bool? GetParams()
         {
             List<object> parametersList;
 
             if (FileOperationsPipeAccessories.LookupButterflyValve(Query, QueryCount, ConnectionString, out parametersList))
             {
-                //TODO meerdere keuzes van de database afhandelen.
+                if (FileOperations.IsFound(CallingParams, RememberMeFilePath, out List<string> parameters))
+                {
+                    List<object> correctList = new List<object>();
+
+                    correctList.AddRange(parameters.GetRange(0, 12).Select(x => (object)double.Parse(x)));
+                    correctList.AddRange(parameters.GetRange(12, 6));
+
+                    this.DatabaseParameters = correctList;
+                    return true;
+                }
+
+                string typeName = this.ToString();
+                string name = typeName.Substring(typeName.LastIndexOf('.') + 1);
+                MainWindow accessoryWindow = new MainWindow(PipeAccessory, name, ConnectionString, Query, DatabaseFilePath, CallingParams);
+                accessoryWindow.ShowDialog();
+
+                if (accessoryWindow.hasChosenAccessory)
+                    return null;
+
+                return false;
             }
 
             if (!parametersList.Any()) return false;

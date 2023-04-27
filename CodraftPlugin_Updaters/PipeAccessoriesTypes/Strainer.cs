@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CodraftPlugin_PipeAccessoriesWPF;
 
 namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
 {
@@ -26,35 +27,34 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
                 $"AND D1 = {this.Dn}";
         }
 
-        public override void CreateAccessory()
-        {
-            this.PipeAccessory.LookupParameter("Nominale_diameter").Set((double)this.DatabaseParameters[0]);
-            this.PipeAccessory.LookupParameter("Buitendiameter").Set((double)this.DatabaseParameters[1]);
-            this.PipeAccessory.LookupParameter("Hoogte").Set((double)this.DatabaseParameters[2]);
-            this.PipeAccessory.LookupParameter("Lengte").Set((double)this.DatabaseParameters[3]);
-            this.PipeAccessory.LookupParameter("Offset").Set((double)this.DatabaseParameters[4]);
-            this.PipeAccessory.LookupParameter("Uiteinde_1_type").Set((int)this.DatabaseParameters[5]);
-            this.PipeAccessory.LookupParameter("Uiteinde_2_type").Set((int)this.DatabaseParameters[6]);
-            this.PipeAccessory.LookupParameter("Uiteinde_1_lengte").Set((double)this.DatabaseParameters[7]);
-            this.PipeAccessory.LookupParameter("Uiteinde_2_lengte").Set((double)this.DatabaseParameters[8]);
-            this.PipeAccessory.LookupParameter("Uiteinde_1_maat").Set((double)this.DatabaseParameters[9]);
-            this.PipeAccessory.LookupParameter("Uiteinde_2_maat").Set((double)this.DatabaseParameters[10]);
-            this.PipeAccessory.LookupParameter("COD_Fabrikant").Set((string)this.DatabaseParameters[11]);
-            this.PipeAccessory.LookupParameter("COD_Type").Set((string)this.DatabaseParameters[12]);
-            this.PipeAccessory.LookupParameter("COD_Materiaal").Set((string)this.DatabaseParameters[13]);
-            this.PipeAccessory.LookupParameter("COD_Productcode").Set((string)this.DatabaseParameters[14]);
-            this.PipeAccessory.LookupParameter("COD_Omschrijving").Set((string)this.DatabaseParameters[15]);
-            this.PipeAccessory.LookupParameter("COD_Beschikbaar").Set((string)this.DatabaseParameters[16]);
-            this.PipeAccessory.LookupParameter("COD_Maat_annotatie").Set((string)this.DatabaseParameters[17]);
-        }
-
-        public override bool GetParams()
+        public override bool? GetParams()
         {
             List<object> parametersList;
 
             if (FileOperationsPipeAccessories.LookupStrainer(Query, QueryCount, ConnectionString, out parametersList))
             {
-                //TODO meerdere keuzes van de database afhandelen.
+                if (FileOperations.IsFound(CallingParams, RememberMeFilePath, out List<string> parameters))
+                {
+                    List<object> correctList = new List<object>();
+
+                    correctList.AddRange(parameters.GetRange(0, 4).Select(x => (object)double.Parse(x)));
+                    correctList.AddRange(parameters.GetRange(4, 2).Select(x => (object)int.Parse(x)));
+                    correctList.AddRange(parameters.GetRange(6, 4).Select(x => (object)double.Parse(x)));
+                    correctList.AddRange(parameters.GetRange(10, 6));
+
+                    this.DatabaseParameters = correctList;
+                    return true;
+                }
+
+                string typeName = this.ToString();
+                string name = typeName.Substring(typeName.LastIndexOf('.') + 1);
+                MainWindow accessoryWindow = new MainWindow(PipeAccessory, name, ConnectionString, Query, DatabaseFilePath, CallingParams);
+                accessoryWindow.ShowDialog();
+
+                if (accessoryWindow.hasChosenAccessory)
+                    return null;
+
+                return false;
             }
 
             if (!parametersList.Any()) return false;
@@ -65,7 +65,6 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
 
         public override bool ParametersAreTheSame()
         {
-            this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Nominale_diameter").AsDouble(), 4));
             this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Buitendiameter").AsDouble(), 4));
             this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Hoogte").AsDouble(), 4));
             this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Lengte").AsDouble(), 4));
@@ -89,7 +88,6 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
 
         public override void SetWrongValues()
         {
-            this.PipeAccessory.LookupParameter("Nominale_diameter").Set(10 / feetToMm);
             this.PipeAccessory.LookupParameter("Buitendiameter").Set(10 / feetToMm);
             this.PipeAccessory.LookupParameter("Hoogte").Set(10 / feetToMm);
             this.PipeAccessory.LookupParameter("Lengte").Set(10 / feetToMm);

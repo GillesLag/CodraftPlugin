@@ -323,7 +323,7 @@ namespace CodraftPlugin_DAL
                 {
                     string parameters = null;
 
-                    for (int i = 0; i < paramList.Count - 1; i++)
+                    for (int i = 0; i < paramList.Count; i++)
                     {
                         if (parameters == null)
                             parameters = paramList[i].ToString();
