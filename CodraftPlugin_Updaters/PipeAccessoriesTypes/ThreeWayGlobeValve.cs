@@ -39,8 +39,8 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
 
                     correctList.AddRange(parameters.GetRange(0, 3).Select(x => (object)double.Parse(x)));
                     correctList.AddRange(parameters.GetRange(3, 3).Select(x => (object)int.Parse(x)));
-                    correctList.AddRange(parameters.GetRange(6, 9).Select(x => (object)double.Parse(x)));
-                    correctList.AddRange(parameters.GetRange(15, 6));
+                    correctList.AddRange(parameters.GetRange(6, 12).Select(x => (object)double.Parse(x)));
+                    correctList.AddRange(parameters.GetRange(18, 6));
 
                     this.DatabaseParameters = correctList;
                     return true;

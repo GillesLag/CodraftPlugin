@@ -475,7 +475,6 @@ namespace CodraftPlugin_Library
             pipeAccessory.LookupParameter("COD_Productcode").Set((string)parameters[13]);
             pipeAccessory.LookupParameter("COD_Omschrijving").Set((string)parameters[14]);
             pipeAccessory.LookupParameter("COD_Beschikbaar").Set((string)parameters[15]);
-            pipeAccessory.LookupParameter("COD_Maat_annotatie").Set((string)parameters[16]);
         }
 
         public static void SetCodraftParametersThreeWayGlobeValve(List<object> parameters, FamilyInstance pipeAccessory)
@@ -502,8 +501,8 @@ namespace CodraftPlugin_Library
             pipeAccessory.LookupParameter("COD_Type").Set((string)parameters[19]);
             pipeAccessory.LookupParameter("COD_Materiaal").Set((string)parameters[20]);
             pipeAccessory.LookupParameter("COD_Productcode").Set((string)parameters[21]);
-            pipeAccessory.LookupParameter("COD_Omschrijving").Set((string)parameters[21]);
-            pipeAccessory.LookupParameter("COD_Beschikbaar").Set((string)parameters[22]);
+            pipeAccessory.LookupParameter("COD_Omschrijving").Set((string)parameters[22]);
+            pipeAccessory.LookupParameter("COD_Beschikbaar").Set((string)parameters[23]);
         }
 
         public static void SetCodraftParametersButterflyValve(List<object> parameters, FamilyInstance pipeAccessory)

@@ -38,7 +38,8 @@ namespace CodraftPlugin_PipeAccessoriesWPF.Model
             WormwielDiameter = wormwielDiameter;
             MotorLengte = motorLengte;
             MotorBreedte = motorBreedte;
-            MotorHoogte = hoogteOperator;
+            MotorHoogte = motorHoogte;
+            HoogteOperator = hoogteOperator;
             Lengte = lengte;
             Lengte3 = lengte3;
             UiteindeType1 = uiteindeType1;

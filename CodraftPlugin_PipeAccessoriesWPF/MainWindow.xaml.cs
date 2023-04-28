@@ -99,7 +99,7 @@ namespace CodraftPlugin_PipeAccessoriesWPF
                             case "Strainer":
                                 accessory = new Strainer(_pipeAccessory, (string)reader["Manufacturer"], (string)reader["Type"], (string)reader["Material"],
                                     (string)reader["Product Code"], (string)reader["Omschrijving"], (string)reader["Beschikbaar"], (int)reader["D1"],
-                                    (double)reader["PipeOD"], (double)reader["CompLen"], (double)reader["Height"], (double)reader["BranchOffset"], (int)reader["Uiteinde_1_type"],
+                                    (double)reader["PipeOD"], (double)reader["Height"], (double)reader["CompLen"], (double)reader["BranchOffset"], (int)reader["Uiteinde_1_type"],
                                     (int)reader["Uiteinde_2_type"], (double)reader["L1"], (double)reader["L2"], (double)reader["Uiteinde_1_maat"], (double)reader["Uiteinde_2_maat"]);
                                 break;
 
@@ -229,6 +229,9 @@ namespace CodraftPlugin_PipeAccessoriesWPF
                     paramList.Add(threeWayGlobeValve.UiteindeType1);
                     paramList.Add(threeWayGlobeValve.UiteindeType2);
                     paramList.Add(threeWayGlobeValve.UiteindeType3);
+                    paramList.Add(Math.Round(threeWayGlobeValve.L1 / feetToMm, 4));
+                    paramList.Add(Math.Round(threeWayGlobeValve.L2 / feetToMm, 4));
+                    paramList.Add(Math.Round(threeWayGlobeValve.L3 / feetToMm, 4));
                     paramList.Add(Math.Round(threeWayGlobeValve.UiteindeMaat1 / feetToMm, 4));
                     paramList.Add(Math.Round(threeWayGlobeValve.UiteindeMaat2 / feetToMm, 4));
                     paramList.Add(Math.Round(threeWayGlobeValve.UiteindeMaat3 / feetToMm, 4));
