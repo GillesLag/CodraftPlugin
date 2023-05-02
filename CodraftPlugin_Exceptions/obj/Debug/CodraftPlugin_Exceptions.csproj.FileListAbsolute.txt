@@ -1,6 +1,0 @@
-C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Exceptions\bin\Debug\CodraftPlugin_Exceptions.dll
-C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Exceptions\bin\Debug\CodraftPlugin_Exceptions.pdb
-C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Exceptions\obj\Debug\CodraftPlugin_Exceptions.csproj.AssemblyReference.cache
-C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Exceptions\obj\Debug\CodraftPlugin_Exceptions.csproj.CoreCompileInputs.cache
-C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Exceptions\obj\Debug\CodraftPlugin_Exceptions.dll
-C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\CodraftPlugin_Exceptions\obj\Debug\CodraftPlugin_Exceptions.pdb
