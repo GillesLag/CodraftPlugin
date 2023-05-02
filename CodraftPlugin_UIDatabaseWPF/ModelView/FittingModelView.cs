@@ -194,7 +194,6 @@ namespace CodraftPlugin_UIDatabaseWPF.ModelView
                     paramList.Add(elbow.ProductCode);
                     paramList.Add(elbow.Omschrijving);
                     paramList.Add(elbow.Beschikbaar);
-                    paramList.Add(elbow.Id);
 
                     ElementSettings.SetCodraftParametersElbow(paramList, this.fittingModel);
                     break;
@@ -226,7 +225,6 @@ namespace CodraftPlugin_UIDatabaseWPF.ModelView
                     paramList.Add(tee.ProductCode);
                     paramList.Add(tee.Omschrijving);
                     paramList.Add(tee.Beschikbaar);
-                    paramList.Add(tee.Id);
 
                     ElementSettings.SetCodraftParametersTee(paramList, this.fittingModel);
                     break;
@@ -251,7 +249,6 @@ namespace CodraftPlugin_UIDatabaseWPF.ModelView
                     paramList.Add(transition.ProductCode);
                     paramList.Add(transition.Omschrijving);
                     paramList.Add(transition.Beschikbaar);
-                    paramList.Add(transition.Id);
 
                     ElementSettings.SetCodraftParametersTransition(paramList, this.fittingModel, this._switchNd, this._excentrisch);
                     break;
@@ -267,7 +264,6 @@ namespace CodraftPlugin_UIDatabaseWPF.ModelView
                     paramList.Add(tap.ProductCode);
                     paramList.Add(tap.Omschrijving);
                     paramList.Add(tap.Beschikbaar);
-                    paramList.Add(tap.Id);
 
                     ElementSettings.SetCodraftParametersTap(paramList, this.fittingModel);
                     break;

@@ -58,6 +58,7 @@
     <Compile Include="EnableDisableInsulationUpdater.cs" />
     <Compile Include="EnableDisablePipeAccessoryUpdater.cs" />
     <Compile Include="EnableDisablePipeUpdater.cs" />
+    <Compile Include="HoldClouds.cs" />
     <Compile Include="JtWindowHandle.cs" />
     <Compile Include="LoadTabAndButtons.cs" />
     <Compile Include="OpenUpdateAllInsulation.cs" />
@@ -66,6 +67,9 @@
     <Compile Include="OpenFilterElementSelection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\holdCloud.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\ChangeTagColor.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

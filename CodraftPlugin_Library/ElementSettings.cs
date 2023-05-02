@@ -410,5 +410,121 @@ namespace CodraftPlugin_Library
 
             return true;
         }
+
+        public static void SetCodraftParamtersStraightValve(List<object> parameters, FamilyInstance pipeAccessory)
+        {
+            pipeAccessory.LookupParameter("Lengte").Set((double)parameters[0]);
+            pipeAccessory.LookupParameter("Hendel_lengte").Set((double)parameters[1]);
+            //pipeAccessory.LookupParameter("Hendel_breedte").Set((double)parameters[2]);
+            //pipeAccessory.LookupParameter("Hendel_hoogte").Set((double)parameters[3]);
+            pipeAccessory.LookupParameter("Motor_lengte").Set((double)parameters[4]);
+            pipeAccessory.LookupParameter("Motor_breedte").Set((double)parameters[5]);
+            pipeAccessory.LookupParameter("Motor_hoogte").Set((double)parameters[6]);
+            pipeAccessory.LookupParameter("Wormwiel_straal").Set((double)parameters[7]);
+            pipeAccessory.LookupParameter("Wormwiel_straal_staaf").Set((double)parameters[8]);
+            pipeAccessory.LookupParameter("Hoogte_operator").Set((double)parameters[9]);
+            pipeAccessory.LookupParameter("Vlinderhendel_diameter").Set((double)parameters[10]);
+            pipeAccessory.LookupParameter("Buitendiameter").Set((double)parameters[11]);
+            pipeAccessory.LookupParameter("Uiteinde_1_type").Set((int)parameters[12]);
+            pipeAccessory.LookupParameter("Uiteinde_2_type").Set((int)parameters[13]);
+            pipeAccessory.LookupParameter("Uiteinde_1_maat").Set((double)parameters[14]);
+            pipeAccessory.LookupParameter("Uiteinde_2_maat").Set((double)parameters[15]);
+            pipeAccessory.LookupParameter("Uiteinde_1_lengte").Set((double)parameters[16]);
+            pipeAccessory.LookupParameter("Uiteinde_2_lengte").Set((double)parameters[17]);
+            pipeAccessory.LookupParameter("COD_Fabrikant").Set((string)parameters[18]);
+            pipeAccessory.LookupParameter("COD_Type").Set((string)parameters[19]);
+            pipeAccessory.LookupParameter("COD_Materiaal").Set((string)parameters[20]);
+            pipeAccessory.LookupParameter("COD_Productcode").Set((string)parameters[21]);
+            pipeAccessory.LookupParameter("COD_Omschrijving").Set((string)parameters[22]);
+            pipeAccessory.LookupParameter("COD_Beschikbaar").Set((string)parameters[23]);
+        }
+
+        public static void SetCodraftParametersBalanceValve(List<object> parameters, FamilyInstance pipeAccessory)
+        {
+            pipeAccessory.LookupParameter("Lengte").Set((double)parameters[0]);
+            pipeAccessory.LookupParameter("Buitendiameter").Set((double)parameters[1]);
+            pipeAccessory.LookupParameter("Uiteinde_1_type").Set((int)parameters[2]);
+            pipeAccessory.LookupParameter("Uiteinde_2_type").Set((int)parameters[3]);
+            pipeAccessory.LookupParameter("Uiteinde_1_maat").Set((double)parameters[4]);
+            pipeAccessory.LookupParameter("Uiteinde_2_maat").Set((double)parameters[5]);
+            pipeAccessory.LookupParameter("Uiteinde_1_lengte").Set((double)parameters[6]);
+            pipeAccessory.LookupParameter("Uiteinde_2_lengte").Set((double)parameters[7]);
+            pipeAccessory.LookupParameter("COD_Fabrikant").Set((string)parameters[8]);
+            pipeAccessory.LookupParameter("COD_Type").Set((string)parameters[9]);
+            pipeAccessory.LookupParameter("COD_Materiaal").Set((string)parameters[10]);
+            pipeAccessory.LookupParameter("COD_Productcode").Set((string)parameters[11]);
+            pipeAccessory.LookupParameter("COD_Omschrijving").Set((string)parameters[12]);
+            pipeAccessory.LookupParameter("COD_Beschikbaar").Set((string)parameters[13]);
+        }
+
+        public static void SetCodraftParametersStrainer(List<object> parameters, FamilyInstance pipeAccessory)
+        {
+            pipeAccessory.LookupParameter("Buitendiameter").Set((double)parameters[0]);
+            pipeAccessory.LookupParameter("Hoogte").Set((double)parameters[1]);
+            pipeAccessory.LookupParameter("Lengte").Set((double)parameters[2]);
+            pipeAccessory.LookupParameter("Offset").Set((double)parameters[3]);
+            pipeAccessory.LookupParameter("Uiteinde_1_type").Set((int)parameters[4]);
+            pipeAccessory.LookupParameter("Uiteinde_2_type").Set((int)parameters[5]);
+            pipeAccessory.LookupParameter("Uiteinde_1_lengte").Set((double)parameters[6]);
+            pipeAccessory.LookupParameter("Uiteinde_2_lengte").Set((double)parameters[7]);
+            pipeAccessory.LookupParameter("Uiteinde_1_maat").Set((double)parameters[8]);
+            pipeAccessory.LookupParameter("Uiteinde_2_maat").Set((double)parameters[9]);
+            pipeAccessory.LookupParameter("COD_Fabrikant").Set((string)parameters[10]);
+            pipeAccessory.LookupParameter("COD_Type").Set((string)parameters[11]);
+            pipeAccessory.LookupParameter("COD_Materiaal").Set((string)parameters[12]);
+            pipeAccessory.LookupParameter("COD_Productcode").Set((string)parameters[13]);
+            pipeAccessory.LookupParameter("COD_Omschrijving").Set((string)parameters[14]);
+            pipeAccessory.LookupParameter("COD_Beschikbaar").Set((string)parameters[15]);
+        }
+
+        public static void SetCodraftParametersThreeWayGlobeValve(List<object> parameters, FamilyInstance pipeAccessory)
+        {
+            pipeAccessory.LookupParameter("Buitendiameter").Set((double)parameters[0]);
+            pipeAccessory.LookupParameter("Lengte").Set((double)parameters[1]);
+            pipeAccessory.LookupParameter("Lengte_3").Set((double)parameters[2]);
+            pipeAccessory.LookupParameter("Uiteinde_1_type").Set((int)parameters[3]);
+            pipeAccessory.LookupParameter("Uiteinde_2_type").Set((int)parameters[4]);
+            pipeAccessory.LookupParameter("Uiteinde_3_type").Set((int)parameters[5]);
+            pipeAccessory.LookupParameter("Uiteinde_1_lengte").Set((double)parameters[6]);
+            pipeAccessory.LookupParameter("Uiteinde_2_lengte").Set((double)parameters[7]);
+            pipeAccessory.LookupParameter("Uiteinde_3_lengte").Set((double)parameters[8]);
+            pipeAccessory.LookupParameter("Uiteinde_1_maat").Set((double)parameters[9]);
+            pipeAccessory.LookupParameter("Uiteinde_2_maat").Set((double)parameters[10]);
+            pipeAccessory.LookupParameter("Uiteinde_3_maat").Set((double)parameters[11]);
+            pipeAccessory.LookupParameter("Motor_lengte").Set((double)parameters[12]);
+            pipeAccessory.LookupParameter("Motor_breedte").Set((double)parameters[13]);
+            pipeAccessory.LookupParameter("Motor_hoogte").Set((double)parameters[14]);
+            pipeAccessory.LookupParameter("Hoogte_operator").Set((double)parameters[15]);
+            pipeAccessory.LookupParameter("Wormwiel_diameter").Set((double)parameters[16]);
+            pipeAccessory.LookupParameter("Wormwiel_lengte").Set((double)parameters[17]);
+            pipeAccessory.LookupParameter("COD_Fabrikant").Set((string)parameters[18]);
+            pipeAccessory.LookupParameter("COD_Type").Set((string)parameters[19]);
+            pipeAccessory.LookupParameter("COD_Materiaal").Set((string)parameters[20]);
+            pipeAccessory.LookupParameter("COD_Productcode").Set((string)parameters[21]);
+            pipeAccessory.LookupParameter("COD_Omschrijving").Set((string)parameters[22]);
+            pipeAccessory.LookupParameter("COD_Beschikbaar").Set((string)parameters[23]);
+        }
+
+        public static void SetCodraftParametersButterflyValve(List<object> parameters, FamilyInstance pipeAccessory)
+        {
+            pipeAccessory.LookupParameter("Buitendiameter_totaal").Set((double)parameters[0]);
+            pipeAccessory.LookupParameter("Lengte").Set((double)parameters[1]);
+            pipeAccessory.LookupParameter("Buitendiameter").Set((double)parameters[2]);
+            pipeAccessory.LookupParameter("Staaf_lengte").Set((double)parameters[3]);
+            pipeAccessory.LookupParameter("Hendel_lengte").Set((double)parameters[4]);
+            pipeAccessory.LookupParameter("Motor_lengte").Set((double)parameters[5]);
+            pipeAccessory.LookupParameter("Motor_hoogte").Set((double)parameters[6]);
+            pipeAccessory.LookupParameter("Motor_breedte").Set((double)parameters[7]);
+            pipeAccessory.LookupParameter("Blade_dikte").Set((double)parameters[8]);
+            pipeAccessory.LookupParameter("Blade_diameter").Set((double)parameters[9]);
+            pipeAccessory.LookupParameter("Wormwiel_diameter").Set((double)parameters[10]);
+            pipeAccessory.LookupParameter("Wormwiel_lengte").Set((double)parameters[11]);
+            pipeAccessory.LookupParameter("COD_Fabrikant").Set((string)parameters[12]);
+            pipeAccessory.LookupParameter("COD_Type").Set((string)parameters[13]);
+            pipeAccessory.LookupParameter("COD_Materiaal").Set((string)parameters[14]);
+            pipeAccessory.LookupParameter("COD_Productcode").Set((string)parameters[15]);
+            pipeAccessory.LookupParameter("COD_Omschrijving").Set((string)parameters[16]);
+            pipeAccessory.LookupParameter("COD_Beschikbaar").Set((string)parameters[17]);
+        }
     }
 }

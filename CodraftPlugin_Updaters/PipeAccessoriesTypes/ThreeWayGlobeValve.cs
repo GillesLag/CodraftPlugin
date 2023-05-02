@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CodraftPlugin_PipeAccessoriesWPF;
 
 namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
 {
@@ -26,41 +27,34 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
                 $"AND D1 = {this.Dn}";
         }
 
-        public override void CreateAccessory()
-        {
-            this.PipeAccessory.LookupParameter("Buitendiameter").Set((double)this.DatabaseParameters[0]);
-            this.PipeAccessory.LookupParameter("Lengte").Set((double)this.DatabaseParameters[1]);
-            this.PipeAccessory.LookupParameter("Lengte_3").Set((double)this.DatabaseParameters[2]);
-            this.PipeAccessory.LookupParameter("Uiteinde_1_type").Set((int)this.DatabaseParameters[3]);
-            this.PipeAccessory.LookupParameter("Uiteinde_2_type").Set((int)this.DatabaseParameters[4]);
-            this.PipeAccessory.LookupParameter("Uiteinde_3_type").Set((int)this.DatabaseParameters[5]);
-            this.PipeAccessory.LookupParameter("Uiteinde_1_lengte").Set((double)this.DatabaseParameters[6]);
-            this.PipeAccessory.LookupParameter("Uiteinde_2_lengte").Set((double)this.DatabaseParameters[7]);
-            this.PipeAccessory.LookupParameter("Uiteinde_3_lengte").Set((double)this.DatabaseParameters[8]);
-            this.PipeAccessory.LookupParameter("Uiteinde_1_maat").Set((double)this.DatabaseParameters[9]);
-            this.PipeAccessory.LookupParameter("Uiteinde_2_maat").Set((double)this.DatabaseParameters[10]);
-            this.PipeAccessory.LookupParameter("Uiteinde_3_maat").Set((double)this.DatabaseParameters[11]);
-            this.PipeAccessory.LookupParameter("Motor_lengte").Set((double)this.DatabaseParameters[12]);
-            this.PipeAccessory.LookupParameter("Motor_breedte").Set((double)this.DatabaseParameters[13]);
-            this.PipeAccessory.LookupParameter("Motor_hoogte").Set((double)this.DatabaseParameters[14]);
-            this.PipeAccessory.LookupParameter("Hoogte_operator").Set((double)this.DatabaseParameters[15]);
-            this.PipeAccessory.LookupParameter("Wormwiel_diameter").Set((double)this.DatabaseParameters[16]);
-            this.PipeAccessory.LookupParameter("Wormwiel_lengte").Set((double)this.DatabaseParameters[17]);
-            this.PipeAccessory.LookupParameter("COD_Fabrikant").Set((string)this.DatabaseParameters[18]);
-            this.PipeAccessory.LookupParameter("COD_Type").Set((string)this.DatabaseParameters[19]);
-            this.PipeAccessory.LookupParameter("COD_Materiaal").Set((string)this.DatabaseParameters[20]);
-            this.PipeAccessory.LookupParameter("COD_Productcode").Set((string)this.DatabaseParameters[21]);
-            this.PipeAccessory.LookupParameter("COD_Omschrijving").Set((string)this.DatabaseParameters[21]);
-            this.PipeAccessory.LookupParameter("COD_Beschikbaar").Set((string)this.DatabaseParameters[22]);
-        }
-
-        public override bool GetParams()
+        public override bool? GetParams()
         {
             List<object> parametersList;
 
             if (FileOperationsPipeAccessories.LookupThreeWayValve(Query, QueryCount, ConnectionString, out parametersList))
             {
-                //TODO meerdere keuzes van de database afhandelen.
+                if (FileOperations.IsFound(CallingParams, RememberMeFilePath, out List<string> parameters))
+                {
+                    List<object> correctList = new List<object>();
+
+                    correctList.AddRange(parameters.GetRange(0, 3).Select(x => (object)double.Parse(x)));
+                    correctList.AddRange(parameters.GetRange(3, 3).Select(x => (object)int.Parse(x)));
+                    correctList.AddRange(parameters.GetRange(6, 12).Select(x => (object)double.Parse(x)));
+                    correctList.AddRange(parameters.GetRange(18, 6));
+
+                    this.DatabaseParameters = correctList;
+                    return true;
+                }
+
+                string typeName = this.ToString();
+                string name = typeName.Substring(typeName.LastIndexOf('.') + 1);
+                MainWindow accessoryWindow = new MainWindow(PipeAccessory, name, ConnectionString, Query, DatabaseFilePath, CallingParams);
+                accessoryWindow.ShowDialog();
+
+                if (accessoryWindow.hasChosenAccessory)
+                    return null;
+
+                return false;
             }
 
             if (!parametersList.Any()) return false;
