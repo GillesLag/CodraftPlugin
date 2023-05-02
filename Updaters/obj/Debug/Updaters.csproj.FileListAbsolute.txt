@@ -1,6 +1,0 @@
-C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\Updaters\bin\Debug\Updaters.dll
-C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\Updaters\bin\Debug\Updaters.pdb
-C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\Updaters\obj\Debug\Updaters.csproj.AssemblyReference.cache
-C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\Updaters\obj\Debug\Updaters.csproj.CoreCompileInputs.cache
-C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\Updaters\obj\Debug\Updaters.dll
-C:\Users\gilles.lagrilliere\Documents\CodraftPlugin\Updaters\obj\Debug\Updaters.pdb
