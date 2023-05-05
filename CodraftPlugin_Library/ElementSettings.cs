@@ -38,11 +38,11 @@ namespace CodraftPlugin_Library
                 pipe.LookupParameter(startOnder).Set(startOffset > eindeOffset ? startOffset - diameter / 2 : eindeOffset - diameter / 2);
                 pipe.LookupParameter(eindeOnder).Set(eindeOffset > startOffset ? startOffset - diameter / 2 : eindeOffset - diameter / 2);
             }
-            catch (NullReferenceException)
+            catch (NullReferenceException ex)
             {
                 TaskDialog td = new TaskDialog("ProjectParameters Fout");
-                td.MainInstruction = "Niet alle project parameters zijn toegevoegd voor de pipes.";
-                td.ExpandedContent = "De volgende project paramters moeten toegevoegd zijn in het project voor alle pipes.\n" +
+                td.MainInstruction = "Niet alle project parameters zijn toegevoegd voor de pipes.\n\nZie details voor meer info.";
+                td.ExpandedContent = "De volgende projectparamters moeten toegevoegd zijn in het project voor alle pipes.\n" +
                     "COD_bovenkant_buis_start,\n" +
                     "COD_bovenkant_buis_einde,\n" +
                     "COD_center_buis_start,\n" +

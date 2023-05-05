@@ -311,7 +311,6 @@ namespace CodraftPlugin_Loading
                 .Cast<FamilySymbol>()
                 .Where(x => x.Name == "Elbow" || x.Name == "Transition_Concentrisch" || x.Name == "Transition_Excentrisch" || x.Name == "Tee" || x.Name == "Tap" || x.Name == "Cap");
 
-
             List<List<object>> pipeTypeList = FileOperations.GetPipeTypes(pipeTypeQuery, connection);
             List<string> segmentList = new List<string>();
             List<(double minDn, double maxDn)> minMaxDnList = new List<(double, double)> ();

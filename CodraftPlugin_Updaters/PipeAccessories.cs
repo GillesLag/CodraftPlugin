@@ -4,10 +4,12 @@ using Autodesk.Revit.UI;
 using CodraftPlugin_DAL;
 using CodraftPlugin_Exceptions;
 using CodraftPlugin_Library;
+using CodraftPlugin_Loading;
 using CodraftPlugin_Updaters.PipeAccessoriesTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 
 namespace CodraftPlugin_Updaters
 {
@@ -18,6 +20,7 @@ namespace CodraftPlugin_Updaters
         private List<ElementId> _updatedElementids = new List<ElementId>();
         private string _pipeAccessoryName;
         private Guid failureGuidPipeAccessories = new Guid("4B81D4C5-185C-4830-8ECF-67370ADB06B0");
+        private string globalParameterName = "RevitProjectMap";
 
         public UpdaterId Id { get; set; }
 
@@ -29,9 +32,31 @@ namespace CodraftPlugin_Updaters
         public void Execute(UpdaterData data)
         {
             Document doc = data.GetDocument();
-            string projectMapPath = doc.PathName;
-            string databasesMapPath = projectMapPath.Substring(0, projectMapPath.LastIndexOf('\\') + 1) + @"RevitDatabases\";
-            string textFilesMapPath = projectMapPath.Substring(0, projectMapPath.LastIndexOf("\\") + 1) + @"RevitTextFiles\";
+            string projectMapPath;
+            string databasesMapPath;
+            string textFilesMapPath;
+
+            ElementId globalParameter = GlobalParametersManager.FindByName(doc, globalParameterName);
+
+            if (globalParameter == ElementId.InvalidElementId)
+            {
+                projectMapPath = GlobalParameters.SetGlobalParameter(doc, globalParameterName);
+            }
+            else
+            {
+                GlobalParameter revitProjectMapParameter = (GlobalParameter)doc.GetElement(globalParameter);
+                projectMapPath = ((StringParameterValue)revitProjectMapParameter.GetValue()).Value;
+            }
+
+            if (projectMapPath.Contains("(user)"))
+            {
+                string username = WindowsIdentity.GetCurrent().Name.Split('\\')[1];
+                projectMapPath = projectMapPath.Replace("(user)", username);
+            }
+
+            databasesMapPath = projectMapPath + @"\RevitDatabases\";
+            textFilesMapPath = projectMapPath + @"\RevitTextFiles\";
+
             FailureDefinitionId warning = new FailureDefinitionId(failureGuidPipeAccessories);
             FailureMessage fm = new FailureMessage(warning);
 

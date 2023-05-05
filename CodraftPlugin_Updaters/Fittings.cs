@@ -5,8 +5,10 @@ using CodraftPlugin_Exceptions;
 using CodraftPlugin_Library;
 using CodraftPlugin_Updaters.FittingTypes;
 using System;
+using System.Security.Principal;
 using System.Collections.Generic;
 using System.Linq;
+using CodraftPlugin_Loading;
 
 namespace CodraftPlugin_Updaters
 {
@@ -20,8 +22,7 @@ namespace CodraftPlugin_Updaters
         private Transition transition;
         private Tap tap;
         private Guid failureGuidPipeFittings = new Guid("45DFD462-806E-4B43-AA78-657851A2A38B");
-
-
+        private string globalParameterName = "RevitProjectMap";
 
         private readonly string[] fittingTypes =
         {
@@ -40,13 +41,37 @@ namespace CodraftPlugin_Updaters
         {
             // Get all the basic info from the document
             Document doc = data.GetDocument();
-            string projectMapPath = doc.PathName;
-            string databasesMapPath = projectMapPath.Substring(0, projectMapPath.LastIndexOf('\\') + 1) + @"RevitDatabases\";
-            string insulationDatabasePath = databasesMapPath + @"Isolatie.accdb";
-            string textFilesMapPath = projectMapPath.Substring(0, projectMapPath.LastIndexOf("\\") + 1) + @"RevitTextFiles\";
+
+            string projectMapPath;
+            string databasesMapPath;
+            string insulationDatabasePath;
+            string textFilesMapPath;
+
+            // Check globalparater for projectfoldermap
+            ElementId globalParameter = GlobalParametersManager.FindByName(doc, globalParameterName);
+
+            if (globalParameter == ElementId.InvalidElementId)
+            {
+                projectMapPath = GlobalParameters.SetGlobalParameter(doc, globalParameterName);
+            }
+            else
+            {
+                GlobalParameter revitProjectMapParameter = (GlobalParameter)doc.GetElement(globalParameter);
+                projectMapPath = ((StringParameterValue)revitProjectMapParameter.GetValue()).Value;
+            }
+
+            if (projectMapPath.Contains("(user)"))
+            {
+                string username = WindowsIdentity.GetCurrent().Name.Split('\\')[1];
+                projectMapPath = projectMapPath.Replace("(user)", username);
+            }
+
+            databasesMapPath = projectMapPath + @"\RevitDatabases\";
+            insulationDatabasePath = databasesMapPath + @"Isolatie.accdb";
+            textFilesMapPath = projectMapPath + @"\RevitTextFiles\";
+
             FailureDefinitionId warning = new FailureDefinitionId(failureGuidPipeFittings);
             FailureMessage fm = new FailureMessage(warning);
-
 
             //
             // Update added fittings.

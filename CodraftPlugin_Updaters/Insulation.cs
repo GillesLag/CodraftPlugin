@@ -3,9 +3,11 @@ using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using CodraftPlugin_DAL;
 using CodraftPlugin_Library;
+using CodraftPlugin_Loading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 
 namespace CodraftPlugin_Updaters
 {
@@ -14,6 +16,7 @@ namespace CodraftPlugin_Updaters
         const float feetToMm = 304.8f;
 
         private Guid _guid = new Guid("DC47C2BD-17D8-4C21-8216-582CA8C543D7");
+        private string globalParameterName = "RevitProjectMap";
         public UpdaterId Id { get; set; }
 
         public Insulation(AddInId addInId)
@@ -24,8 +27,29 @@ namespace CodraftPlugin_Updaters
         public void Execute(UpdaterData data)
         {
             Document doc = data.GetDocument();
-            string projectMapPath = doc.PathName;
-            string databasesMapPath = projectMapPath.Substring(0, projectMapPath.LastIndexOf('\\') + 1) + @"RevitDatabases\Isolatie.accdb";
+            string projectMapPath;
+            string databasesMapPath;
+
+            // Check globalparater for projectfoldermap
+            ElementId globalParameter = GlobalParametersManager.FindByName(doc, globalParameterName);
+
+            if (globalParameter == ElementId.InvalidElementId)
+            {
+                projectMapPath = GlobalParameters.SetGlobalParameter(doc, globalParameterName);
+            }
+            else
+            {
+                GlobalParameter revitProjectMapParameter = (GlobalParameter)doc.GetElement(globalParameter);
+                projectMapPath = ((StringParameterValue)revitProjectMapParameter.GetValue()).Value;
+            }
+
+            if (projectMapPath.Contains("(user)"))
+            {
+                string username = WindowsIdentity.GetCurrent().Name.Split('\\')[1];
+                projectMapPath = projectMapPath.Replace("(user)", username);
+            }
+
+            databasesMapPath = projectMapPath + @"\RevitDatabases\Isolatie.accdb";
 
             foreach (ElementId elemId in data.GetAddedElementIds())
             {
@@ -53,7 +77,8 @@ namespace CodraftPlugin_Updaters
                         continue;
 
                     string systemType = pipe.get_Parameter(BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).AsValueString();
-                    int nominaleDiameter = int.Parse(pipe.get_Parameter(BuiltInParameter.RBS_CALCULATED_SIZE).AsString().Split(' ').First());
+                    char[] numbersCharArray = pipe.get_Parameter(BuiltInParameter.RBS_CALCULATED_SIZE).AsString().TakeWhile(x => int.TryParse(x.ToString(), out _)).ToArray();
+                    int nominaleDiameter = int.Parse(new string(numbersCharArray));
 
                     string query = $"SELECT *" +
                     $" FROM IsolatieTabel" +

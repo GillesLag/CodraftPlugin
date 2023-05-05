@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -114,6 +115,10 @@
     <ProjectReference Include="..\CodraftPlugin_DAL\CodraftPlugin_DAL.csproj">
       <Project>{043ed940-1cec-40e5-90ee-2f2e8d06b422}</Project>
       <Name>CodraftPlugin_DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodraftPlugin_Library\CodraftPlugin_Library.csproj">
+      <Project>{68e31e0b-9a82-4630-9aac-370244c7bf7d}</Project>
+      <Name>CodraftPlugin_Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\CodraftPlugin_UpdateAllInsulation\CodraftPlugin_UpdateAllInsulation.csproj">
       <Project>{edff2001-487e-4715-b1c1-12c5c5aa334d}</Project>

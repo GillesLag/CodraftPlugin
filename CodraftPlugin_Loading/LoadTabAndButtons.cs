@@ -4,7 +4,11 @@ using CodraftPlugin_Updaters;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Security.Principal;
+using System.Windows.Forms;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using CodraftPlugin_Library;
 
 namespace CodraftPlugin_Loading
 {
@@ -12,6 +16,7 @@ namespace CodraftPlugin_Loading
     {
         // Get the assembly name
         private string assemblyPath = Assembly.GetExecutingAssembly().Location;
+        private const string globalParameterName = "RevitProjectMap";
 
         /// <summary>
         /// Creates a tabname, ribbonpanels and the buttons
@@ -180,6 +185,10 @@ namespace CodraftPlugin_Loading
                 FailureDefinition fittingBestaatNiet = FailureDefinition.CreateFailureDefinition(warningFittings, FailureSeverity.Warning, "Fitting bestaat niet!");
                 FailureDefinition AccessoryBestaatNiet = FailureDefinition.CreateFailureDefinition(warningAccesories, FailureSeverity.Warning, "PipeAccessory bestaat niet!");
 
+                application.ControlledApplication.DocumentOpened += ControlledApplication_DocumentOpened;
+                application.ControlledApplication.DocumentCreated += ControlledApplication_DocumentCreated;
+                application.ControlledApplication.DocumentSaving += ControlledApplication_DocumentSaving;
+                application.ControlledApplication.DocumentSavedAs += ControlledApplication_DocumentSavedAs;
                 return Result.Succeeded;
             }
 
@@ -188,6 +197,44 @@ namespace CodraftPlugin_Loading
 
                 return Result.Failed;
             }
+        }
+
+        private void ControlledApplication_DocumentSaving(object sender, Autodesk.Revit.DB.Events.DocumentSavingEventArgs e)
+        {
+            Document doc = e.Document;
+            Transaction t = new Transaction(doc, "Set global parameter");
+            t.Start();
+
+            GlobalParameters.SetGlobalParameter(doc, globalParameterName);
+
+            t.Commit();
+        }
+
+        private void ControlledApplication_DocumentCreated(object sender, Autodesk.Revit.DB.Events.DocumentCreatedEventArgs e)
+        {
+            TaskDialog.Show("Nieuw Project", "Slaag het project eerst op vooraleer je verder gaat.");
+        }
+
+        private void ControlledApplication_DocumentSavedAs(object sender, Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs e)
+        {
+            Document doc = e.Document;
+            Transaction t = new Transaction(doc, "Set global parameter");
+            t.Start();
+
+            GlobalParameters.SetGlobalParameter(doc, globalParameterName);
+
+            t.Commit();
+        }
+
+        private void ControlledApplication_DocumentOpened(object sender, Autodesk.Revit.DB.Events.DocumentOpenedEventArgs e)
+        {
+            Document doc = e.Document;
+            Transaction t = new Transaction(doc, "Set global parameter");
+            t.Start();
+
+            GlobalParameters.SetGlobalParameter(doc, globalParameterName);
+
+            t.Commit();
         }
     }
 }
