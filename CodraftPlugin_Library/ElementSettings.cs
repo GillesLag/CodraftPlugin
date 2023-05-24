@@ -10,6 +10,7 @@ namespace CodraftPlugin_Library
     public static class ElementSettings
     {
         const float feetToMm = 304.8f;
+        const float radsToDegrees = 57.2958f;
 
         /// <summary>
         /// Set the parameters for a pipe element.
@@ -179,7 +180,7 @@ namespace CodraftPlugin_Library
             fi.LookupParameter("Uiteinde_1_lengte").Set((double)parameters[7]);
             fi.LookupParameter("Uiteinde_2_lengte").Set((double)parameters[8]);
             fi.LookupParameter("Flens_dikte").Set((double)parameters[9]);
-            fi.LookupParameter("Standaard_hoek").Set((double)parameters[10]);
+            fi.LookupParameter("Standaard_hoek").Set((double)parameters[10] / radsToDegrees);
             fi.LookupParameter("COD_Fabrikant").Set((string)parameters[11]);
             fi.LookupParameter("COD_Type").Set((string)parameters[12]);
             fi.LookupParameter("COD_Materiaal").Set((string)parameters[13]);

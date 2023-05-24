@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodraftPlugin_UpdateAllInsu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodraftPlugin_PipeAccessoriesWPF", "CodraftPlugin_PipeAccessoriesWPF\CodraftPlugin_PipeAccessoriesWPF.csproj", "{28E4316B-6287-4649-BBD7-5BEFAB05A2B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartWerkomgevingWPF", "StartWerkomgevingWPF\StartWerkomgevingWPF.csproj", "{D361A5C9-C3BB-404A-893D-AAD37A670690}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{28E4316B-6287-4649-BBD7-5BEFAB05A2B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28E4316B-6287-4649-BBD7-5BEFAB05A2B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28E4316B-6287-4649-BBD7-5BEFAB05A2B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D361A5C9-C3BB-404A-893D-AAD37A670690}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D361A5C9-C3BB-404A-893D-AAD37A670690}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D361A5C9-C3BB-404A-893D-AAD37A670690}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D361A5C9-C3BB-404A-893D-AAD37A670690}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

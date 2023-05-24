@@ -1,0 +1,45 @@
+﻿<Window x:Class="StartWerkomgevingWPF.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StartWerkomgevingWPF.Views" 
+        mc:Ignorable="d"
+        Title="MainView" Height="450" Width="800" WindowStartupLocation="CenterScreen" FontSize="16">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid ItemsSource="{Binding Mediums}" SelectedItem="{Binding GeselecteerdeMedium}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Medium" Binding="{Binding Naam}" />
+                <DataGridTextColumn Header="Afkorting" Binding="{Binding Afkorting}" />
+                <DataGridTextColumn Header="Fabrikant" Binding="{Binding Fabrikant}"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding Type}"/>
+                <DataGridTextColumn Header="DN 1" Binding="{Binding NominaleDiameter1}"/>
+                <DataGridTextColumn Header="DN 2" Binding="{Binding NominaleDiameter2}"/>
+                <DataGridTextColumn Header="Kleur" Width="100">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Background" Value="{Binding Kleur, Mode=OneWay}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Margin="5">
+            <Button Content="Aanpassen" Width="150" Margin="0,0,10,0"
+                    Command="{Binding}" CommandParameter="Aanpassen"/>
+            <Button Content="Update" Width="150"
+                    Command="{Binding}" CommandParameter="Update"/>
+        </StackPanel>
+    </Grid>
+</Window>

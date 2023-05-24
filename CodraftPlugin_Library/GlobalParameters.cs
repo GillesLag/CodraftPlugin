@@ -1,12 +1,15 @@
 ﻿using System;
-using System.CodeDom;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Principal;
+using System.Text;
+using System.Threading.Tasks;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
-namespace CodraftPlugin_Loading
+namespace CodraftPlugin_Library
 {
     public static class GlobalParameters
     {

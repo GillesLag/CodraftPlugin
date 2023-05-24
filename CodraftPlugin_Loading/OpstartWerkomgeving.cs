@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Autodesk.Revit.Attributes;
 using CodraftPlugin_Updaters;
 using System.Windows.Controls;
+using CodraftPlugin_Library;
+using System.Security.Principal;
 
 namespace CodraftPlugin_Loading
 {
@@ -26,15 +28,42 @@ namespace CodraftPlugin_Loading
         private string joinSegmentAndSizesQuery = "SELECT * FROM SegmentSize";
         private string insulMaterialQuery = "SELECT * FROM IsolatieMateriaal";
         private string connection = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"";
+        private readonly string globalParameterName = "RevitProjectMap";
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             UIApplication uiapp = commandData.Application;
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Document doc = uidoc.Document;
 
-            string pathProject = doc.PathName.Substring(0, doc.PathName.LastIndexOf("\\") + 1);
-            string pathDatabase = pathProject + @"RevitDatabases\OpstartWerkomgeving_Revit.accdb" + "\"";
-            connection += pathDatabase;
+            string pathProject;
+            string pathDatabase;
+
+            // Check globalparameter for projectfoldermap
+            ElementId globalParameter = GlobalParametersManager.FindByName(doc, globalParameterName);
+
+            if (globalParameter == ElementId.InvalidElementId)
+            {
+                Transaction t = new Transaction(doc, "Globalparameter instellen");
+                t.Start();
+
+                pathProject = GlobalParameters.SetGlobalParameter(doc, globalParameterName);
+
+                t.Commit();
+            }
+            else
+            {
+                GlobalParameter revitProjectMapParameter = (GlobalParameter)doc.GetElement(globalParameter);
+                pathProject = ((StringParameterValue)revitProjectMapParameter.GetValue()).Value;
+            }
+
+            if (pathProject.Contains("(user)"))
+            {
+                string username = WindowsIdentity.GetCurrent().Name.Split('\\')[1];
+                pathProject = pathProject.Replace("(user)", username);
+            }
+
+            pathDatabase = pathProject + @"\RevitDatabases\OpstartWerkomgeving_Revit.accdb";
+            connection += pathDatabase + "\"";
 
 
             // Add all materials
@@ -143,7 +172,7 @@ namespace CodraftPlugin_Loading
                     mat = (string)row[1];
                 }
 
-                double insideDiameterDatabase = (double)row[4];
+                double insideDiameterDatabase = (double)row[3];
                 double insideDiameter = insideDiameterDatabase <= 0 ? 0.5 : insideDiameterDatabase;
 
                 MEPSize ms = new MEPSize((double)row[2] / feetToMm, insideDiameter / feetToMm, (double)row[4] / feetToMm, true, true);
@@ -355,7 +384,7 @@ namespace CodraftPlugin_Loading
                     .Single(x => x.Name == segmentList[j]);
 
                 // Create segment rule.
-                RoutingPreferenceRule rprSegment = new RoutingPreferenceRule(ps.Id, "segment");
+                RoutingPreferenceRule rprSegment = new RoutingPreferenceRule(ps.Id, "COD_" + segmentList[j]);
                 rprSegment.AddCriterion(new PrimarySizeCriterion(minMaxDn[j].minDn / feetToMm, minMaxDn[j].maxDn / feetToMm));
 
                 // Create fitting rules.

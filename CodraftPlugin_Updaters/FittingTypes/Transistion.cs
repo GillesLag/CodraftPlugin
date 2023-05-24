@@ -46,13 +46,13 @@ namespace CodraftPlugin_Updaters.FittingTypes
                 $" FROM BMP_TransitionTbl" +
                 $" WHERE Nominale_diameter_1 = {this.Nd1}" +
                 $" AND Nominale_diameter_2 = {this.Nd2}" +
-                $" AND Excentrisch = \"{this.Excentrisch}\";";
+                $" AND Excentrisch = {this.Excentrisch};";
 
             StrCountSQL = $"SELECT COUNT(*)" +
                 $" FROM BMP_TransitionTbl" +
                 $" WHERE Nominale_diameter_1 = {this.Nd1}" +
                 $" AND Nominale_diameter_2 = {this.Nd2}" +
-                $" AND Excentrisch = \"{this.Excentrisch}\";";
+                $" AND Excentrisch = {this.Excentrisch};";
 
         }
 

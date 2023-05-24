@@ -34,11 +34,11 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPI.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPIUI.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -62,6 +62,7 @@
     <Compile Include="HoldClouds.cs" />
     <Compile Include="JtWindowHandle.cs" />
     <Compile Include="LoadTabAndButtons.cs" />
+    <Compile Include="OpenStartWerkomgevingWPF.cs" />
     <Compile Include="OpenUpdateAllInsulation.cs" />
     <Compile Include="OpstartWerkomgeving.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -131,6 +132,10 @@
     <ProjectReference Include="..\FilterElementSelection_WPF\FilterElementSelection_WPF.csproj">
       <Project>{26940a8c-ea2e-4037-be8a-6881ef6a8e93}</Project>
       <Name>FilterElementSelection_WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StartWerkomgevingWPF\StartWerkomgevingWPF.csproj">
+      <Project>{d361a5c9-c3bb-404a-893d-aad37a670690}</Project>
+      <Name>StartWerkomgevingWPF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
