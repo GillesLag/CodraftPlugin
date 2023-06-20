@@ -23,7 +23,7 @@ namespace CodraftPlugin_Updaters.FittingTypes
 
             this.TextFilesMapPath = textFilesMapPath;
             this.RememberMeFile = textFilesMapPath + "RememberMe_New.txt";
-            this.DatabaseFile = this.SystemType + ".mdb";
+            this.DatabaseFile = this.SystemType + ".accdb";
             this.ConnectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={databaseMapPath}{this.DatabaseFile}";
             this.DatabaseFilePath = databaseMapPath + this.DatabaseFile;
         }
