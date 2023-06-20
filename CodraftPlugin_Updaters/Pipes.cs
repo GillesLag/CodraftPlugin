@@ -45,6 +45,11 @@ namespace CodraftPlugin_Updaters
                     // Get systemname from pipe
                     string systemName = pipe.Name.Split('%').First();
 
+                    if (systemName.Contains("PI"))
+                    {
+                        systemName = systemName.Replace("PI", "PIS");
+                    }
+
                     // Delete pipe if systemname does  not exist.
                     if (!systemNames.Contains(systemName))
                     {

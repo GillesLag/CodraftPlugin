@@ -6,13 +6,11 @@ using CodraftPlugin_DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autodesk.Revit.Attributes;
-using CodraftPlugin_Updaters;
-using System.Windows.Controls;
 using CodraftPlugin_Library;
 using System.Security.Principal;
+using Autodesk.Revit.ApplicationServices;
+using CodraftPlugin_Updaters;
 
 namespace CodraftPlugin_Loading
 {
@@ -29,11 +27,39 @@ namespace CodraftPlugin_Loading
         private string insulMaterialQuery = "SELECT * FROM IsolatieMateriaal";
         private string connection = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"";
         private readonly string globalParameterName = "RevitProjectMap";
+        private bool fUpdaterChanged = false;
+        private bool pUpdaterChanged = false;
+        private bool iUpdaterChanged = false;
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             UIApplication uiapp = commandData.Application;
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Document doc = uidoc.Document;
+            Application app = doc.Application;
+
+            //Check if the updaters are active
+            Fittings fUpdater = new Fittings(uiapp.ActiveAddInId);
+            Pipes pUpdater = new Pipes(uiapp.ActiveAddInId);
+            Insulation iUpdater = new Insulation(uiapp.ActiveAddInId);
+
+            if (UpdaterRegistry.IsUpdaterEnabled(fUpdater.GetUpdaterId()))
+            {
+                ButtonHandler.EnableDisable(fUpdater, "fittingUpdater", "FittingUpdater", uiapp);
+                fUpdaterChanged = true;
+            }
+
+            if (UpdaterRegistry.IsUpdaterEnabled(pUpdater.GetUpdaterId()))
+            {
+                ButtonHandler.EnableDisable(pUpdater, "pipeUpdater", "PipeUpdater", uiapp);
+                pUpdaterChanged = true;
+            }
+
+            if (UpdaterRegistry.IsUpdaterEnabled(iUpdater.GetUpdaterId()))
+            {
+                ButtonHandler.EnableDisable(iUpdater, "insulationUpdater", "InsulationUpdater", uiapp);
+                iUpdaterChanged = true;
+            }
 
             string pathProject;
             string pathDatabase;
@@ -65,6 +91,53 @@ namespace CodraftPlugin_Loading
             pathDatabase = pathProject + @"\RevitDatabases\OpstartWerkomgeving_Revit.accdb";
             connection += pathDatabase + "\"";
 
+
+            // Add all projectparameters
+            Transaction addParameters = new Transaction(doc, "addProjectParameters");
+
+            app.SharedParametersFilename = pathProject + @"\RevitTextFiles\COD_project_parameters.txt";
+            DefinitionFile defFile = app.OpenSharedParameterFile();
+
+            var pipeProjectParameters = defFile.Groups.First(g => g.Name == "Constraints_Piping");
+            var codIsolatieProjectParameter = defFile.Groups.First(g => g.Name == "Other_Fittings/Piping");
+            var categorySet = new CategorySet();
+            categorySet.Insert(Category.GetCategory(doc, BuiltInCategory.OST_PipeCurves));
+
+            addParameters.Start();
+            foreach (var item in pipeProjectParameters.Definitions)
+            {
+                Binding binding = app.Create.NewInstanceBinding(categorySet);
+                BindingMap map = doc.ParameterBindings;
+                map.Insert(item, binding, BuiltInParameterGroup.PG_CONSTRAINTS);
+            }
+
+            categorySet.Insert(Category.GetCategory(doc, BuiltInCategory.OST_PipeFitting));
+
+            foreach (var item in codIsolatieProjectParameter.Definitions)
+            {
+                Binding binding = app.Create.NewInstanceBinding(categorySet);
+                BindingMap map = doc.ParameterBindings;
+                map.Insert(item, binding, BuiltInParameterGroup.PG_INSULATION);
+            }
+            addParameters.Commit();
+
+            // Add COD families
+            Transaction famTran = new Transaction(doc, "Add Families");
+            string bocht = pathProject + @"\RevitFamilies\COD_50_PIF_UN_Bocht_gen_BERSnl.rfa";
+            string cap = pathProject + @"\RevitFamilies\COD_50_PIF_UN_Cap_gen_BERSnl.rfa";
+            string reductie = pathProject + @"\RevitFamilies\COD_50_PIF_UN_Reductie_gen_BERSnl.rfa";
+            string tstuk = pathProject + @"\RevitFamilies\COD_50_PIF_UN_T_Stuk_gen_BERSnl.rfa";
+            string tap = pathProject + @"\RevitFamilies\COD_50_PIF_UN_Tap_gen_BERSnl.rfa";
+            string[] allCodFamilies = new string[] {bocht,  cap, reductie, tap, tstuk};
+
+            famTran.Start();
+
+            foreach (string family in allCodFamilies)
+            {
+                doc.LoadFamily(family);
+            }
+
+            famTran.Commit();
 
             // Add all materials
             Transaction matTrans = new Transaction(doc, "AddMaterials");
@@ -351,6 +424,11 @@ namespace CodraftPlugin_Loading
             for (int i = 0; i < pipeTypeList.Count; i++)
             {
                 string newName = (string)pipeTypeList[i][1];
+                if (newName.Contains("PIS"))
+                {
+                    newName = newName.Replace("PIS", "PI");
+                }
+
                 if (newName != ptName)
                 {
                     PipeTypesToevoegen(segmentList, ptName, pt, fsFittings, minMaxDnList, teeOrTap, excenOrConcen, doc);
@@ -367,6 +445,22 @@ namespace CodraftPlugin_Loading
             }
 
             PipeTypesToevoegen(segmentList, ptName, pt, fsFittings, minMaxDnList, teeOrTap, excenOrConcen, doc);
+
+
+            if (fUpdaterChanged)
+            {
+                ButtonHandler.EnableDisable(fUpdater, "fittingUpdater", "FittingUpdater", uiapp);
+            }
+
+            if (pUpdaterChanged)
+            {
+                ButtonHandler.EnableDisable(pUpdater, "pipeUpdater", "PipeUpdater", uiapp);
+            }
+
+            if (iUpdaterChanged)
+            {
+                ButtonHandler.EnableDisable(iUpdater, "insulationUpdater", "InsulationUpdater", uiapp);
+            }
 
             return Result.Succeeded;
         }
@@ -432,7 +526,7 @@ namespace CodraftPlugin_Loading
                     RoutingPreferenceManager rpm = nieuwPt.RoutingPreferenceManager;
 
                     // Add segment rules.
-                    rpm.AddRule(RoutingPreferenceRuleGroupType.Segments, rprSegment);
+                    rpm.AddRule(RoutingPreferenceRuleGroupType.Segments, rprSegment, 0);
 
                     if (j == 0)
                     {
@@ -443,18 +537,41 @@ namespace CodraftPlugin_Loading
                             rpm.PreferredJunctionType = PreferredJunctionType.Tap;
 
                         // Add fitting rules.
-                        rpm.AddRule(RoutingPreferenceRuleGroupType.Elbows, rprElbow);
-                        rpm.AddRule(RoutingPreferenceRuleGroupType.Caps, rprCap);
-                        rpm.AddRule(RoutingPreferenceRuleGroupType.Junctions, rprTee);
-                        rpm.AddRule(RoutingPreferenceRuleGroupType.Transitions, rprTran);
+                        rpm.AddRule(RoutingPreferenceRuleGroupType.Elbows, rprElbow, 0);
+                        rpm.AddRule(RoutingPreferenceRuleGroupType.Caps, rprCap, 0);
+                        rpm.AddRule(RoutingPreferenceRuleGroupType.Junctions, rprTee, 0);
+                        rpm.AddRule(RoutingPreferenceRuleGroupType.Transitions, rprTran, 0);
 
                         // Delete default rule.
-                        rpm.RemoveRule(RoutingPreferenceRuleGroupType.Segments, 0);
+                        for (int i = 0; i < 5; i++)
+                        {
+                            int rules = 0;
+                            switch (i)
+                            {
+                                case 0: rules = rpm.GetNumberOfRules(RoutingPreferenceRuleGroupType.Segments); break;
+                                case 1: rules = rpm.GetNumberOfRules(RoutingPreferenceRuleGroupType.Elbows); break;
+                                case 2: rules = rpm.GetNumberOfRules(RoutingPreferenceRuleGroupType.Caps); break;
+                                case 3: rules = rpm.GetNumberOfRules(RoutingPreferenceRuleGroupType.Junctions); break;
+                                case 4: rules = rpm.GetNumberOfRules(RoutingPreferenceRuleGroupType.Transitions); break;
+                            }
+
+                            for (int k = 1; k < rules; k++)
+                            {
+                                switch (i)
+                                {
+                                    case 0: rpm.RemoveRule(RoutingPreferenceRuleGroupType.Segments, 1); break;
+                                    case 1: rpm.RemoveRule(RoutingPreferenceRuleGroupType.Elbows, 1); break;
+                                    case 2: rpm.RemoveRule(RoutingPreferenceRuleGroupType.Caps, 1); break;
+                                    case 3: rpm.RemoveRule(RoutingPreferenceRuleGroupType.Junctions, 1); break;
+                                    case 4: rpm.RemoveRule(RoutingPreferenceRuleGroupType.Transitions, 1); break;
+                                }
+                            }
+                        }
                     }
 
                     ptTrans.Commit();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     ptTrans.Commit();
                     continue;
