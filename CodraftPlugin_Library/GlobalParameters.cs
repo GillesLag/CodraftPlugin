@@ -70,8 +70,8 @@ namespace CodraftPlugin_Library
             if (centralModelPath != null)
             {
                 string path = ModelPathUtils.ConvertModelPathToUserVisiblePath(centralModelPath);
-                path = path.Substring(0, path.LastIndexOf('\\'));
 
+                path = path.Substring(0, path.LastIndexOf('\\'));
                 return GetPathName(path, username);
             }
 

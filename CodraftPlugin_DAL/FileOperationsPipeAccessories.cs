@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using Autodesk.Revit.DB;
 using System.Security.Cryptography;
+using Newtonsoft.Json.Linq;
 
 namespace CodraftPlugin_DAL
 {
@@ -13,7 +14,7 @@ namespace CodraftPlugin_DAL
     {
         private const double feetToMm = 304.8;
 
-        public static bool LookupBalanceValve(string query, string queryCount, string connectionString, out List<object> parameters)
+        public static bool LookupBalanceValve(string query, string queryCount, string connectionString, out List<object> parameters, JObject file)
         {
             parameters = new List<object>();
             using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -35,27 +36,27 @@ namespace CodraftPlugin_DAL
                 {
                     reader.Read();
 
-                    parameters.Add(Math.Round((double)reader["Lengte"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["PipeOd"] / feetToMm, 4));
-                    parameters.Add((int)reader["Uiteinde_1_type"]);
-                    parameters.Add((int)reader["Uiteinde_2_type"]);
-                    parameters.Add(Math.Round((double)reader["Uiteinde_1_maat"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Uiteinde_2_maat"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["L1"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["L2"] / feetToMm, 4));
-                    parameters.Add(reader["Manufacturer"]);
-                    parameters.Add(reader["Type"]);
-                    parameters.Add(reader["Material"]);
-                    parameters.Add(reader["Product Code"]);
-                    parameters.Add(reader["Omschrijving"]);
-                    parameters.Add(reader["Beschikbaar"]);
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["balanceValve"]["property_1"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["balanceValve"]["property_2"]["database"]] / feetToMm, 4));
+                    parameters.Add((int)reader[(string)file["parameters"]["balanceValve"]["property_3"]["database"]]);
+                    parameters.Add((int)reader[(string)file["parameters"]["balanceValve"]["property_4"]["database"]]);
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["balanceValve"]["property_5"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["balanceValve"]["property_6"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["balanceValve"]["property_7"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["balanceValve"]["property_8"]["database"]] / feetToMm, 4));
+                    parameters.Add(reader[(string)file["parameters"]["balanceValve"]["property_9"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["balanceValve"]["property_10"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["balanceValve"]["property_11"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["balanceValve"]["property_12"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["balanceValve"]["property_13"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["balanceValve"]["property_14"]["database"]]);
                 }
             }
 
             return false;
         }
 
-        public static bool LookupButterflyValve(string query, string queryCount, string connectionString, out List<object> parameters)
+        public static bool LookupButterflyValve(string query, string queryCount, string connectionString, out List<object> parameters, JObject file)
         {
             parameters = new List<object>();
             using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -77,31 +78,31 @@ namespace CodraftPlugin_DAL
                 {
                     reader.Read();
 
-                    parameters.Add(Math.Round((double)reader["CompOD"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["CompLen"] / feetToMm, 4));
-                    parameters.Add(Math.Round((int)reader["D1"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["c"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["d"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Thickness"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["BladeDiameter"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["c"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["d"] / feetToMm, 4));
-                    parameters.Add(reader["Manufacturer"]);
-                    parameters.Add(reader["Type"]);
-                    parameters.Add(reader["Material"]);
-                    parameters.Add(reader["Product Code"]);
-                    parameters.Add(reader["Omschrijving"]);
-                    parameters.Add(reader["Beschikbaar"]);
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["butterflyValve"]["property_1"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["butterflyValve"]["property_2"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((int)reader[(string)file["parameters"]["butterflyValve"]["property_3"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["butterflyValve"]["property_4"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["butterflyValve"]["property_5"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["butterflyValve"]["property_6"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["butterflyValve"]["property_7"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["butterflyValve"]["property_8"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["butterflyValve"]["property_9"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["butterflyValve"]["property_10"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["butterflyValve"]["property_11"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["butterflyValve"]["property_12"]["database"]] / feetToMm, 4));
+                    parameters.Add(reader[(string)file["parameters"]["butterflyValve"]["property_13"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["butterflyValve"]["property_14"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["butterflyValve"]["property_15"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["butterflyValve"]["property_16"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["butterflyValve"]["property_17"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["butterflyValve"]["property_18"]["database"]]);
                 }
             }
 
             return false;
         }
 
-        public static bool LookupStraightValve(string query, string queryCount, string connectionString, out List<object> parameters)
+        public static bool LookupStraightValve(string query, string queryCount, string connectionString, out List<object> parameters, JObject file)
         {
             parameters = new List<object>();
             using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -123,37 +124,37 @@ namespace CodraftPlugin_DAL
                 {
                     reader.Read();
 
-                    parameters.Add(Math.Round((double)reader["Lengte"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Hendel_lengte"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Hendel_breedte"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Hendel_hoogte"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Motor_lengte"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Motor_breedte"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Motor_hoogte"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Wormwiel_straal"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Wormwiel_staaf_straal"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Operator_hoogte"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Vlinderhendel_diameter"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["PipeOD"] / feetToMm, 4));
-                    parameters.Add((int)reader["Uiteinde_1_type"]);
-                    parameters.Add((int)reader["Uiteinde_2_type"]);
-                    parameters.Add(Math.Round((double)reader["Uiteinde_1_maat"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Uiteinde_2_maat"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["L1"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["L2"] / feetToMm, 4));
-                    parameters.Add(reader["Manufacturer"]);
-                    parameters.Add(reader["Type"]);
-                    parameters.Add(reader["Material"]);
-                    parameters.Add(reader["Product Code"]);
-                    parameters.Add(reader["Omschrijving"]);
-                    parameters.Add(reader["Beschikbaar"]);
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_1"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_2"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_3"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_4"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_5"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_6"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_7"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_8"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_9"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_10"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_11"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_12"]["database"]] / feetToMm, 4));
+                    parameters.Add((int)reader[(string)file["parameters"]["straightValve"]["property_13"]["database"]]);
+                    parameters.Add((int)reader[(string)file["parameters"]["straightValve"]["property_14"]["database"]]);
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_15"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_16"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_17"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["straightValve"]["property_18"]["database"]] / feetToMm, 4));
+                    parameters.Add(reader[(string)file["parameters"]["straightValve"]["property_19"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["straightValve"]["property_20"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["straightValve"]["property_21"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["straightValve"]["property_22"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["straightValve"]["property_22"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["straightValve"]["property_24"]["database"]]);
                 }
             }
 
             return false;
         }
 
-        public static bool LookupStrainer(string query, string queryCount, string connectionString, out List<object> parameters)
+        public static bool LookupStrainer(string query, string queryCount, string connectionString, out List<object> parameters, JObject file)
         {
             parameters = new List<object>();
             using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -175,30 +176,29 @@ namespace CodraftPlugin_DAL
                 {
                     reader.Read();
 
-                    parameters.Add(Math.Round((double)reader["PipeOD"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Height"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["CompLen"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["BranchOffset"] / feetToMm, 4));
-                    parameters.Add((int)reader["Uiteinde_1_type"]);
-                    parameters.Add((int)reader["Uiteinde_2_type"]);
-                    parameters.Add(Math.Round((double)reader["L1"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["L2"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Uiteinde_1_maat"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Uiteinde_2_maat"] / feetToMm, 4));
-                    parameters.Add(reader["Manufacturer"]);
-                    parameters.Add(reader["Type"]);
-                    parameters.Add(reader["Material"]);
-                    parameters.Add(reader["Product Code"]);
-                    parameters.Add(reader["Omschrijving"]);
-                    parameters.Add(reader["Beschikbaar"]);
-                    parameters.Add(reader["Maat_annotatie"]);
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["strainer"]["property_1"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["balanceValve"]["property_2"]["revit"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["balanceValve"]["property_3"]["revit"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["balanceValve"]["property_4"]["revit"]] / feetToMm, 4));
+                    parameters.Add((int)reader[(string)file["parameters"]["balanceValve"]["property_5"]["revit"]]);
+                    parameters.Add((int)reader[(string)file["parameters"]["balanceValve"]["property_6"]["revit"]]);
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["balanceValve"]["property_7"]["revit"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["balanceValve"]["property_8"]["revit"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["balanceValve"]["property_9"]["revit"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["balanceValve"]["property_10"]["revit"]] / feetToMm, 4));
+                    parameters.Add(reader[(string)file["parameters"]["balanceValve"]["property_11"]["revit"]]);
+                    parameters.Add(reader[(string)file["parameters"]["balanceValve"]["property_12"]["revit"]]);
+                    parameters.Add(reader[(string)file["parameters"]["balanceValve"]["property_13"]["revit"]]);
+                    parameters.Add(reader[(string)file["parameters"]["balanceValve"]["property_14"]["revit"]]);
+                    parameters.Add(reader[(string)file["parameters"]["balanceValve"]["property_15"]["revit"]]);
+                    parameters.Add(reader[(string)file["parameters"]["balanceValve"]["property_16"]["revit"]]);
                 }
             }
 
             return false;
         }
 
-        public static bool LookupThreeWayValve(string query, string queryCount, string connectionString, out List<object> parameters)
+        public static bool LookupThreeWayValve(string query, string queryCount, string connectionString, out List<object> parameters, JObject file)
         {
             parameters = new List<object>();
             using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -220,30 +220,30 @@ namespace CodraftPlugin_DAL
                 {
                     reader.Read();
 
-                    parameters.Add(Math.Round((double)reader["PipeOD1"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Lengte"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Lengte_3"] / feetToMm, 4));
-                    parameters.Add((int)reader["Uiteinde_1_type"]);
-                    parameters.Add((int)reader["Uiteinde_2_type"]);
-                    parameters.Add((int)reader["Uiteinde_3_type"]);
-                    parameters.Add(Math.Round((double)reader["L1"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["L2"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["L3"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Uiteinde_1_maat"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Uiteinde_2_maat"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["Uiteinde_3_maat"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["a"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["d"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["e"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["b"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["c"] / feetToMm, 4));
-                    parameters.Add(Math.Round((double)reader["d"] / feetToMm, 4));
-                    parameters.Add(reader["Manufacturer"]);
-                    parameters.Add(reader["Type"]);
-                    parameters.Add(reader["Material"]);
-                    parameters.Add(reader["Product Code"]);
-                    parameters.Add(reader["Omschrijving"]);
-                    parameters.Add(reader["Beschikbaar"]);
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_1"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_2"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_3"]["database"]] / feetToMm, 4));
+                    parameters.Add((int)reader[(string)file["parameters"]["threewayGlobeValve"]["property_4"]["database"]]);
+                    parameters.Add((int)reader[(string)file["parameters"]["threewayGlobeValve"]["property_5"]["database"]]);
+                    parameters.Add((int)reader[(string)file["parameters"]["threewayGlobeValve"]["property_6"]["database"]]);
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_7"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_8"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_9"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_10"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_11"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_12"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_13"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_14"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_15"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_16"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_17"]["database"]] / feetToMm, 4));
+                    parameters.Add(Math.Round((double)reader[(string)file["parameters"]["threewayGlobeValve"]["property_18"]["database"]] / feetToMm, 4));
+                    parameters.Add(reader[(string)file["parameters"]["threewayGlobeValve"]["property_19"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["threewayGlobeValve"]["property_20"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["threewayGlobeValve"]["property_21"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["threewayGlobeValve"]["property_22"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["threewayGlobeValve"]["property_23"]["database"]]);
+                    parameters.Add(reader[(string)file["parameters"]["threewayGlobeValve"]["property_24"]["database"]]);
                     //parameters.Add(reader["Maat_annotatie"]);
                 }
             }

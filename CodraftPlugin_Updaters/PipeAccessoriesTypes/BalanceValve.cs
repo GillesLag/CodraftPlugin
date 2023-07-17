@@ -7,12 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using CodraftPlugin_Library;
 using CodraftPlugin_PipeAccessoriesWPF;
+using Newtonsoft.Json.Linq;
 
 namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
 {
     public class BalanceValve : BaseAccessory
     {
-        public BalanceValve(FamilyInstance accessory, Document doc, string databaseMapPath) : base(accessory, doc, databaseMapPath)
+        public BalanceValve(FamilyInstance accessory, Document doc, string databaseMapPath, JObject file) : base(accessory, doc, databaseMapPath, file)
         {
             this.Query = $"SELECT * " +
                 $"FROM BMP_BalanceValveTbl " +
@@ -31,7 +32,7 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
         {
             List<object> parametersList;
 
-            if (FileOperationsPipeAccessories.LookupBalanceValve(Query, QueryCount, ConnectionString, out parametersList))
+            if (FileOperationsPipeAccessories.LookupBalanceValve(Query, QueryCount, ConnectionString, out parametersList, parameterConfiguration))
             {
                 if (FileOperations.IsFound(CallingParams, RememberMeFilePath, out List<string> parameters))
                 {
@@ -48,7 +49,7 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
 
                 string typeName = this.ToString();
                 string name = typeName.Substring(typeName.LastIndexOf('.') + 1);
-                MainWindow accessoryWindow = new MainWindow(PipeAccessory, name, ConnectionString, Query, DatabaseFilePath, CallingParams);
+                MainWindow accessoryWindow = new MainWindow(PipeAccessory, name, ConnectionString, Query, DatabaseFilePath, CallingParams, parameterConfiguration);
                 accessoryWindow.ShowDialog();
 
                 if (accessoryWindow.hasChosenAccessory)
@@ -65,20 +66,20 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
 
         public override bool ParametersAreTheSame()
         {
-            this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Lengte").AsDouble(), 4));
-            this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Buitendiameter").AsDouble(), 4));
-            this.RevitParameters.Add(this.PipeAccessory.LookupParameter("Uiteinde_1_type").AsInteger());
-            this.RevitParameters.Add(this.PipeAccessory.LookupParameter("Uiteinde_2_type").AsInteger());
-            this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Uiteinde_1_maat").AsDouble(), 4));
-            this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Uiteinde_2_maat").AsDouble(), 4));
-            this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Uiteinde_1_lengte").AsDouble(), 4));
-            this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter("Uiteinde_2_lengte").AsDouble(), 4));
-            this.RevitParameters.Add(this.PipeAccessory.LookupParameter("COD_Fabrikant").AsString());
-            this.RevitParameters.Add(this.PipeAccessory.LookupParameter("COD_Type").AsString());
-            this.RevitParameters.Add(this.PipeAccessory.LookupParameter("COD_Materiaal").AsString());
-            this.RevitParameters.Add(this.PipeAccessory.LookupParameter("COD_Productcode").AsString());
-            this.RevitParameters.Add(this.PipeAccessory.LookupParameter("COD_Omschrijving").AsString());
-            this.RevitParameters.Add(this.PipeAccessory.LookupParameter("COD_Beschikbaar").AsString());
+            this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_1"]["revit"]).AsDouble(), 4));
+            this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_2"]["revit"]).AsDouble(), 4));
+            this.RevitParameters.Add(this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_3"]["revit"]).AsInteger());
+            this.RevitParameters.Add(this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_4"]["revit"]).AsInteger());
+            this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_5"]["revit"]).AsDouble(), 4));
+            this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_6"]["revit"]).AsDouble(), 4));
+            this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_7"]["revit"]).AsDouble(), 4));
+            this.RevitParameters.Add(Math.Round(this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_8"]["revit"]).AsDouble(), 4));
+            this.RevitParameters.Add(this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_9"]["revit"]).AsString());
+            this.RevitParameters.Add(this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_10"]["revit"]).AsString());
+            this.RevitParameters.Add(this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_11"]["revit"]).AsString());
+            this.RevitParameters.Add(this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_12"]["revit"]).AsString());
+            this.RevitParameters.Add(this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_134"]["revit"]).AsString());
+            this.RevitParameters.Add(this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_14"]["revit"]).AsString());
 
             return ElementSettings.CompareParameters(this.RevitParameters, this.DatabaseParameters);
         }
