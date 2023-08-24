@@ -71,41 +71,124 @@ namespace CodraftPlugin_PipeAccessoriesWPF
                         switch (_accessoryName)
                         {
                             case "StraightValve":
-                                accessory = new StraightValve(_pipeAccessory ,(string)reader["Manufacturer"], (string)reader["Type"], (string)reader["Material"],
-                                    (string)reader["Product Code"], (string)reader["Omschrijving"], (string)reader["Beschikbaar"], (int)reader["D1"], (double)reader["Lengte"],
-                                    (double)reader["Hendel_lengte"], (double)reader["Hendel_breedte"], (double)reader["Hendel_hoogte"], (double)reader["Motor_lengte"],
-                                    (double)reader["Motor_breedte"], (double)reader["Motor_hoogte"], (double)reader["Wormwiel_straal"], (double)reader["Wormwiel_staaf_straal"],
-                                    (double)reader["Operator_hoogte"], (double)reader["Vlinderhendel_diameter"], (int)reader["Uiteinde_1_type"], (int)reader["Uiteinde_2_type"],
-                                    (double)reader["Uiteinde_1_maat"], (double)reader["Uiteinde_2_maat"], (double)reader["L1"], (double)reader["L2"], (double)reader["PipeOD"]);
+                                accessory = new StraightValve(_pipeAccessory,
+                                    (string)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_19"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_20"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_21"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_22"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_23"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_24"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_25"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_1"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_2"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_3"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_4"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_5"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_6"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_7"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_8"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_9"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_10"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_11"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_13"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_14"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_15"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_16"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_17"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_18"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["straightValve"]["property_12"]["database"]]);
                                 break;
 
                             case "BalanceValve":
-                                accessory = new BalanceValve(_pipeAccessory, (string)reader["Manufacturer"], (string)reader["Type"], (string)reader["Material"],
-                                    (string)reader["Product Code"], (string)reader["Omschrijving"], (string)reader["Beschikbaar"], (int)reader["D1"], (double)reader["Lengte"],
-                                    (double)reader["PipeOD"], (int)reader["Uiteinde_1_type"], (int)reader["Uiteinde_2_type"], (double)reader["Uiteinde_1_maat"], (double)reader["Uiteinde_2_maat"],
-                                    (double)reader["L1"], (double)reader["L2"]);
+                                accessory = new BalanceValve(_pipeAccessory,
+                                    (string)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_9"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_10"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_11"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_12"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_13"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_14"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_15"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_1"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_2"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_3"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_4"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_5"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_6"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_7"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["balanceValve"]["property_8"]["database"]]);
                                 break;
 
                             case "Strainer":
-                                accessory = new Strainer(_pipeAccessory, (string)reader["Manufacturer"], (string)reader["Type"], (string)reader["Material"],
-                                    (string)reader["Product Code"], (string)reader["Omschrijving"], (string)reader["Beschikbaar"], (int)reader["D1"],
-                                    (double)reader["PipeOD"], (double)reader["Height"], (double)reader["CompLen"], (double)reader["BranchOffset"], (int)reader["Uiteinde_1_type"],
-                                    (int)reader["Uiteinde_2_type"], (double)reader["L1"], (double)reader["L2"], (double)reader["Uiteinde_1_maat"], (double)reader["Uiteinde_2_maat"]);
+                                accessory = new Strainer(_pipeAccessory,
+                                    (string)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_11"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_12"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_13"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_14"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_15"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_16"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_17"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_1"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_2"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_3"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_4"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_5"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_6"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_7"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_8"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_9"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["strainer"]["property_10"]["database"]]);
                                 break;
 
                             case "ThreeWayGlobeValve":
-                                accessory = new ThreeWayGlobeValve(_pipeAccessory, (string)reader["Manufacturer"], (string)reader["Type"], (string)reader["Material"],
-                                    (string)reader["Product Code"], (string)reader["Omschrijving"], (string)reader["Beschikbaar"], (int)reader["D1"],
-                                    (double)reader["PipeOD1"], (double)reader["Lengte"], (double)reader["Lengte_3"], (int)reader["Uiteinde_1_type"], (int)reader["Uiteinde_2_type"],
-                                    (int)reader["Uiteinde_3_type"], (double)reader["L1"], (double)reader["L2"], (double)reader["L3"], (double)reader["Uiteinde_1_maat"], (double)reader["Uiteinde_2_maat"],
-                                    (double)reader["Uiteinde_3_maat"], (double)reader["a"], (double)reader["d"], (double)reader["e"], (double)reader["b"], (double)reader["c"], (double)reader["d"]);
+                                accessory = new ThreeWayGlobeValve(_pipeAccessory,
+                                    (string)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_19"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_20"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_21"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_22"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_23"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_24"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_25"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_1"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_2"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_3"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_4"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_5"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_6"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_7"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_8"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_9"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_10"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_11"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_12"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_13"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_14"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_15"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_16"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_17"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["threewayGlobalValve"]["property_18"]["database"]]);
                                 break;
 
                             case "ButterflyValve":
-                                accessory = new ButterflyValve(_pipeAccessory, (string)reader["Manufacturer"], (string)reader["Type"], (string)reader["Material"],
-                                    (string)reader["Product Code"], (string)reader["Omschrijving"], (string)reader["Beschikbaar"], (int)reader["D1"], (double)reader["CompOD"], (double)reader["CompLen"],
-                                    (int)reader["D1"], (double)reader["b"], (double)reader["b"], (double)reader["b"], (double)reader["c"], (double)reader["d"],
-                                    (double)reader["Thickness"], (double)reader["BladeDiameter"], (double)reader["c"], (double)reader["d"]);
+                                accessory = new ButterflyValve(_pipeAccessory,
+                                    (string)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_13"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_14"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_15"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_16"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_17"]["database"]],
+                                    (string)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_18"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_3"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_1"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_2"]["database"]],
+                                    (int)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_3"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_4"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_5"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_6"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_7"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_8"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_9"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_10"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_11"]["database"]],
+                                    (double)reader[(string)parameterConfiguration["parameters"]["butterflyValve"]["property_12"]["database"]]);
                                 break;
 
                             default:

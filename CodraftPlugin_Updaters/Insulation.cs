@@ -29,7 +29,7 @@ namespace CodraftPlugin_Updaters
             string projectMapPath;
             string databasesMapPath;
 
-            // Check globalparater for projectfoldermap
+            // Check globalparameter for projectfoldermap
             ElementId globalParameter = GlobalParametersManager.FindByName(doc, globalParameterName);
 
             if (globalParameter == ElementId.InvalidElementId)

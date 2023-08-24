@@ -36,21 +36,21 @@ namespace CodraftPlugin_Updaters.FittingTypes
             if (double.Parse(this.Hoek) > 45) this.HoekStandaard = "90";
 
             StrSQL = $"SELECT *" +
-                $" FROM BMP_ElbowTbl" +
-                $" WHERE Nominale_diameter_1 = {this.Nd1}" +
-                $" AND Nominale_diameter_2 = {this.Nd2}" +
-                $" AND Standaard_hoek = {this.HoekTolerantie};";
+                $" FROM {(string)parametersConfiguration["parameters"]["elbow"]["property_22"]["database"]}" +
+                $" WHERE {(string)parametersConfiguration["parameters"]["elbow"]["property_20"]["database"]} = {this.Nd1}" +
+                $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_21"]["database"]} = {this.Nd2}" +
+                $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_17"]["database"]} = {this.HoekTolerantie};";
 
             StrCountSQL = $"SELECT COUNT(*)" +
-                $" FROM BMP_ElbowTbl" +
-                $" WHERE Nominale_diameter_1 = {this.Nd1}" +
-                $" AND Nominale_diameter_2 = {this.Nd2}" +
-                $" AND Standaard_hoek = {this.HoekTolerantie};";
+                $" FROM {(string)parametersConfiguration["parameters"]["elbow"]["property_22"]["database"]}" +
+                $" WHERE {(string)parametersConfiguration["parameters"]["elbow"]["property_20"]["database"]} = {this.Nd1}" +
+                $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_21"]["database"]} = {this.Nd2}" +
+                $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_17"]["database"]} = {this.HoekTolerantie};";
 
-            StrHoekInkortbaarSQL = $"SELECT Hoek_inkortbaar" +
-                $" FROM BMP_ElbowTbl" +
-                $" WHERE Nominale_diameter_1 = {this.Nd1}" +
-                $" AND Nominale_diameter_2 = {this.Nd2}";
+            StrHoekInkortbaarSQL = $"SELECT {(string)parametersConfiguration["parameters"]["elbow"]["property_23"]["database"]}" +
+                $" FROM {(string)parametersConfiguration["parameters"]["elbow"]["property_22"]["database"]}" +
+                $" WHERE {(string)parametersConfiguration["parameters"]["elbow"]["property_20"]["database"]} = {this.Nd1}" +
+                $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_21"]["database"]} = {this.Nd2}";
         }
 
         /// <summary>
@@ -63,16 +63,16 @@ namespace CodraftPlugin_Updaters.FittingTypes
             if (FileOperations.IsAngleShortenable(StrHoekInkortbaarSQL, ConnectionString))
             {
                 StrSQL = $"SELECT *" +
-                    $" FROM BMP_ElbowTbl" +
-                    $" WHERE Nominale_diameter_1 = {this.Nd1}" +
-                    $" AND Nominale_diameter_2 = {this.Nd2}" +
-                    $" AND Standaard_hoek = {this.HoekStandaard};";
+                    $" FROM {(string)parametersConfiguration["parameters"]["elbow"]["property_22"]["database"]}" +
+                    $" WHERE {(string)parametersConfiguration["parameters"]["elbow"]["property_20"]["database"]} = {this.Nd1}" +
+                    $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_21"]["database"]} = {this.Nd2}" +
+                    $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_17"]["database"]} = {this.HoekStandaard};";
 
                 StrCountSQL = $"SELECT COUNT(*)" +
-                    $" FROM BMP_ElbowTbl" +
-                    $" WHERE Nominale_diameter_1 = {this.Nd1}" +
-                    $" AND Nominale_diameter_2 = {this.Nd2}" +
-                    $" AND Standaard_hoek = {this.HoekStandaard};";
+                    $" FROM {(string)parametersConfiguration["parameters"]["elbow"]["property_22"]["database"]}" +
+                    $" WHERE {(string)parametersConfiguration["parameters"]["elbow"]["property_20"]["database"]} = {this.Nd1}" +
+                    $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_21"]["database"]} = {this.Nd2}" +
+                    $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_17"]["database"]} = {this.HoekStandaard};";
             }
 
             // Check for multiple rows in database.

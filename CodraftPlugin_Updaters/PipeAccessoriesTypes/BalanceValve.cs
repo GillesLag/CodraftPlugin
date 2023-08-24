@@ -16,16 +16,16 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
         public BalanceValve(FamilyInstance accessory, Document doc, string databaseMapPath, JObject file) : base(accessory, doc, databaseMapPath, file)
         {
             this.Query = $"SELECT * " +
-                $"FROM BMP_BalanceValveTbl " +
-                $"WHERE Manufacturer = \"{this.Fabrikant}\" " +
-                $"AND Type = \"{this.Type}\" " +
-                $"AND D1 = {this.Dn}";
+                $"FROM {(string)parameterConfiguration["parameters"]["balanceValve"]["property_15"]["database"]} " +
+                $"WHERE {(string)parameterConfiguration["parameters"]["balanceValve"]["property_9"]["database"]} = \"{this.Fabrikant}\" " +
+                $"AND {(string)parameterConfiguration["parameters"]["balanceValve"]["property_10"]["database"]} = \"{this.Type}\" " +
+                $"AND {(string)parameterConfiguration["parameters"]["balanceValve"]["property_16"]["database"]} = {this.Dn}";
 
             this.QueryCount = $"SELECT COUNT(*) " +
-                $"FROM BMP_BalanceValveTbl " +
-                $"WHERE Manufacturer = \"{this.Fabrikant}\" " +
-                $"AND Type = \"{this.Type}\" " +
-                $"AND D1 = {this.Dn}";
+                $"FROM {(string)parameterConfiguration["parameters"]["balanceValve"]["property_15"]["database"]} " +
+                $"WHERE {(string)parameterConfiguration["parameters"]["balanceValve"]["property_9"]["database"]} = \"{this.Fabrikant}\" " +
+                $"AND {(string)parameterConfiguration["parameters"]["balanceValve"]["property_10"]["database"]} = \"{this.Type}\" " +
+                $"AND {(string)parameterConfiguration["parameters"]["balanceValve"]["property_16"]["database"]} = {this.Dn}";
         }
 
         public override bool? GetParams()
@@ -86,20 +86,20 @@ namespace CodraftPlugin_Updaters.PipeAccessoriesTypes
 
         public override void SetWrongValues()
         {
-            this.PipeAccessory.LookupParameter("Lengte").Set(10 / feetToMm);
-            this.PipeAccessory.LookupParameter("Buitendiameter").Set(10 / feetToMm);
-            this.PipeAccessory.LookupParameter("Uiteinde_1_type").Set(0);
-            this.PipeAccessory.LookupParameter("Uiteinde_2_type").Set(0);
-            this.PipeAccessory.LookupParameter("Uiteinde_1_maat").Set(10 / feetToMm);
-            this.PipeAccessory.LookupParameter("Uiteinde_2_maat").Set(10 / feetToMm);
-            this.PipeAccessory.LookupParameter("Uiteinde_1_lengte").Set(10 / feetToMm);
-            this.PipeAccessory.LookupParameter("Uiteinde_2_lengte").Set(10 / feetToMm);
-            this.PipeAccessory.LookupParameter("COD_Fabrikant").Set("BESTAAT NIET!");
-            this.PipeAccessory.LookupParameter("COD_Type").Set("BESTAAT NIET!");
-            this.PipeAccessory.LookupParameter("COD_Materiaal").Set("BESTAAT NIET!");
-            this.PipeAccessory.LookupParameter("COD_Productcode").Set("BESTAAT NIET!");
-            this.PipeAccessory.LookupParameter("COD_Omschrijving").Set("BESTAAT NIET!");
-            this.PipeAccessory.LookupParameter("COD_Beschikbaar").Set("BESTAAT NIET!");
+            this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_1"]["revit"]).Set(10 / feetToMm);
+            this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_2"]["revit"]).Set(10 / feetToMm);
+            this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_3"]["revit"]).Set(0);
+            this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_4"]["revit"]).Set(0);
+            this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_5"]["revit"]).Set(10 / feetToMm);
+            this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_6"]["revit"]).Set(10 / feetToMm);
+            this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_7"]["revit"]).Set(10 / feetToMm);
+            this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_8"]["revit"]).Set(10 / feetToMm);
+            this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_9"]["revit"]).Set("BESTAAT NIET!");
+            this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_10"]["revit"]).Set("BESTAAT NIET!");
+            this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_11"]["revit"]).Set("BESTAAT NIET!");
+            this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_12"]["revit"]).Set("BESTAAT NIET!");
+            this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_13"]["revit"]).Set("BESTAAT NIET!");
+            this.PipeAccessory.LookupParameter((string)parameterConfiguration["parameters"]["balanceValve"]["property_14"]["revit"]).Set("BESTAAT NIET!");
         }
     }
 }

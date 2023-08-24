@@ -31,18 +31,18 @@ namespace CodraftPlugin_Updaters.FittingTypes
             this.Hoek = Math.Round(tee.LookupParameter((string)file["parameters"]["tee"]["property_28"]["revit"]).AsDouble() * radiansToDegrees).ToString();
 
             StrSQL = $"SELECT *" +
-                $" FROM BMP_TeeTbl" +
-                $" WHERE Nominale_diameter_1 = {this.Nd1}" +
-                $" AND Nominale_diameter_2 = {this.Nd2}" +
-                $" AND Nominale_diameter_3 = {this.Nd3}" +
-                $" AND Standaard_hoek = {this.Hoek};";
+                $" FROM {(string)file["parameters"]["tee"]["property_29"]["database"]}" +
+                $" WHERE {(string)file["parameters"]["tee"]["property_25"]["database"]} = {this.Nd1}" +
+                $" AND {(string)file["parameters"]["tee"]["property_26"]["database"]} = {this.Nd2}" +
+                $" AND {(string)file["parameters"]["tee"]["property_27"]["database"]} = {this.Nd3}" +
+                $" AND {(string)file["parameters"]["tee"]["property_28"]["database"]} = {this.Hoek};";
 
             StrCountSQL = $"SELECT COUNT(*)" +
-                $" FROM BMP_TeeTbl" +
-                $" WHERE Nominale_diameter_1 = {this.Nd1}" +
-                $" AND Nominale_diameter_2 = {this.Nd2}" +
-                $" AND Nominale_diameter_3 = {this.Nd3}" +
-                $" AND Standaard_hoek = {this.Hoek};";
+                $" FROM {(string)file["parameters"]["tee"]["property_29"]["database"]}" +
+                $" WHERE {(string)file["parameters"]["tee"]["property_25"]["database"]} = {this.Nd1}" +
+                $" AND {(string)file["parameters"]["tee"]["property_26"]["database"]} = {this.Nd2}" +
+                $" AND {(string)file["parameters"]["tee"]["property_27"]["database"]} = {this.Nd3}" +
+                $" AND {(string)file["parameters"]["tee"]["property_28"]["database"]} = {this.Hoek};";
         }
 
         /// <summary>

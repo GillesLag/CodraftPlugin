@@ -11,6 +11,9 @@ using CodraftPlugin_Library;
 using System.Security.Principal;
 using Autodesk.Revit.ApplicationServices;
 using CodraftPlugin_Updaters;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace CodraftPlugin_Loading
 {
@@ -19,17 +22,18 @@ namespace CodraftPlugin_Loading
     {
         private const float feetToMm = 304.8f;
 
-        private string materialQuery = "SELECT * FROM Materiaal";
-        private string scheduleQuery = "SELECT * FROM Schedule";
-        private string SystemtypeQuery = "SELECT * FROM SystemTypes";
-        private string pipeTypeQuery = "SELECT * FROM PipeTypes";
-        private string joinSegmentAndSizesQuery = "SELECT * FROM SegmentSize";
-        private string insulMaterialQuery = "SELECT * FROM IsolatieMateriaal";
+        private string materialQuery;
+        private string scheduleQuery;
+        private string SystemtypeQuery;
+        private string pipeTypeQuery;
+        private string joinSegmentAndSizesQuery;
+        private string insulMaterialQuery;
         private string connection = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"";
         private readonly string globalParameterName = "RevitProjectMap";
         private bool fUpdaterChanged = false;
         private bool pUpdaterChanged = false;
         private bool iUpdaterChanged = false;
+        private JObject parameterConfiguration;
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -63,6 +67,7 @@ namespace CodraftPlugin_Loading
 
             string pathProject;
             string pathDatabase;
+            string textFilesMapPath;
 
             // Check globalparameter for projectfoldermap
             ElementId globalParameter = GlobalParametersManager.FindByName(doc, globalParameterName);
@@ -89,11 +94,24 @@ namespace CodraftPlugin_Loading
             }
 
             pathDatabase = pathProject + @"\RevitDatabases\OpstartWerkomgeving_Revit.accdb";
+            textFilesMapPath = pathProject + @"\RevitTextFiles\";
+
             connection += pathDatabase + "\"";
 
+            using (StreamReader reader = File.OpenText(textFilesMapPath + "configuration.json"))
+            {
+                parameterConfiguration = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+            };
 
-            // Add all projectparameters
-            Transaction addParameters = new Transaction(doc, "addProjectParameters");
+            materialQuery = $"SELECT * FROM {(string)parameterConfiguration["parameters"]["opstartWerkomgeving"]["accessTables"]["table1"]}";
+            scheduleQuery = $"SELECT * FROM {(string)parameterConfiguration["parameters"]["opstartWerkomgeving"]["accessTables"]["table2"]}";
+            SystemtypeQuery = $"SELECT * FROM {(string)parameterConfiguration["parameters"]["opstartWerkomgeving"]["accessTables"]["table3"]}";
+            pipeTypeQuery = $"SELECT * FROM {(string)parameterConfiguration["parameters"]["opstartWerkomgeving"]["accessTables"]["table4"]}";
+            joinSegmentAndSizesQuery = $"SELECT * FROM {(string)parameterConfiguration["parameters"]["opstartWerkomgeving"]["accessTables"]["table5"]}";
+            insulMaterialQuery = $"SELECT * FROM {(string)parameterConfiguration["parameters"]["opstartWerkomgeving"]["accessTables"]["table6"]}";
+
+        // Add all projectparameters
+        Transaction addParameters = new Transaction(doc, "addProjectParameters");
 
             app.SharedParametersFilename = pathProject + @"\RevitTextFiles\COD_project_parameters.txt";
             DefinitionFile defFile = app.OpenSharedParameterFile();
@@ -503,7 +521,7 @@ namespace CodraftPlugin_Loading
                 rprTee.AddCriterion(PrimarySizeCriterion.All());
                 rprTran.AddCriterion(PrimarySizeCriterion.All());
 
-                // Start transation.
+                // Start transaction.
                 Transaction ptTrans = new Transaction(doc, "AddPipeType");
                 try
                 {

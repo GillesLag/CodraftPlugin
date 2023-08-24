@@ -62,7 +62,7 @@ namespace CodraftPlugin_Updaters
 
             using (StreamReader reader = File.OpenText(textFilesMapPath + "configuration.json"))
             {
-                parameterConfiguration = (Newtonsoft.Json.Linq.JObject)JToken.ReadFrom(new JsonTextReader(reader));
+                parameterConfiguration = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
             }
 
             FailureDefinitionId warning = new FailureDefinitionId(failureGuidPipeAccessories);

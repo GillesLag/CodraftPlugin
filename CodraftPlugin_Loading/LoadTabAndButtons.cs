@@ -142,16 +142,16 @@ namespace CodraftPlugin_Loading
             holdCloudbutton.LargeImage = new BitmapImage(new Uri("pack://application:,,,/CodraftPlugin_Loading;component/Resources/holdCloud.png"));
 
             //Create StartWerkomgevingWPF button
-            PushButtonData startWerkomgevingWPFData = new PushButtonData(
+           /* PushButtonData startWerkomgevingWPFData = new PushButtonData(
                 "startWerkomgevingWOF",
                 "Manage Mediums",
                 assemblyPath,
-                "CodraftPlugin_Loading.OpenStartWerkomgevingWPF");
+                "CodraftPlugin_Loading.OpenStartWerkomgevingWPF");*/
 
             //add button to ribbon + tooltip and image
-            PushButton startWerkomgevingWPFButton = Werkomgeving.AddItem(startWerkomgevingWPFData) as PushButton;
+           /* PushButton startWerkomgevingWPFButton = Werkomgeving.AddItem(startWerkomgevingWPFData) as PushButton;
             startWerkomgevingWPFButton.ToolTip = "Manages the color, materials, name, schedules, ... for the mediums";
-            startWerkomgevingWPFButton.LargeImage = new BitmapImage(new Uri("pack://application:,,,/CodraftPlugin_Loading;component/Resources/holdCloud.png"));
+            startWerkomgevingWPFButton.LargeImage = new BitmapImage(new Uri("pack://application:,,,/CodraftPlugin_Loading;component/Resources/holdCloud.png"));*/
         }
 
         public Result OnShutdown(UIControlledApplication application)

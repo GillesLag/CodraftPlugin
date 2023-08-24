@@ -17,15 +17,15 @@ namespace CodraftPlugin_Library
         /// Set the parameters for a pipe element.
         /// </summary>
         /// <param name="pipe">A pipe element from the document.</param>
-        public static void SetCodraftParametersPipe(Pipe pipe)
+        public static void SetCodraftParametersPipe(Pipe pipe, JObject parameterConfiguration)
         {
             // Pipe parameters
-            string startBoven = "COD_bovenkant_buis_start";
-            string eindeBoven = "COD_bovenkant_buis_einde";
-            string startCenter = "COD_center_buis_start";
-            string eindeCenter = "COD_center_buis_einde";
-            string startOnder = "COD_onderkant_buis_start";
-            string eindeOnder = "COD_onderkant_buis_einde";
+            string startBoven = (string)parameterConfiguration["parameters"]["pipe"]["property1"];
+            string eindeBoven = (string)parameterConfiguration["parameters"]["pipe"]["property2"];
+            string startCenter = (string)parameterConfiguration["parameters"]["pipe"]["property3"];
+            string eindeCenter = (string)parameterConfiguration["parameters"]["pipe"]["property4"];
+            string startOnder = (string)parameterConfiguration["parameters"]["pipe"]["property5"];
+            string eindeOnder = (string)parameterConfiguration["parameters"]["pipe"]["property6"];
             double startOffset = pipe.get_Parameter(BuiltInParameter.RBS_START_OFFSET_PARAM).AsDouble();
             double eindeOffset = pipe.get_Parameter(BuiltInParameter.RBS_END_OFFSET_PARAM).AsDouble();
             double diameter = pipe.get_Parameter(BuiltInParameter.RBS_PIPE_OUTER_DIAMETER).AsDouble();
@@ -40,7 +40,7 @@ namespace CodraftPlugin_Library
                 pipe.LookupParameter(startOnder).Set(startOffset > eindeOffset ? startOffset - diameter / 2 : eindeOffset - diameter / 2);
                 pipe.LookupParameter(eindeOnder).Set(eindeOffset > startOffset ? startOffset - diameter / 2 : eindeOffset - diameter / 2);
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException)
             {
                 TaskDialog td = new TaskDialog("ProjectParameters Fout");
                 td.MainInstruction = "Niet alle project parameters zijn toegevoegd voor de pipes.\n\nZie details voor meer info.";

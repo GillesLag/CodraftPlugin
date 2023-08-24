@@ -108,39 +108,99 @@ namespace CodraftPlugin_UIDatabaseWPF.ModelView
                                 switch (fittingModel.Name)
                                 {
                                     case "Elbow":
-                                        fitting = new Elbow((string)reader["Fabrikant"], (string)reader["Type"], (string)reader["Materiaal"], (string)reader["ProductCode"],
-                                            (string)reader["Beschikbaar"], (string)reader["Omschrijving"], fittingModel,
-                                            (double)reader["Nominale_diameter_1"], (double)reader["Nominale_diameter_2"], (double)reader["Buitendiameter_1"], (double)reader["Buitendiameter_2"],
-                                            (double)reader["Standaard_hoek"], (double)reader["Hoek_inkortbaar"], (double)reader["Uiteinde_1_type"], (double)reader["Uiteinde_2_Type"],
-                                            (double)reader["Uiteinde_1_lengte"], (double)reader["Uiteinde_2_lengte"], (double)reader["Uiteinde_1_maat"], (double)reader["Uiteinde_2_maat"],
-                                            (double)reader["Flens_dikte"], (double)reader["Center_straal"]);
+                                        fitting = new Elbow((string)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_11"]["database"]],
+                                            (string)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_12"]["database"]],
+                                            (string)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_13"]["database"]], 
+                                            (string)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_14"]["database"]],
+                                            (string)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_16"]["database"]],
+                                            (string)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_15"]["database"]],
+                                            fittingModel,
+                                            (double)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_20"]["database"]], 
+                                            (double)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_21"]["database"]], 
+                                            (double)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_1"]["database"]], 
+                                            (double)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_2"]["database"]],
+                                            (double)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_17"]["database"]], 
+                                            (double)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_22"]["database"]], 
+                                            (double)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_4"]["database"]],
+                                            (double)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_5"]["database"]],
+                                            (double)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_8"]["database"]], 
+                                            (double)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_9"]["database"]], 
+                                            (double)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_6"]["database"]], 
+                                            (double)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_7"]["database"]],
+                                            (double)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_10"]["database"]], 
+                                            (double)reader[(string)paramterConfiguration["parameters"]["elbow"]["property_3"]["database"]]);
                                         break;
 
                                     case "Tee":
-                                        fitting = new Tee((string)reader["Fabrikant"], (string)reader["Type"], (string)reader["Materiaal"], (string)reader["ProductCode"],
-                                           (string)reader["Beschikbaar"], (string)reader["Omschrijving"], fittingModel, (double)reader["Nominale_diameter_1"],
-                                           (double)reader["Nominale_diameter_2"], (double)reader["Nominale_diameter_3"], (double)reader["Buitendiameter_1"], (double)reader["Buitendiameter_2"],
-                                           (double)reader["Buitendiameter_3"], (double)reader["Standaard_hoek"], (double)reader["Uiteinde_1_type"], (double)reader["Uiteinde_2_Type"],
-                                           (double)reader["Uiteinde_3_Type"], (double)reader["Uiteinde_1_lengte"], (double)reader["Uiteinde_2_lengte"], (double)reader["Uiteinde_3_lengte"],
-                                           (double)reader["Uiteinde_1_maat"], (double)reader["Uiteinde_2_maat"], (double)reader["Uiteinde_3_maat"], (double)reader["Lengte"], (double)reader["Center_uiteinde_1"],
-                                           (double)reader["Center_uiteinde_3"], (double)reader["Flens_dikte1"], (double)reader["Flens_dikte2"], (double)reader["Flens_dikte3"]);
+                                        fitting = new Tee((string)reader[(string)paramterConfiguration["parameters"]["tee"]["property_19"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["tee"]["property_20"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["tee"]["property_21"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["tee"]["property_22"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["tee"]["property_24"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["tee"]["property_23"]["database"]],
+                                           fittingModel,
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_25"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_26"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_27"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_1"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_2"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_3"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_28"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_7"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_8"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_9"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_13"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_14"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_15"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_10"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_11"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_12"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_4"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_6"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_5"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_16"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_17"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tee"]["property_18"]["database"]]);
 
                                         break;
 
                                     case "Transition_Concentrisch":
                                     case "Transition_Excentrisch":
-                                        fitting = new Transition((string)reader["Fabrikant"], (string)reader["Type"], (string)reader["Materiaal"], (string)reader["ProductCode"],
-                                           (string)reader["Beschikbaar"], (string)reader["Omschrijving"], fittingModel,
-                                           (double)reader["Nominale_diameter_1"], (double)reader["Nominale_diameter_2"], (double)reader["Buitendiameter_1"], (double)reader["Buitendiameter_2"],
-                                           (double)reader["Uiteinde_1_type"], (double)reader["Uiteinde_2_Type"], (double)reader["Uiteinde_1_lengte"], (double)reader["Uiteinde_2_lengte"],
-                                           (double)reader["Uiteinde_1_maat"], (double)reader["Uiteinde_2_maat"], (double)reader["Flens_dikte_1"], (double)reader["Flens_dikte_2"], (double)reader["Lengte"]);
+                                        fitting = new Transition((string)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_12"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_13"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_14"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_15"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_17"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_16"]["database"]],
+                                           fittingModel,
+                                           (double)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_18"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_19"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_1"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_2"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_4"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_5"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_8"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_9"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_6"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_7"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_10"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_11"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["transistion"]["property_3"]["database"]]);
 
                                         break;
 
                                     case "Tap":
-                                        fitting = new Tap((string)reader["Fabrikant"], (string)reader["Type"], (string)reader["Materiaal"], (string)reader["ProductCode"],
-                                           (string)reader["Beschikbaar"], (string)reader["Omschrijving"], fittingModel, (double)reader["Nominale_diameter"], (double)reader["Buitendiameter"],
-                                           (double)reader["Lengte"], maxDiameter);
+                                        fitting = new Tap((string)reader[(string)paramterConfiguration["parameters"]["tap"]["property_4"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["tap"]["property_5"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["tap"]["property_6"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["tap"]["property_7"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["tap"]["property_9"]["database"]],
+                                           (string)reader[(string)paramterConfiguration["parameters"]["tap"]["property_8"]["database"]],
+                                           fittingModel,
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tap"]["property_10"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tap"]["property_1"]["database"]],
+                                           (double)reader[(string)paramterConfiguration["parameters"]["tap"]["property_2"]["database"]],
+                                           maxDiameter);
 
                                         break;
                                 }

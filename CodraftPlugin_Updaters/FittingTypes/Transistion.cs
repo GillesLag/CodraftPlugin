@@ -44,16 +44,16 @@ namespace CodraftPlugin_Updaters.FittingTypes
             this.Excentrisch = transistion.LookupParameter((string)file["parameters"]["transistion"]["property_20"]["revit"]).AsInteger();
 
             StrSQL = $"SELECT *" +
-                $" FROM BMP_TransitionTbl" +
-                $" WHERE Nominale_diameter_1 = {this.Nd1}" +
-                $" AND Nominale_diameter_2 = {this.Nd2}" +
-                $" AND Excentrisch = {this.Excentrisch};";
+                $" FROM {(string)parametersConfiguration["parameters"]["transistion"]["property_23"]["database"]}" +
+                $" WHERE {(string)parametersConfiguration["parameters"]["transistion"]["property_18"]["database"]} = {this.Nd1}" +
+                $" AND {(string)parametersConfiguration["parameters"]["transistion"]["property_19"]["database"]} = {this.Nd2}" +
+                $" AND {(string)parametersConfiguration["parameters"]["transistion"]["property_20"]["database"]} = {this.Excentrisch};";
 
             StrCountSQL = $"SELECT COUNT(*)" +
-                $" FROM BMP_TransitionTbl" +
-                $" WHERE Nominale_diameter_1 = {this.Nd1}" +
-                $" AND Nominale_diameter_2 = {this.Nd2}" +
-                $" AND Excentrisch = {this.Excentrisch};";
+                $" FROM {(string)parametersConfiguration["parameters"]["transistion"]["property_23"]["database"]}" +
+                $" WHERE {(string)parametersConfiguration["parameters"]["transistion"]["property_18"]["database"]} = {this.Nd1}" +
+                $" AND {(string)parametersConfiguration["parameters"]["transistion"]["property_19"]["database"]} = {this.Nd2}" +
+                $" AND {(string)parametersConfiguration["parameters"]["transistion"]["property_20"]["database"]} = {this.Excentrisch};";
 
         }
 

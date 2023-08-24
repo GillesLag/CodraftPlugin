@@ -46,12 +46,12 @@ namespace CodraftPlugin_Updaters.FittingTypes
             this.MaxDiameter = diameters.Max();
 
             this.StrSQL = $"SELECT *" +
-                $" FROM BMP_StubTbl" +
-                $" WHERE BMP_StubTbl.Nominale_diameter={this.Nd1};";
+                $" FROM {(string)parametersConfiguration["parameters"]["tap"]["property_12"]["database"]}" +
+                $" WHERE {(string)parametersConfiguration["parameters"]["tap"]["property_10"]["database"]} = {this.Nd1};";
 
             this.StrCountSQL = $"SELECT COUNT(*)" +
-                $" FROM BMP_StubTbl" +
-                $" WHERE BMP_StubTbl.Nominale_diameter={this.Nd1};";
+                $" FROM {(string)parametersConfiguration["parameters"]["tap"]["property_12"]["database"]}" +
+                $" WHERE {(string)parametersConfiguration["parameters"]["tap"]["property_10"]["database"]} = {this.Nd1};";
         }
 
         public List<object> GetParamsFromDB()
