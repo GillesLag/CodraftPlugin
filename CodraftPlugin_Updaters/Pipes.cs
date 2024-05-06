@@ -17,7 +17,11 @@ namespace CodraftPlugin_Updaters
     {
         private Guid _guid = new Guid("119D4855-D967-4DD0-AE69-0DB8B0C06296");
         private JObject parameterConfiguration;
+<<<<<<< HEAD:CodraftPlugin/CodraftPlugin_Updaters/Pipes.cs
+        private string globalParameterName = "RevitProjectMap";
+=======
         private string globalParameterName;
+>>>>>>> d6e0d3104505cbbcc016557f6e71b292ef6d28c5:CodraftPlugin_Updaters/Pipes.cs
         public UpdaterId Id { get; set; }
 
         public Pipes(AddInId addinId)
@@ -35,7 +39,11 @@ namespace CodraftPlugin_Updaters
             string textFilesMapPath;
 
             // Check globalparameter for projectfoldermap
+<<<<<<< HEAD:CodraftPlugin/CodraftPlugin_Updaters/Pipes.cs
+            var globalParameter = GlobalParametersManager.FindByName(doc, globalParameterName);
+=======
             ElementId globalParameter = GlobalParametersManager.FindByName(doc, globalParameterName);
+>>>>>>> d6e0d3104505cbbcc016557f6e71b292ef6d28c5:CodraftPlugin_Updaters/Pipes.cs
 
             if (globalParameter == ElementId.InvalidElementId)
             {

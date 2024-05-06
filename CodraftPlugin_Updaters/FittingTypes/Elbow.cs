@@ -60,20 +60,7 @@ namespace CodraftPlugin_Updaters.FittingTypes
         /// <exception cref="FittingDoesNotExistException">Throws an exception if the the fitting does not exist in the database.</exception>
         public List<object> GetParamsFromDB()
         {
-            if (FileOperations.IsAngleShortenable(StrHoekInkortbaarSQL, ConnectionString))
-            {
-                StrSQL = $"SELECT *" +
-                    $" FROM {(string)parametersConfiguration["parameters"]["elbow"]["property_22"]["database"]}" +
-                    $" WHERE {(string)parametersConfiguration["parameters"]["elbow"]["property_20"]["database"]} = {this.Nd1}" +
-                    $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_21"]["database"]} = {this.Nd2}" +
-                    $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_17"]["database"]} = {this.HoekStandaard};";
-
-                StrCountSQL = $"SELECT COUNT(*)" +
-                    $" FROM {(string)parametersConfiguration["parameters"]["elbow"]["property_22"]["database"]}" +
-                    $" WHERE {(string)parametersConfiguration["parameters"]["elbow"]["property_20"]["database"]} = {this.Nd1}" +
-                    $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_21"]["database"]} = {this.Nd2}" +
-                    $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_17"]["database"]} = {this.HoekStandaard};";
-            }
+            SetQuerys();
 
             // Check for multiple rows in database.
             if (FileOperations.LookupElbow(StrSQL, StrCountSQL, ConnectionString, out List<object> paramList, parametersConfiguration))
@@ -192,6 +179,24 @@ namespace CodraftPlugin_Updaters.FittingTypes
             result.AddRange(parameters.GetRange(11, 6));
 
             return result;
+        }
+
+        private void SetQuerys()
+        {
+            if (FileOperations.IsAngleShortenable(StrHoekInkortbaarSQL, ConnectionString))
+            {
+                StrSQL = $"SELECT *" +
+                    $" FROM {(string)parametersConfiguration["parameters"]["elbow"]["property_22"]["database"]}" +
+                    $" WHERE {(string)parametersConfiguration["parameters"]["elbow"]["property_20"]["database"]} = {this.Nd1}" +
+                    $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_21"]["database"]} = {this.Nd2}" +
+                    $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_17"]["database"]} = {this.HoekStandaard};";
+
+                StrCountSQL = $"SELECT COUNT(*)" +
+                    $" FROM {(string)parametersConfiguration["parameters"]["elbow"]["property_22"]["database"]}" +
+                    $" WHERE {(string)parametersConfiguration["parameters"]["elbow"]["property_20"]["database"]} = {this.Nd1}" +
+                    $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_21"]["database"]} = {this.Nd2}" +
+                    $" AND {(string)parametersConfiguration["parameters"]["elbow"]["property_17"]["database"]} = {this.HoekStandaard};";
+            }
         }
 
     }
